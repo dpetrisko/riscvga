@@ -2,6 +2,12 @@ project('rvga', 'c')
 
 vvp = find_program('vvp')
 iverilog = find_program('iverilog')
+python = find_program('python3')
+xxd = find_program('xxd')
+cp = find_program('cp')
+
+
+asm_src = ['asm/test_imm.S']
 
 v_sources = files(
     join_paths(meson.current_source_dir(), 'verilog/alu.v'),
@@ -29,10 +35,6 @@ rvga_vvp = custom_target('rvga_vvp',
                         build_by_default : true,
 )
 
-python = find_program('python3')
-xxd = find_program('xxd')
-cp = find_program('cp')
- 
 hex_all = generator(python,
                    output     : '@BASENAME@_nopified.hex',
                    arguments : [join_paths(meson.source_root(), 'scripts/nopify.py'), 
@@ -43,11 +45,17 @@ hex_all = generator(python,
                                 '@BASENAME@_nopified.S',
                                 '-o@BASENAME@_nopified.o',
                                 '&&',
+                                'riscv32-unknown-elf-objcopy',    
+                                '--pad-to=260', 
+                                '-Obinary',
+                                '@BASENAME@_nopified.o', 
+                                '@BASENAME@_nopified.bin',
+                                '&&',
                                 'xxd',
                                 '-s4',
                                 '-c1',
                                 '-p',
-                                '@BASENAME@_nopified.o',
+                                '@BASENAME@_nopified.bin',
                                 '@BASENAME@_nopified.hex',
                                 '&&',
                                 'vvp',
@@ -56,8 +64,6 @@ hex_all = generator(python,
                                 '+dumpfile=@BASENAME@_nopified.vcd'
                                ]
                    )
-
-asm_src = ['asm/test_imm.S']
 
 foreach src : asm_src
     mem_src = hex_all.process(src)

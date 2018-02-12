@@ -70,7 +70,7 @@ end
 
 always @(posedge iddr_resp) begin
     `ifdef IMEM_DEBUG
-	$display("CYCLE: %d PC: %h, INST: %h", cycle, iddr_addr, iddr_rdata);
+    $display("CYCLE: %d, PC: %h, INST %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b", cycle, iddr_addr, iddr_rdata[31], iddr_rdata[30], iddr_rdata[29], iddr_rdata[28], iddr_rdata[27], iddr_rdata[26], iddr_rdata[25], iddr_rdata[24], iddr_rdata[23], iddr_rdata[22], iddr_rdata[21], iddr_rdata[20], iddr_rdata[19], iddr_rdata[18], iddr_rdata[17], iddr_rdata[16], iddr_rdata[15], iddr_rdata[14], iddr_rdata[13], iddr_rdata[12], iddr_rdata[11], iddr_rdata[10], iddr_rdata[9], iddr_rdata[8], iddr_rdata[7], iddr_rdata[6], iddr_rdata[5], iddr_rdata[4], iddr_rdata[3], iddr_rdata[2], iddr_rdata[1], iddr_rdata[0]);
     `endif
 end
 
@@ -99,7 +99,7 @@ always begin
 	#5 clk = ~clk; 
 	cycle = cycle + 1;
 
-    if(cycle >= 100) begin
+    if(cycle >= 500) begin
         $finish;
     end
 end

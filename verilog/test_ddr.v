@@ -46,6 +46,12 @@ initial begin
         $finish;
     end
 	$readmemh(progfile, mem_array, 0, size-1);
+
+    `ifdef DDR_DEBUG
+        for(i = 0; i < size; i=i+4) begin
+            $display("%d %x %x %x %x", i, mem_array[i+3], mem_array[i+2], mem_array[i+1], mem_array[i+0]);
+        end
+    `endif
 end
 
 always @(posedge clk) begin
