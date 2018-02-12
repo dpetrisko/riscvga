@@ -99,7 +99,7 @@ always begin
 	#5 clk = ~clk; 
 	cycle = cycle + 1;
 
-    if(cycle >= 500) begin
+    if(cycle >= 1000) begin
         $display("FINAL REGFILE: ");
         for(i = 0; i < 32; i=i+1) begin
             $display("R%d DEC:%d HEX:%x", i, $signed(processor.rfetch.regfile[i]), processor.rfetch.regfile[i]);

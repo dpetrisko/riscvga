@@ -59,8 +59,7 @@ always @(posedge clk) begin
                     FN3_ORI:   begin $write("OP: ORI  "); end
                     FN3_XORI:  begin $write("OP: XORI "); end
                     FN3_SLLI:  begin $write("OP: SLLI "); end
-                    FN3_SRL:   begin $write("OP: SRL  "); end 
-                    FN3_SRA:   begin $write("OP: SRA  "); end
+                    FN3_SRL:   begin if (temp_cword.funct7 == FN7_SRLI) $write("OP: SRL  "); else $write("OP: SRA   "); end 
                 endcase	 
                 $write(" RD: %d RS1: %d IMM: %d\n", temp_cword.rd, temp_cword.rs1, $signed(temp_cword.imm));
             end
@@ -75,8 +74,7 @@ always @(posedge clk) begin
                     FN3_OR: begin $display("OP: OR"); end
                     FN3_XOR: begin $display("OP: XOR"); end
                     FN3_SLL: begin $display("OP: SLL"); end
-                    FN3_SRL: begin $display("OP: SRL"); end
-                    FN3_SRA: begin $display("OP: SRA"); end
+                    FN3_SRL: begin if (temp_cword.funct7 == FN7_SRLI) $display("OP: SRL"); else $display("OP: SRA"); end
                 endcase 
             end
             OP_FENCE:  begin $display("FENCE opcode not implemented\n"); end
@@ -223,7 +221,7 @@ always @* begin
 				
 				FN3_SLLI: temp_cword.aluop = alu_sll;
 				
-				FN3_SRL, FN3_SRA:  temp_cword.aluop = temp_cword.funct7 == FN7_SRLI ? alu_srl : alu_sra; 
+                FN3_SRL, FN3_SRA: temp_cword.aluop = temp_cword.funct7 == FN7_SRLI ? alu_srl : alu_sra;
 			endcase	
 		end
 		

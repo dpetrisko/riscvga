@@ -25,7 +25,7 @@ always @* begin
 		alu_xor:   f = a ^ b;
 		alu_sll:   f = a << $unsigned(b[4:0]);
 		alu_srl:   f = a >> $unsigned(b[4:0]);
-		alu_sra:   f = a >>> $unsigned(b[4:0]);
+        alu_sra:   f = $signed(a) >>> $unsigned(b[4:0]); 
 		alu_sub:   f = a - b;
 		
 		default: f = 0;
