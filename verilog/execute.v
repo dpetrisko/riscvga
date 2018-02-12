@@ -32,6 +32,8 @@ end
 always @(posedge clk) begin
 	if(~rst_n) begin
 		ex_mem_cword <= 0;
+
+        temp_cword <= 0;
 	end else begin
 		if(~stall) begin
 			ex_mem_cword <= temp_cword;

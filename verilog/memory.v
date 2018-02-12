@@ -45,7 +45,13 @@ end
 
 always @(posedge clk) begin
 	if(~rst_n) begin
+        dddr_addr <= 0;
+        dddr_read <= 0;
+        dddr_write <= 0;
+        dddr_wdata <= 0;
 		mem_wb_cword <= 0;
+
+        temp_cword <= 0;
 	end else begin
 		if(~stall) begin
 			mem_wb_cword <= temp_cword;

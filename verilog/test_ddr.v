@@ -39,6 +39,7 @@ enum int unsigned {
 } state, next_state;
 
 string progfile;
+integer i;
 initial begin
     if (! $value$plusargs("program=%s", progfile)) begin
         $display("ERROR: please specify +program=<filename> to run.");
@@ -63,13 +64,13 @@ always @(posedge clk) begin
 		busy: begin
 			if (ready) begin
 				if(ddr_write) begin 
-					mem_array[internal_addr+0] = ddr_wdata[31:24];
-					mem_array[internal_addr+1] = ddr_wdata[23:16];
-					mem_array[internal_addr+2] = ddr_wdata[15:8];
-					mem_array[internal_addr+3] = ddr_wdata[7:0];
+					mem_array[internal_addr+3] = ddr_wdata[31:24];
+					mem_array[internal_addr+2] = ddr_wdata[23:16];
+					mem_array[internal_addr+1] = ddr_wdata[15:8];
+					mem_array[internal_addr+0] = ddr_wdata[7:0];
 					ddr_resp = 1'b1;
 				end else if(ddr_read) begin				
-					ddr_rdata = { mem_array[internal_addr+0], mem_array[internal_addr+1], mem_array[internal_addr+2], mem_array[internal_addr+3] };
+					ddr_rdata = { mem_array[internal_addr+3], mem_array[internal_addr+2], mem_array[internal_addr+1], mem_array[internal_addr+0] };
 					ddr_resp = 1'b1;
 				end
 				

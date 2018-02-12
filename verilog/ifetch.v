@@ -25,6 +25,12 @@ rvga_word pcmux_out;
 rvga_word pc;
 rvga_cword temp_cword;
 
+always @(posedge clk) begin
+    `ifdef IF_DEBUG
+        $display("PC: %h", if_de_cword.pc);
+    `endif
+end
+
 always @* begin
 	iddr_addr = pc; 
 	iddr_read = 1'b1;
@@ -38,7 +44,14 @@ end
 
 always @(posedge clk) begin
 	if(~rst_n) begin
-		pc <= 0;
+		iddr_addr <= 0;
+        iddr_read <= 0;
+        iddr_write <= 0;
+        iddr_wdata <= 0;
+        if_de_cword <= 0;
+
+        pc <= 0;
+        temp_cword <= 0;
 	end else begin
 		if(~stall) begin
 			pc <= pcmux_out;

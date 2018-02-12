@@ -16,6 +16,75 @@ module decode
 
 rvga_cword temp_cword;
 
+always @(posedge clk) begin
+    `ifdef DEC_DEBUG
+        case(temp_cword.opcode) 
+            OP_LUI:    begin $display("OP: LUI"); end
+            OP_AUIPC:  begin $display("OP: AUIPC"); end
+            OP_JAL:    begin $display("OP: JAL"); end 
+            OP_JALR:   begin $display("OP: JALR"); end
+            OP_BR:     begin 
+                case(temp_cword.funct3)
+                    FN3_BEQ: begin $display("OP: BEQ"); end
+                    FN3_BNE: begin $display("OP: BNE"); end
+                    FN3_BLT: begin $display("OP: BLT"); end
+                    FN3_BLTU: begin $display("OP: BLTU"); end
+                    FN3_BGE: begin $display("OP: BGE"); end
+                    FN3_BGEU: begin $display("OP: BGEU"); end
+                endcase
+            end
+            OP_LD:     begin
+                case(temp_cword.funct3)
+                    FN3_LB: begin $display("OP: LB"); end
+                    FN3_LH: begin $display("OP: LH"); end
+                    FN3_LW: begin $display("OP: LW"); end
+                    FN3_LBU: begin $display("OP: LBU"); end
+                    FN3_LHU: begin $display("OP: LHU"); end
+                endcase
+            end
+            OP_ST:     begin
+                case(temp_cword.funct3)
+                    FN3_SB: begin $display("OP: SB"); end
+                    FN3_SH: begin $display("OP: SH"); end
+                    FN3_SW: begin $display("OP: SW"); end
+                endcase
+            end
+            OP_IMM:    begin
+                $display("INST %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b", temp_cword.inst[31], temp_cword.inst[30], temp_cword.inst[29], temp_cword.inst[28], temp_cword.inst[27], temp_cword.inst[26], temp_cword.inst[25], temp_cword.inst[24], temp_cword.inst[23], temp_cword.inst[22], temp_cword.inst[21], temp_cword.inst[20], temp_cword.inst[19], temp_cword.inst[18], temp_cword.inst[17], temp_cword.inst[16], temp_cword.inst[15], temp_cword.inst[14], temp_cword.inst[13], temp_cword.inst[12], temp_cword.inst[11], temp_cword.inst[10], temp_cword.inst[9], temp_cword.inst[8], temp_cword.inst[7], temp_cword.inst[6], temp_cword.inst[5], temp_cword.inst[4], temp_cword.inst[3], temp_cword.inst[2], temp_cword.inst[1], temp_cword.inst[0]);
+                case(temp_cword.funct3)
+                    FN3_ADDI: begin $display("OP: ADDI"); end
+                    FN3_SLTI: begin $display("OP: SLTI"); end
+                    FN3_SLTIU: begin $display("OP: SLTIU"); end
+                    FN3_ANDI: begin $display("OP: ANDI"); end
+                    FN3_ORI: begin $display("OP: ORI"); end
+                    FN3_XORI: begin $display("OP: XORI"); end
+                    FN3_SLLI: begin $display("OP: SLLI"); end
+                    FN3_SRL: begin $display("OP: SRL"); end 
+                    FN3_SRA: begin $display("OP: SRA"); end
+                endcase	 
+            end
+            
+            OP_OP:     begin
+                case(temp_cword.funct3)
+                    FN3_ADD: begin $display("OP: ADD"); end
+                    FN3_SUB: begin $display("OP: SUB"); end
+                    FN3_SLT: begin $display("OP: SLT"); end
+                    FN3_SLTU: begin $display("OP: SLTU"); end
+                    FN3_AND: begin $display("OP: AND"); end
+                    FN3_OR: begin $display("OP: OR"); end
+                    FN3_XOR: begin $display("OP: XOR"); end
+                    FN3_SLL: begin $display("OP: SLL"); end
+                    FN3_SRL: begin $display("OP: SRL"); end
+                    FN3_SRA: begin $display("OP: SRA"); end
+                endcase 
+            end
+            OP_FENCE:  begin $display("FENCE opcode not implemented\n"); end
+            
+            OP_SYSTEM: begin $display("SYSTEM opcode not implemented\n"); end
+        endcase
+    `endif
+end
+
 always @* begin
 	temp_cword = if_de_cword;
 	temp_cword.inst = if_de_cword.inst;
@@ -47,7 +116,7 @@ always @* begin
 	temp_cword.rs2_data = 0;
 	temp_cword.rd_data = 0;
 	temp_cword.jmp_tgt = 0;
-	
+
 	case(temp_cword.opcode) 
 		OP_LUI:    begin
 			temp_cword.imm = { if_de_cword.inst[31:12], 12'b0 };
@@ -186,17 +255,14 @@ always @* begin
 			temp_cword = 0;	
 			$display("SYSTEM opcode not implemented\n");
 		end
-		
-		default: begin
-			temp_cword = 0;
-			$display("Bad opcode found: %x\n", temp_cword.opcode);
-		end
 	endcase
 end
 
 always @(posedge clk) begin
 	if(~rst_n) begin
 		de_rf_cword <= 0;
+        
+        temp_cword <= 0;
 	end else begin
 		if(~stall) begin
 			de_rf_cword <= temp_cword;

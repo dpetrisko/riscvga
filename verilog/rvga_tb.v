@@ -59,24 +59,31 @@ initial begin
     end
     $dumpfile(dumpfile);
     $dumpvars(0, processor);
+    $dumpvars(0, imemory);
+    $dumpvars(0, dmemory);
 end
 
 always @(posedge clk) begin
-    $display("CYCLE: %d REGFILE: %h", cycle, processor.rfetch.regfile);
+    `ifdef RF_DEBUG
+    `endif
 end
 
 always @(posedge iddr_resp) begin
+    `ifdef IMEM_DEBUG
 	$display("CYCLE: %d PC: %h, INST: %h", cycle, iddr_addr, iddr_rdata);
+    `endif
 end
 
 always @(posedge dddr_resp) begin
-	if(dddr_read) begin
+	`ifdef DMEM_DEBUG
+    if(dddr_read) begin
 		$display("CYCLE: %d, DMEM READ  - ADDR: %h DATA %h", cycle, dddr_addr, dddr_rdata);
 	end
 	
 	if(dddr_wdata) begin
 		$display("CYCLE: %d, DMEM WRITE - ADDR: %h DATA %h", cycle, dddr_addr, dddr_wdata);
 	end
+    `endif
 end
 
 integer cycle = 0;

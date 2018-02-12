@@ -24,7 +24,10 @@ end
 
 always @(posedge clk) begin
 	if(~rst_n) begin
+        wb_if_cword <= 0;
 		wb_rf_cword <= 0;
+
+        temp_cword <= 0;
 	end else begin
 		if(~stall) begin
 			wb_if_cword <= temp_cword;
