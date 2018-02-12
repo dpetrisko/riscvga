@@ -18,8 +18,8 @@ slti x5, x1, 4  # x5 <- 0
 # Status: [0, 5, -1, -14, 1, 0, ...]
 
 # Test SLTIU - sltiu: rd <= 1 if (unsigned) rs1 < (unsigned) imm
-sltiu x7, x3, 0xFFFFFFF2    # x7 <- 1
-sltiu x6, x3, 0             # x6 <- 0
+sltiu x6, x3, 0xFFFFFFF3    # x7 <- 1
+sltiu x7, x3, 0             # x6 <- 0
 
 # Status: [0, 5, -1, -14, 1, 0, 1, 0, ...]
 
@@ -36,5 +36,5 @@ ori x9, x1, 145  # x9 <- 149
 # Test XORI - xori: rd <- rs1 ^ imm
 xori x10, x9, 189 # x10 <- 40
 
-# Status: [0, 5, -1, -14, 1, 0, 1, 0, 1, 149, 189, 40, ...]
+# Status: [0, 5, -1, -14, 1, 0, 1, 0, 1, 149, 40, ...]
 

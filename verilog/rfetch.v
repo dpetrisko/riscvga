@@ -21,7 +21,10 @@ rvga_cword temp_cword;
 
 always @(posedge clk) begin
     `ifdef RF_DEBUG
-    $display("REGISTERS READ: %d %x %d %x REGISTERS WRITE: %d %x %d", rf_ex_cword.rs1, rf_ex_cword.rs1_data, rf_ex_cword.rs2, rf_ex_cword.rs2_data, wb_rf_cword.rd, wb_rf_cword.rd_data, wb_rf_cword.regfile_load);
+    $display("REGISTERS READ: %d %x %d %x", rf_ex_cword.rs1, rf_ex_cword.rs1_data, rf_ex_cword.rs2, rf_ex_cword.rs2_data);
+    if(wb_rf_cword.regfile_load) begin
+       $display("REGISTERS WRITTEN: %d %x", wb_rf_cword.rd, wb_rf_cword.rd_data);
+    end
     `endif
 end
 

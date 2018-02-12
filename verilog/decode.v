@@ -18,6 +18,7 @@ rvga_cword temp_cword;
 
 always @(posedge clk) begin
     `ifdef DEC_DEBUG
+     if(~stall) begin
         case(temp_cword.opcode) 
             OP_LUI:    begin $display("OP: LUI"); end
             OP_AUIPC:  begin $display("OP: AUIPC"); end
@@ -50,18 +51,18 @@ always @(posedge clk) begin
                 endcase
             end
             OP_IMM:    begin
-                $display("INST %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b %b%b%b%b", temp_cword.inst[31], temp_cword.inst[30], temp_cword.inst[29], temp_cword.inst[28], temp_cword.inst[27], temp_cword.inst[26], temp_cword.inst[25], temp_cword.inst[24], temp_cword.inst[23], temp_cword.inst[22], temp_cword.inst[21], temp_cword.inst[20], temp_cword.inst[19], temp_cword.inst[18], temp_cword.inst[17], temp_cword.inst[16], temp_cword.inst[15], temp_cword.inst[14], temp_cword.inst[13], temp_cword.inst[12], temp_cword.inst[11], temp_cword.inst[10], temp_cword.inst[9], temp_cword.inst[8], temp_cword.inst[7], temp_cword.inst[6], temp_cword.inst[5], temp_cword.inst[4], temp_cword.inst[3], temp_cword.inst[2], temp_cword.inst[1], temp_cword.inst[0]);
                 case(temp_cword.funct3)
-                    FN3_ADDI: begin $display("OP: ADDI"); end
-                    FN3_SLTI: begin $display("OP: SLTI"); end
-                    FN3_SLTIU: begin $display("OP: SLTIU"); end
-                    FN3_ANDI: begin $display("OP: ANDI"); end
-                    FN3_ORI: begin $display("OP: ORI"); end
-                    FN3_XORI: begin $display("OP: XORI"); end
-                    FN3_SLLI: begin $display("OP: SLLI"); end
-                    FN3_SRL: begin $display("OP: SRL"); end 
-                    FN3_SRA: begin $display("OP: SRA"); end
+                    FN3_ADDI:  begin $write("OP: ADDI "); end
+                    FN3_SLTI:  begin $write("OP: SLTI "); end
+                    FN3_SLTIU: begin $write("OP: SLTIU"); end
+                    FN3_ANDI:  begin $write("OP: ANDI "); end
+                    FN3_ORI:   begin $write("OP: ORI  "); end
+                    FN3_XORI:  begin $write("OP: XORI "); end
+                    FN3_SLLI:  begin $write("OP: SLLI "); end
+                    FN3_SRL:   begin $write("OP: SRL  "); end 
+                    FN3_SRA:   begin $write("OP: SRA  "); end
                 endcase	 
+                $write(" RD: %d RS1: %d IMM: %d\n", temp_cword.rd, temp_cword.rs1, $signed(temp_cword.imm));
             end
             
             OP_OP:     begin
@@ -82,6 +83,7 @@ always @(posedge clk) begin
             
             OP_SYSTEM: begin $display("SYSTEM opcode not implemented\n"); end
         endcase
+    end
     `endif
 end
 
@@ -203,7 +205,7 @@ always @* begin
 		end
 		
 		OP_IMM:    begin
-			temp_cword.imm = { 20'b0, if_de_cword.inst[31:20] };
+			temp_cword.imm = $signed({ if_de_cword.inst[31:20] });
 			temp_cword.rs2mux_sel = rs2mux_imm;
 			temp_cword.regfile_load = 1'b1;
 			case(temp_cword.funct3)

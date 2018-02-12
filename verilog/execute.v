@@ -22,6 +22,14 @@ rvga_word alu_out;
 rvga_word jmp_tgt;
 pcmux_selop pcmux_sel;
 
+always @(posedge clk) begin
+    `ifdef EX_DEBUG
+    if(~stall) begin
+        $display("RS1: %d RS2: %d RESULT: %d", rs1mux_out, rs2mux_out, $signed(alu_out));
+    end
+    `endif
+end
+
 always @* begin
 	temp_cword = rf_ex_cword;
 	temp_cword.rd_data = alu_out;
