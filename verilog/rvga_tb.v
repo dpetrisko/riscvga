@@ -1,3 +1,4 @@
+`include "debug_defines.vh"
 `include "rvga_types.vh"
 
 module rvga_tb();
@@ -60,17 +61,21 @@ initial begin
     $dumpvars(0, processor);
 end
 
+always @(posedge clk) begin
+    $display("CYCLE: %d REGFILE: %h", cycle, processor.rfetch.regfile);
+end
+
 always @(posedge iddr_resp) begin
-	//$display("CYCLE: %h PC: %h, INST: %h", cycle, iddr_addr, iddr_rdata);
+	$display("CYCLE: %d PC: %h, INST: %h", cycle, iddr_addr, iddr_rdata);
 end
 
 always @(posedge dddr_resp) begin
 	if(dddr_read) begin
-	//	$display("CYCLE: %h, MEM READ  - ADDR: %h DATA %h", cycle, dddr_addr, dddr_rdata);
+		$display("CYCLE: %d, DMEM READ  - ADDR: %h DATA %h", cycle, dddr_addr, dddr_rdata);
 	end
 	
 	if(dddr_wdata) begin
-	//	$display("CYCLE: %h, MEM WRITE - ADDR: %h DATA %h", cycle, dddr_addr, dddr_wdata);
+		$display("CYCLE: %d, DMEM WRITE - ADDR: %h DATA %h", cycle, dddr_addr, dddr_wdata);
 	end
 end
 
@@ -87,7 +92,7 @@ always begin
 	#5 clk = ~clk; 
 	cycle = cycle + 1;
 
-    if(cycle >= 100000) begin
+    if(cycle >= 100) begin
         $finish;
     end
 end

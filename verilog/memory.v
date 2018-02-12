@@ -1,3 +1,4 @@
+`include "debug_defines.vh"
 `include "rvga_types.vh"
 
 module memory
