@@ -13,7 +13,8 @@ nop_ext = "_nopified.asm"
 
 in_filename = args.in_filename
 out_filename = os.path.join(default_out, os.path.basename(os.path.splitext(in_filename)[0] + nop_ext)) if args.out_filename is None else args.out_filename
-num_nops = 4 if args.pipelength is None else int(args.pipelength) - 1
+num_nops = 5 if args.pipelength is None else int(args.pipelength) - 1
+num_nops = 0
 
 with open(in_filename, 'r') as in_file:
     in_text = in_file.read().splitlines()

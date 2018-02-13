@@ -7,8 +7,8 @@ xxd = find_program('xxd')
 cp = find_program('cp')
 
 
-asm_srcs = ['asm/test_imm.S', 'asm/test_regops.S']
-asm_src = asm_srcs[1]
+asm_srcs = ['asm/test_imm.S', 'asm/test_regops.S', 'asm/test_jal.S']
+asm_src = asm_srcs[2]
 
 v_sources = files(
     join_paths(meson.current_source_dir(), 'verilog/alu.v'),
