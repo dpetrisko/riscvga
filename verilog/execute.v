@@ -25,7 +25,7 @@ pcmux_selop pcmux_sel;
 always @(posedge clk) begin
     `ifdef EX_DEBUG
     if(~stall) begin
-        $display("RS1: %d RS2: %d RESULT: %d", rs1mux_out, rs2mux_out, $signed(alu_out));
+        $display("RS1: %d %x RS2: %d %x RESULT: %d %x", temp_cword.rs1, rs1mux_out, temp_cword.rs2, rs2mux_out, temp_cword.rd, $signed(alu_out));
     end
     `endif
 end
@@ -51,20 +51,20 @@ end
 
 mux2 rs1mux
 (
-	.sel(rf_ex_cword.rs1mux_sel),
-	.a(rf_ex_cword.rs1_data),
-	.b(rf_ex_cword.imm),
+	.sel(temp_cword.rs1mux_sel),
+	.a(temp_cword.rs1_data),
+	.b(temp_cword.pc),
 	
 	.f(rs1mux_out)
 );
 
 mux4 rs2mux
 (
-	.sel(rf_ex_cword.rs2mux_sel),
-	.a(rf_ex_cword.rs2_data),
-	.b(rf_ex_cword.imm),
+	.sel(temp_cword.rs2mux_sel),
+	.a(temp_cword.rs2_data),
+	.b(temp_cword.imm),
 	.c(32'h0000_0004),
-	.d(),
+	.d({ 27'b0, temp_cword.rs2_data[4:0] }),
 	
 	.f(rs2mux_out)
 );

@@ -7,7 +7,8 @@ xxd = find_program('xxd')
 cp = find_program('cp')
 
 
-asm_src = ['asm/test_imm.S']
+asm_srcs = ['asm/test_imm.S', 'asm/test_regops.S']
+asm_src = asm_srcs[1]
 
 v_sources = files(
     join_paths(meson.current_source_dir(), 'verilog/alu.v'),
@@ -52,7 +53,6 @@ hex_all = generator(python,
                                 '@BASENAME@_nopified.bin',
                                 '&&',
                                 'xxd',
-                                '-s4',
                                 '-c1',
                                 '-p',
                                 '@BASENAME@_nopified.bin',
@@ -65,18 +65,15 @@ hex_all = generator(python,
                                ]
                    )
 
-foreach src : asm_src
-    mem_src = hex_all.process(src)
+mem_src = hex_all.process(asm_src)
     
-    gen_mem = custom_target('gen_mem',
-                            output: '@BUILD_DIR@',
-                            input: mem_src,
-                            command: ['echo',
-                                      '"Compiling',
-                                      'hex',
-                                      'files"'],
-                            build_by_default: true,
-                           )
-endforeach
-
+gen_mem = custom_target('gen_mem',
+                        output: '@BUILD_DIR@',
+                        input: mem_src,
+                        command: ['echo',
+                                  '"Compiling',
+                                  'hex',
+                                  'files"'],
+                        build_by_default: true,
+                       )
 

@@ -27,7 +27,7 @@ rvga_cword temp_cword;
 
 always @(posedge clk) begin
     `ifdef IF_DEBUG
-        $display("PC: %h", if_de_cword.pc);
+        $display("PC: %h INST: %h", if_de_cword.pc, if_de_cword.inst);
     `endif
 end
 

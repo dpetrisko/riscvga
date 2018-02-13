@@ -1,4 +1,4 @@
-//`define DDR_DEBUG 1
+`define DDR_DEBUG 1
 //`define IMEM_DEBUG 1
 //`define IF_DEBUG 1
 `define DEC_DEBUG  1

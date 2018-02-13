@@ -240,9 +240,15 @@ always @* begin
 				
 				FN3_XOR: temp_cword.aluop = alu_xor;
 				
-				FN3_SLL: temp_cword.aluop = alu_sll;
-				
-				FN3_SRL, FN3_SRA: temp_cword.aluop = temp_cword.funct7 == FN7_SRLI ? alu_srl : alu_sra;		
+                FN3_SLL: begin 
+                    temp_cword.aluop = alu_sll;
+				    temp_cword.rs2mux_sel = rs2mux_reg_5_0;
+                end
+
+                FN3_SRL, FN3_SRA: begin
+                    temp_cword.aluop = temp_cword.funct7 == FN7_SRLI ? alu_srl : alu_sra;		
+				    temp_cword.rs2mux_sel = rs2mux_reg_5_0;
+                end
 			endcase
 		end
 		

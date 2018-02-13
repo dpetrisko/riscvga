@@ -4,6 +4,7 @@ _start:
 # Status: [...]
 
 # Test ADDI - addi: rd <- rs1 + imm
+nop 
 addi x0, x0, 10  # Shouldn't have an effect
 addi x1, x0, 5   # x1 <-  5
 addi x2, x0, -1  # x2 <- -1
@@ -59,7 +60,9 @@ lui x14, 0x12345 # x14 <- 0x12340000
 # Status: [0, 5, -1, -14, 1, 0, 1, 0, 1, 149, 40, 640, 65535, 0xFFFFFFF9, 0x12345000, ...]
 
 # Test AUIPC - auipc: rd <- {imm, 12'b0} + pc
-auipc x15, 0  # x15 <- pc
-auipc x16, 0  # x16 <- x15 + 14
+auipc x15, 0  # x15 <- 56
+auipc x16, 10  # x16 <- 41020
 
-# Status: [0, 5, -1, -14, 1, 0, 1, 0, 1, 149, 40, 640, 65535, 0xFFFFFFF9, 0x12345000, pc, pc + 14]
+# Status: [0, 5, -1, -14, 1, 0, 1, 0, 1, 149, 40, 640, 65535, 0xFFFFFFF9, 0x12345000, 56, 41020, ...]
+
+

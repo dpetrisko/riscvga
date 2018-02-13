@@ -21,7 +21,7 @@ timeprecision 1ns;
 
 parameter latency = 0;
 
-parameter size = 512;
+parameter size = 1024;
 
 integer ptr;
 integer x;

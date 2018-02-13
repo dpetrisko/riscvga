@@ -48,7 +48,8 @@ typedef enum logic[0:0] {
 typedef enum logic[1:0] {
 	rs2mux_reg,
 	rs2mux_imm,
-	rs2mux_wordsize
+	rs2mux_wordsize,
+    rs2mux_reg_5_0
 } rs2mux_selop;
 
 typedef enum logic[1:0] {
