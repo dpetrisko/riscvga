@@ -1,0 +1,464 @@
+
+*** Running vivado
+    with args -log rvga_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source rvga_top.tcl
+
+
+****** Vivado v2018.1 (64-bit)
+  **** SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
+  **** IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
+    ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+
+source rvga_top.tcl -notrace
+Command: synth_design -top rvga_top -part xc7z020clg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 29491 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1246.250 ; gain = 65.898 ; free physical = 432 ; free virtual = 5081
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'rvga_top' [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'ifetch_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'ifetch_stage' (1#1) [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'decode_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/decode_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'decode_stage' (2#1) [/home/parallels/Desktop/riscv/riscvga/verilog/decode_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'rfetch_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/rfetch_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'rfetch_stage' (3#1) [/home/parallels/Desktop/riscv/riscvga/verilog/rfetch_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'execute_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/execute_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'execute_stage' (4#1) [/home/parallels/Desktop/riscv/riscvga/verilog/execute_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'memory_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/memory_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'memory_stage' (5#1) [/home/parallels/Desktop/riscv/riscvga/verilog/memory_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'writeback_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/writeback_stage.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'writeback_stage' (6#1) [/home/parallels/Desktop/riscv/riscvga/verilog/writeback_stage.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'icache' [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:3]
+	Parameter total_size_bytes bound to: 1024 - type: integer 
+	Parameter num_sets bound to: 4 - type: integer 
+	Parameter line_size_bytes bound to: 16 - type: integer 
+	Parameter word_size_bytes bound to: 4 - type: integer 
+	Parameter lines_per_set bound to: 16 - type: integer 
+	Parameter index_bits bound to: 4 - type: integer 
+	Parameter offset_bits bound to: 4 - type: integer 
+	Parameter valid_bits bound to: 1 - type: integer 
+	Parameter data_bits bound to: 32 - type: integer 
+	Parameter tag_bits bound to: 24 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'array' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+	Parameter width bound to: 1 - type: integer 
+	Parameter height bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'array' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'array__parameterized0' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+	Parameter width bound to: 32 - type: integer 
+	Parameter height bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'array__parameterized0' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'array__parameterized1' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+	Parameter width bound to: 24 - type: integer 
+	Parameter height bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'array__parameterized1' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+WARNING: [Synth 8-87] always_comb on 'hit_line_data_reg' did not result in combinational logic [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:94]
+WARNING: [Synth 8-3848] Net icache_iddr_addr in module/entity icache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:17]
+WARNING: [Synth 8-3848] Net icache_iddr_read in module/entity icache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:18]
+INFO: [Synth 8-6155] done synthesizing module 'icache' (8#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'dcache' [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
+	Parameter total_size_bytes bound to: 1024 - type: integer 
+	Parameter num_sets bound to: 4 - type: integer 
+	Parameter line_size_bytes bound to: 16 - type: integer 
+	Parameter word_size_bytes bound to: 4 - type: integer 
+WARNING: [Synth 8-3848] Net dcache_memory_rdata in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:14]
+WARNING: [Synth 8-3848] Net dcache_memory_resp in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:17]
+WARNING: [Synth 8-3848] Net dcache_dddr_addr in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:19]
+WARNING: [Synth 8-3848] Net dcache_dddr_read in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:20]
+WARNING: [Synth 8-3848] Net dcache_dddr_write in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:22]
+WARNING: [Synth 8-3848] Net dcache_dddr_wdata in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:23]
+INFO: [Synth 8-6155] done synthesizing module 'dcache' (9#1) [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'rvga_top' (10#1) [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[31]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[30]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[29]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[28]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[27]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[26]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[25]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[24]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[23]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[22]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[21]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[20]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[19]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[18]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[17]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[16]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[15]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[14]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[13]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[12]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[11]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[10]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[9]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[8]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[7]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[6]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[5]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[4]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[3]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[2]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[1]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[0]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_resp
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[31]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[30]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[29]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[28]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[27]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[26]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[25]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[24]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[23]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[22]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[21]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[20]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[19]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[18]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[17]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[16]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[15]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[14]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[13]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[12]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[11]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[10]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[9]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[8]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[7]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[6]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[5]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[4]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[3]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[2]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[1]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_addr[0]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_read
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_write
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[31]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[30]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[29]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[28]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[27]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[26]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[25]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[24]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[23]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[22]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[21]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[20]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[19]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[18]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[17]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[16]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[15]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[14]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[13]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[12]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[11]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[10]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[9]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[8]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[7]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[6]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[5]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[4]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[3]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[2]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[1]
+WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[0]
+WARNING: [Synth 8-3331] design dcache has unconnected port clk
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 446 ; free virtual = 5095
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 445 ; free virtual = 5094
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 445 ; free virtual = 5094
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.srcs/constrs_1/new/zedboard_master.xdc]
+Finished Parsing XDC File [/home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.srcs/constrs_1/new/zedboard_master.xdc]
+Completed Processing XDC Constraints
+
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1661.891 ; gain = 0.000 ; free physical = 180 ; free virtual = 4829
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 250 ; free virtual = 4900
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 250 ; free virtual = 4900
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 252 ; free virtual = 4902
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 'hit_line_data_reg' [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:94]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 243 ; free virtual = 4893
+---------------------------------------------------------------------------------
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].valid_array' (array) to 'ic/arrays[1].valid_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].valid_array' (array) to 'ic/arrays[2].valid_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].valid_array' (array) to 'ic/arrays[3].valid_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].data_array' (array__parameterized0) to 'ic/arrays[1].data_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].data_array' (array__parameterized0) to 'ic/arrays[2].data_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].data_array' (array__parameterized0) to 'ic/arrays[3].data_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].tag_array' (array__parameterized1) to 'ic/arrays[1].tag_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].tag_array' (array__parameterized1) to 'ic/arrays[2].tag_array'
+INFO: [Synth 8-223] decloning instance 'ic/arrays[0].tag_array' (array__parameterized1) to 'ic/arrays[3].tag_array'
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module ifetch_stage 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 1     
+Module icache 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     32 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 6     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+WARNING: [Synth 8-6014] Unused sequential element ifetch/instruction_reg was removed.  [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:22]
+warning: Removed RAM ic/arrays[0].valid_array/data_reg due to inactive write enable
+WARNING: [Synth 8-6014] Unused sequential element ic/arrays[0].valid_array/data_reg was removed. 
+warning: Removed RAM ic/arrays[0].tag_array/data_reg due to inactive write enable
+WARNING: [Synth 8-6014] Unused sequential element ic/arrays[0].tag_array/data_reg was removed. 
+warning: Removed RAM ic/arrays[0].data_array/data_reg due to inactive write enable
+WARNING: [Synth 8-6014] Unused sequential element ic/arrays[0].data_array/data_reg was removed. 
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[31]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[30]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[29]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[28]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[27]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[26]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[25]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[24]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[23]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[22]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[21]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[20]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[19]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[18]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[17]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[16]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[15]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[14]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[13]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[12]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[11]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[10]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[9]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[8]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[7]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[6]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[5]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[4]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[3]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[2]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[1]) is unused and will be removed from module rvga_top.
+WARNING: [Synth 8-3332] Sequential element (ic/hit_line_data_reg[0]) is unused and will be removed from module rvga_top.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:37 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 242 ; free virtual = 4893
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 139 ; free virtual = 4764
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 139 ; free virtual = 4764
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 139 ; free virtual = 4764
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+------+------+
+|      |Cell  |Count |
++------+------+------+
+|1     |OBUFT |    99|
++------+------+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |    99|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 138 ; free virtual = 4764
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 170 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:25 . Memory (MB): peak = 1661.891 ; gain = 110.508 ; free physical = 195 ; free virtual = 4821
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:45 . Memory (MB): peak = 1661.891 ; gain = 481.539 ; free physical = 195 ; free virtual = 4821
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+43 Infos, 146 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:47 . Memory (MB): peak = 1661.891 ; gain = 481.641 ; free physical = 188 ; free virtual = 4814
+INFO: [Common 17-1381] The checkpoint '/home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1/rvga_top.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file rvga_top_utilization_synth.rpt -pb rvga_top_utilization_synth.pb
+report_utilization: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.09 . Memory (MB): peak = 1661.891 ; gain = 0.000 ; free physical = 189 ; free virtual = 4814
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 14 02:18:18 2018...

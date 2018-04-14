@@ -1,3 +1,5 @@
+.section .text
+
 .globl _start
 _start:
 
@@ -28,7 +30,19 @@ addi x14, x0, 0xDE
 
 good_br1:
 addi x31, x31, 1
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
 jalr x2, x1, 32
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
 addi x30, x30, 2
 
 # Status: Should not have 0xDE
