@@ -2,8 +2,8 @@
 # Vivado v2018.1 (64-bit)
 # SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
 # IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
-# Start of session at: Sat Apr 14 02:17:21 2018
-# Process ID: 29463
+# Start of session at: Sat Apr 14 03:24:13 2018
+# Process ID: 7607
 # Current directory: /home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1
 # Command line: vivado -log rvga_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source rvga_top.tcl
 # Log file: /home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1/rvga_top.vds
