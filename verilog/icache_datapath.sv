@@ -15,7 +15,8 @@ module icache_datapath
     output rvga_word icache_iddr_addr,
     input rvga_word iddr_icache_rdata,
     
-    input logic[num_sets-1:0] icache_load,
+    input logic icache_load,
+    input logic icache_replacement_update,
     output logic icache_hit
 );
 
@@ -38,15 +39,18 @@ logic[tag_bits-1:0] tag;
 logic[index_bits-1:0] index;
 logic[offset_bits-1:0] offset;
 
+logic[num_sets-1:0] hit_vector;
 rvga_word hit_line_data;
 rvga_word hit_word_data;
+
+logic[num_sets-1:0] icache_replacement_select;
 
 genvar i;
 generate
     for(i = 0; i < num_sets; i=i+1) begin : arrays
         array #(.width(valid_bits), .height(lines_per_set)) valid_array
         (.clk,
-         .load(icache_load[i]),
+         .load(icache_replacement_select[i] & icache_load),
          .index,
          .data_in(valid_array_data_in),
          .data_out(valid_array_data_out[i])
@@ -54,7 +58,7 @@ generate
         
         array #(.width(data_bits), .height(lines_per_set)) data_array
         (.clk,
-         .load(icache_load[i]),
+         .load(icache_replacement_select[i] & icache_load),
          .index,
          .data_in(data_array_data_in),
          .data_out(data_array_data_out[i])
@@ -62,12 +66,22 @@ generate
         
         array #(.width(tag_bits), .height(lines_per_set)) tag_array
         (.clk,
-         .load(icache_load[i]),
+         .load(icache_replacement_select[i] & icache_load),
          .index,
          .data_in(tag_array_data_in),
          .data_out(tag_array_data_out[i])
         );
     end
+    
+    nmru #(.num_sets(num_sets), .lines_per_set(lines_per_set)) nmru
+    (.clk,
+     .rst,
+     
+     .index,
+     .icache_replacement_update,
+     .hit_vector,
+     .icache_replacement_select
+    );
 endgenerate
 
 always_ff @(posedge clk) begin
@@ -87,9 +101,11 @@ always_comb begin
     
     icache_hit = 0;
     hit_line_data = 0;
+    hit_vector = 0;
     for(integer i = 0; i < num_sets; i=i+1) begin : hits
         if((tag == tag_array_data_out[i]) && (valid_array_data_out[i])) begin
             icache_hit = 1;
+            hit_vector[i] = 1;
             hit_line_data = data_array_data_out[i];
         end
     end

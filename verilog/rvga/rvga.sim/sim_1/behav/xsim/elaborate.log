@@ -13,6 +13,15 @@ Compiling module xil_defaultlib.rfetch_stage
 Compiling module xil_defaultlib.execute_stage
 Compiling module xil_defaultlib.memory_stage
 Compiling module xil_defaultlib.writeback_stage
+Compiling module xil_defaultlib.array(width=1,height=16)
+Compiling module xil_defaultlib.array(width=32,height=16)
+Compiling module xil_defaultlib.array(width=24,height=16)
+Compiling module xil_defaultlib.array(width=4,height=16)
+Compiling module xil_defaultlib.nmru_default
+Compiling module xil_defaultlib.icache_datapath(total_size_bytes...
+Compiling module xil_defaultlib.icache_control
+Compiling module xil_defaultlib.icache
+Compiling module xil_defaultlib.dcache
 Compiling module xil_defaultlib.rvga_top
 Compiling module xil_defaultlib.test_ddr
 Compiling module xil_defaultlib.rvga_tb

@@ -16,7 +16,7 @@ module test_ddr
 timeunit 1ns;
 timeprecision 1ns;
 
-parameter latency = 0;
+parameter latency = 10;
 
 rvga_byte mem_array[0:ELF_SIZE-1];
 rvga_word internal_addr;

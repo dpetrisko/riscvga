@@ -49,6 +49,7 @@ read_verilog -library xil_defaultlib -sv {
   /home/parallels/Desktop/riscv/riscvga/verilog/array.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/icache_datapath.sv
+  /home/parallels/Desktop/riscv/riscvga/verilog/nmru.sv
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

@@ -16,6 +16,18 @@ INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv
 INFO: [VRFC 10-311] analyzing module decode_stage
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module rvga_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dcache
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module icache
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/array.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module array
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module icache_control
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/icache_datapath.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module icache_datapath
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/nmru.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module nmru
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/rvga_tb.sv" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module rvga_tb
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/parallels/Desktop/riscv/riscvga/verilog/test_ddr.sv" into library xil_defaultlib

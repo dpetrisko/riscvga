@@ -20,12 +20,13 @@ module icache
     input logic iddr_icache_resp
 );
 
-logic[num_sets-1:0] icache_load;
+logic icache_load;
 logic icache_hit;
+logic icache_replacement_update;
 
-icache_datapath #(.total_size_bytes(total_size_bytes), .num_sets(num_sets), .line_size_bytes(line_size_bytes), .word_size_bytes(word_size_bytes)) (.*);
+icache_datapath #(.total_size_bytes(total_size_bytes), .num_sets(num_sets), .line_size_bytes(line_size_bytes), .word_size_bytes(word_size_bytes)) datapath (.*);
 
-icache_control #(.num_sets(num_sets)) (.*);
+icache_control #(.num_sets(num_sets)) control (.*);
 
 always_ff @(posedge clk) begin
 

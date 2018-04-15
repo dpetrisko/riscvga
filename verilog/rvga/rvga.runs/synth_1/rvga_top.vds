@@ -2,8 +2,8 @@
 # Vivado v2018.1 (64-bit)
 # SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
 # IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
-# Start of session at: Sat Apr 14 03:24:13 2018
-# Process ID: 7607
+# Start of session at: Sat Apr 14 20:27:05 2018
+# Process ID: 11799
 # Current directory: /home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1
 # Command line: vivado -log rvga_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source rvga_top.tcl
 # Log file: /home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1/rvga_top.vds
@@ -15,9 +15,9 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 7630 
+INFO: Helper process launched with PID 11821 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 1246.250 ; gain = 65.898 ; free physical = 2006 ; free virtual = 6701
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1246.250 ; gain = 65.898 ; free physical = 1538 ; free virtual = 6461
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'rvga_top' [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'ifetch_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:3]
@@ -60,12 +60,20 @@ INFO: [Synth 8-6157] synthesizing module 'array__parameterized1' [/home/parallel
 	Parameter width bound to: 24 - type: integer 
 	Parameter height bound to: 16 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'array__parameterized1' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
-INFO: [Synth 8-6155] done synthesizing module 'icache_datapath' (8#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache_datapath.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'nmru' [/home/parallels/Desktop/riscv/riscvga/verilog/nmru.sv:3]
+	Parameter num_sets bound to: 4 - type: integer 
+	Parameter lines_per_set bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'array__parameterized2' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+	Parameter width bound to: 4 - type: integer 
+	Parameter height bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'array__parameterized2' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'nmru' (8#1) [/home/parallels/Desktop/riscv/riscvga/verilog/nmru.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'icache_datapath' (9#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache_datapath.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'icache_control' [/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv:3]
 	Parameter num_sets bound to: 4 - type: integer 
-INFO: [Synth 8-155] case statement is not full and has no default [/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv:31]
-INFO: [Synth 8-6155] done synthesizing module 'icache_control' (9#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv:3]
-INFO: [Synth 8-6155] done synthesizing module 'icache' (10#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:3]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv:33]
+INFO: [Synth 8-6155] done synthesizing module 'icache_control' (10#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'icache' (11#1) [/home/parallels/Desktop/riscv/riscvga/verilog/icache.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'dcache' [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
 	Parameter total_size_bytes bound to: 1024 - type: integer 
 	Parameter num_sets bound to: 4 - type: integer 
@@ -77,8 +85,8 @@ WARNING: [Synth 8-3848] Net dcache_dddr_addr in module/entity dcache does not ha
 WARNING: [Synth 8-3848] Net dcache_dddr_read in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:20]
 WARNING: [Synth 8-3848] Net dcache_dddr_write in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:22]
 WARNING: [Synth 8-3848] Net dcache_dddr_wdata in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:23]
-INFO: [Synth 8-6155] done synthesizing module 'dcache' (11#1) [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
-INFO: [Synth 8-6155] done synthesizing module 'rvga_top' (12#1) [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'dcache' (12#1) [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'rvga_top' (13#1) [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[31]
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[30]
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[29]
@@ -181,7 +189,7 @@ WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[0]
 WARNING: [Synth 8-3331] design dcache has unconnected port clk
 INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 2018 ; free virtual = 6713
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -194,10 +202,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 2017 ; free virtual = 6712
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 2017 ; free virtual = 6712
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
 ---------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -211,22 +219,22 @@ Completed Processing XDC Constraints
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1662.898 ; gain = 0.000 ; free physical = 1751 ; free virtual = 6446
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1662.891 ; gain = 0.000 ; free physical = 1284 ; free virtual = 6208
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1820 ; free virtual = 6515
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1354 ; free virtual = 6278
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1820 ; free virtual = 6515
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1354 ; free virtual = 6278
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1822 ; free virtual = 6517
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1356 ; free virtual = 6280
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'icache_control'
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
@@ -239,7 +247,7 @@ INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because addre
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'icache_control'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1813 ; free virtual = 6509
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1348 ; free virtual = 6272
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -254,7 +262,9 @@ Detailed RTL Component Info :
 +---Registers : 
 	               32 Bit    Registers := 1     
 +---Muxes : 
-	   2 Input      1 Bit        Muxes := 10    
+	   5 Input      4 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 12    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -266,10 +276,15 @@ Module ifetch_stage
 Detailed RTL Component Info : 
 +---Registers : 
 	               32 Bit    Registers := 1     
+Module nmru 
+Detailed RTL Component Info : 
++---Muxes : 
+	   5 Input      4 Bit        Muxes := 1     
 Module icache_datapath 
 Detailed RTL Component Info : 
 +---Muxes : 
-	   2 Input      1 Bit        Muxes := 3     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 5     
 Module icache_control 
 Detailed RTL Component Info : 
 +---Muxes : 
@@ -290,38 +305,33 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[0].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[1].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[2].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[3].data_array/data_reg was removed. 
+WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[0].data_array/data_reg was removed. 
+WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[1].data_array/data_reg was removed. 
+WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[2].data_array/data_reg was removed. 
+WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[3].data_array/data_reg was removed. 
 WARNING: [Synth 8-6014] Unused sequential element ifetch/instruction_reg was removed.  [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:22]
-warning: Removed RAM ic/nolabel_line26/arrays[1].valid_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[1].valid_array/data_reg was removed. 
-warning: Removed RAM ic/nolabel_line26/arrays[2].valid_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[2].valid_array/data_reg was removed. 
-warning: Removed RAM ic/nolabel_line26/arrays[3].valid_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[3].valid_array/data_reg was removed. 
-warning: Removed RAM ic/nolabel_line26/arrays[1].tag_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[1].tag_array/data_reg was removed. 
-warning: Removed RAM ic/nolabel_line26/arrays[2].tag_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[2].tag_array/data_reg was removed. 
-warning: Removed RAM ic/nolabel_line26/arrays[3].tag_array/data_reg due to inactive write enable
-WARNING: [Synth 8-6014] Unused sequential element ic/nolabel_line26/arrays[3].tag_array/data_reg was removed. 
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_0/\ifetch/pc_reg[0] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1802 ; free virtual = 6499
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1334 ; free virtual = 6260
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
 ---------------------------------------------------------------------------------
 
 Distributed RAM: Preliminary Mapping  Report (see note below)
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
-|Module Name | RTL Object                                       | Inference | Size (Depth x Width) | Primitives      | 
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
-|rvga_top    | ic/nolabel_line26/arrays[0].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
-|rvga_top    | ic/nolabel_line26/arrays[0].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
++------------+--------------------------------------------+-----------+----------------------+-----------------+
+|Module Name | RTL Object                                 | Inference | Size (Depth x Width) | Primitives      | 
++------------+--------------------------------------------+-----------+----------------------+-----------------+
+|rvga_top    | ic/datapath/nmru/mru_array/data_reg        | Implied   | 16 x 4               | RAM16X1S x 4    | 
+|rvga_top    | ic/datapath/arrays[0].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[1].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[2].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[3].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[0].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[1].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[2].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[3].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
++------------+--------------------------------------------+-----------+----------------------+-----------------+
 
 Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
 ---------------------------------------------------------------------------------
@@ -337,25 +347,32 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:45 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1673 ; free virtual = 6370
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1207 ; free virtual = 6133
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:00:45 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1673 ; free virtual = 6370
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1206 ; free virtual = 6132
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
 ---------------------------------------------------------------------------------
 
 Distributed RAM: Final Mapping  Report
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
-|Module Name | RTL Object                                       | Inference | Size (Depth x Width) | Primitives      | 
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
-|rvga_top    | ic/nolabel_line26/arrays[0].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
-|rvga_top    | ic/nolabel_line26/arrays[0].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
-+------------+--------------------------------------------------+-----------+----------------------+-----------------+
++------------+--------------------------------------------+-----------+----------------------+-----------------+
+|Module Name | RTL Object                                 | Inference | Size (Depth x Width) | Primitives      | 
++------------+--------------------------------------------+-----------+----------------------+-----------------+
+|rvga_top    | ic/datapath/nmru/mru_array/data_reg        | Implied   | 16 x 4               | RAM16X1S x 4    | 
+|rvga_top    | ic/datapath/arrays[0].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[1].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[2].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[3].valid_array/data_reg | Implied   | 16 x 1               | RAM16X1S x 1    | 
+|rvga_top    | ic/datapath/arrays[0].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[1].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[2].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
+|rvga_top    | ic/datapath/arrays[3].tag_array/data_reg   | Implied   | 16 x 24              | RAM16X1S x 24   | 
++------------+--------------------------------------------+-----------+----------------------+-----------------+
 
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP and Shift Register Reporting
@@ -370,7 +387,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:30 ; elapsed = 00:00:45 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1672 ; free virtual = 6369
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -394,7 +411,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished IO Insertion : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -407,7 +424,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -419,25 +436,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -454,13 +471,13 @@ Report Cell Usage:
 |      |Cell     |Count |
 +------+---------+------+
 |1     |BUFG     |     1|
-|2     |CARRY4   |    10|
+|2     |CARRY4   |    16|
 |3     |LUT1     |     1|
-|4     |LUT2     |     1|
-|5     |LUT3     |     1|
-|6     |LUT4     |     1|
-|7     |LUT6     |     8|
-|8     |RAM16X1S |    25|
+|4     |LUT2     |     4|
+|5     |LUT4     |     2|
+|6     |LUT5     |     2|
+|7     |LUT6     |    35|
+|8     |RAM16X1S |   104|
 |9     |FDRE     |    28|
 |10    |FDSE     |     4|
 |11    |IBUF     |     3|
@@ -469,37 +486,45 @@ Report Cell Usage:
 +------+---------+------+
 
 Report Instance Areas: 
-+------+------------------------------+----------------------+------+
-|      |Instance                      |Module                |Cells |
-+------+------------------------------+----------------------+------+
-|1     |top                           |                      |   182|
-|2     |  ic                          |icache                |    31|
-|3     |    nolabel_line26            |icache_datapath       |    28|
-|4     |      \arrays[0].tag_array    |array__parameterized1 |    24|
-|5     |      \arrays[0].valid_array  |array                 |     2|
-|6     |    nolabel_line28            |icache_control        |     3|
-|7     |  ifetch                      |ifetch_stage          |    48|
-+------+------------------------------+----------------------+------+
++------+------------------------------+------------------------+------+
+|      |Instance                      |Module                  |Cells |
++------+------------------------------+------------------------+------+
+|1     |top                           |                        |   299|
+|2     |  ic                          |icache                  |   120|
+|3     |    control                   |icache_control          |     1|
+|4     |    datapath                  |icache_datapath         |   119|
+|5     |      \arrays[0].tag_array    |array__parameterized1   |    24|
+|6     |      \arrays[0].valid_array  |array                   |     1|
+|7     |      \arrays[1].tag_array    |array__parameterized1_0 |    24|
+|8     |      \arrays[1].valid_array  |array_1                 |     1|
+|9     |      \arrays[2].tag_array    |array__parameterized1_2 |    24|
+|10    |      \arrays[2].valid_array  |array_3                 |     4|
+|11    |      \arrays[3].tag_array    |array__parameterized1_4 |    24|
+|12    |      \arrays[3].valid_array  |array_5                 |     1|
+|13    |      nmru                    |nmru                    |     8|
+|14    |        mru_array             |array__parameterized2   |     8|
+|15    |  ifetch                      |ifetch_stage            |    76|
++------+------------------------------+------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1674 ; free virtual = 6371
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 142 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 1662.898 ; gain = 110.508 ; free physical = 1731 ; free virtual = 6428
-Synthesis Optimization Complete : Time (s): cpu = 00:00:30 ; elapsed = 00:00:46 . Memory (MB): peak = 1662.898 ; gain = 482.547 ; free physical = 1740 ; free virtual = 6437
+Synthesis finished with 0 errors, 0 critical warnings and 136 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:24 . Memory (MB): peak = 1662.891 ; gain = 110.508 ; free physical = 1263 ; free virtual = 6189
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1263 ; free virtual = 6189
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 38 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 123 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 25 instances were transformed.
-  RAM16X1S => RAM32X1S (RAMS32): 25 instances
+  A total of 104 instances were transformed.
+  RAM16X1S => RAM32X1S (RAMS32): 104 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-46 Infos, 117 Warnings, 0 Critical Warnings and 0 Errors encountered.
+50 Infos, 111 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:32 ; elapsed = 00:00:48 . Memory (MB): peak = 1662.898 ; gain = 482.648 ; free physical = 1723 ; free virtual = 6420
+synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:45 . Memory (MB): peak = 1662.891 ; gain = 482.641 ; free physical = 1256 ; free virtual = 6182
 INFO: [Common 17-1381] The checkpoint '/home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1/rvga_top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file rvga_top_utilization_synth.rpt -pb rvga_top_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.12 . Memory (MB): peak = 1662.898 ; gain = 0.000 ; free physical = 1723 ; free virtual = 6420
-INFO: [Common 17-206] Exiting Vivado at Sat Apr 14 03:25:09 2018...
+report_utilization: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.11 . Memory (MB): peak = 1662.891 ; gain = 0.000 ; free physical = 1255 ; free virtual = 6181
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 14 20:27:59 2018...

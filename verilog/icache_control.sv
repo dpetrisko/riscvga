@@ -13,7 +13,8 @@ module icache_control
     input logic iddr_icache_resp,
     
     input logic icache_hit,
-    output logic[num_sets-1:0] icache_load
+    output logic icache_load,
+    output logic icache_replacement_update
 );
 
 enum {idle, miss} state, next_state;
@@ -23,7 +24,8 @@ always_ff @(posedge clk) begin
 end
 
 always_comb begin
-    icache_load = 4'b0000;
+    icache_load = 1'b0;
+    icache_replacement_update = 1'b0;
     icache_ifetch_resp = 1'b0;
     icache_iddr_read = 1'b0;
     next_state = idle;
@@ -32,6 +34,7 @@ always_comb begin
         idle: begin
             if(ifetch_icache_read && icache_hit) begin
                 icache_ifetch_resp = 1'b1;
+                icache_replacement_update = 1'b1;
             end else if(ifetch_icache_read && ~icache_hit) begin
                 icache_iddr_read = 1'b1;
                 next_state = miss;
@@ -43,7 +46,7 @@ always_comb begin
                 icache_iddr_read = 1'b1;
                 next_state = miss;
             end else if(ifetch_icache_read && iddr_icache_resp) begin
-                icache_load = 4'b0001;
+                icache_load = 1'b1;
             end
         end
     endcase

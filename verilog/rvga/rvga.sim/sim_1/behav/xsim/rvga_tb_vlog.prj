@@ -20,6 +20,12 @@ sv xil_defaultlib  --include "../../../../../" --include "/home/parallels/Xilinx
 "../../../../../writeback_stage.sv" \
 "../../../../../decode_stage.sv" \
 "../../../../../rvga_top.sv" \
+"../../../../../dcache.sv" \
+"../../../../../icache.sv" \
+"../../../../../array.sv" \
+"../../../../../icache_control.sv" \
+"../../../../../icache_datapath.sv" \
+"../../../../../nmru.sv" \
 "../../../../../rvga_tb.sv" \
 "../../../../../test_ddr.sv" \
 

@@ -1,7 +1,4 @@
-Running: xsim.dir/rvga_tb_behav/xsimk -simmode gui -wdb rvga_tb_behav.wdb -simrunnum 0 -socket 57363
+Running: xsim.dir/rvga_tb_behav/xsimk -simmode gui -wdb rvga_tb_behav.wdb -simrunnum 0 -socket 58789
 Design successfully loaded
-Design Loading Memory Usage: 46952 KB (Peak: 46960 KB)
-Design Loading CPU Usage: 40 ms
-Simulation completed
-Simulation Memory Usage: 133048 KB (Peak: 194224 KB)
-Simulation CPU Usage: 390 ms
+Design Loading Memory Usage: 47036 KB (Peak: 47044 KB)
+Design Loading CPU Usage: 20 ms
