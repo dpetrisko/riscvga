@@ -7,14 +7,14 @@ module rvga_top
     
     output rvga_word icache_iddr_addr,
     output logic icache_iddr_read,
-    input rvga_word iddr_icache_rdata,
+    input rvga_cacheline iddr_icache_rdata,
     input logic iddr_icache_resp,
     
     output rvga_word dcache_dddr_addr,
     output logic dcache_dddr_read,
-    input rvga_word dddr_dcache_rdata,
+    input rvga_cacheline dddr_dcache_rdata,
     output logic dcache_dddr_write,
-    output rvga_word dcache_dddr_wdata,
+    output rvga_cacheline dcache_dddr_wdata,
     input logic dddr_dcache_resp
 );
 

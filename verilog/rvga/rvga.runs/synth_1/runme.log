@@ -14,9 +14,9 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 11821 
+INFO: Helper process launched with PID 2627 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1246.250 ; gain = 65.898 ; free physical = 1538 ; free virtual = 6461
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1246.246 ; gain = 65.898 ; free physical = 3508 ; free virtual = 6718
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'rvga_top' [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'ifetch_stage' [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:3]
@@ -41,18 +41,20 @@ INFO: [Synth 8-6157] synthesizing module 'icache_datapath' [/home/parallels/Desk
 	Parameter num_sets bound to: 4 - type: integer 
 	Parameter line_size_bytes bound to: 16 - type: integer 
 	Parameter word_size_bytes bound to: 4 - type: integer 
+	Parameter byte_size_bits bound to: 8 - type: integer 
 	Parameter lines_per_set bound to: 16 - type: integer 
 	Parameter index_bits bound to: 4 - type: integer 
 	Parameter offset_bits bound to: 4 - type: integer 
 	Parameter valid_bits bound to: 1 - type: integer 
-	Parameter data_bits bound to: 32 - type: integer 
+	Parameter line_size_bits bound to: 128 - type: integer 
+	Parameter word_size_bits bound to: 32 - type: integer 
 	Parameter tag_bits bound to: 24 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'array' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
 	Parameter width bound to: 1 - type: integer 
 	Parameter height bound to: 16 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'array' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'array__parameterized0' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
-	Parameter width bound to: 32 - type: integer 
+	Parameter width bound to: 128 - type: integer 
 	Parameter height bound to: 16 - type: integer 
 INFO: [Synth 8-6155] done synthesizing module 'array__parameterized0' (7#1) [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
 INFO: [Synth 8-6157] synthesizing module 'array__parameterized1' [/home/parallels/Desktop/riscv/riscvga/verilog/array.sv:3]
@@ -85,7 +87,105 @@ WARNING: [Synth 8-3848] Net dcache_dddr_read in module/entity dcache does not ha
 WARNING: [Synth 8-3848] Net dcache_dddr_write in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:22]
 WARNING: [Synth 8-3848] Net dcache_dddr_wdata in module/entity dcache does not have driver. [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:23]
 INFO: [Synth 8-6155] done synthesizing module 'dcache' (12#1) [/home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv:3]
+WARNING: [Synth 8-689] width (128) of port connection 'dddr_dcache_rdata' does not match port width (32) of module 'dcache' [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:48]
+WARNING: [Synth 8-689] width (128) of port connection 'dcache_dddr_wdata' does not match port width (32) of module 'dcache' [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:48]
 INFO: [Synth 8-6155] done synthesizing module 'rvga_top' (13#1) [/home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv:3]
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[127] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[126] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[125] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[124] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[123] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[122] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[121] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[120] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[119] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[118] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[117] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[116] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[115] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[114] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[113] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[112] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[111] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[110] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[109] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[108] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[107] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[106] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[105] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[104] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[103] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[102] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[101] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[100] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[99] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[98] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[97] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[96] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[95] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[94] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[93] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[92] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[91] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[90] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[89] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[88] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[87] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[86] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[85] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[84] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[83] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[82] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[81] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[80] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[79] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[78] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[77] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[76] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[75] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[74] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[73] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[72] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[71] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[70] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[69] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[68] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[67] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[66] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[65] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[64] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[63] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[62] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[61] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[60] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[59] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[58] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[57] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[56] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[55] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[54] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[53] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[52] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[51] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[50] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[49] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[48] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[47] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[46] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[45] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[44] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[43] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[42] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[41] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[40] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[39] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[38] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[37] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[36] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[35] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[34] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[33] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[32] driven by constant 0
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[31]
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[30]
 WARNING: [Synth 8-3331] design dcache has unconnected port dcache_memory_rdata[29]
@@ -188,7 +288,7 @@ WARNING: [Synth 8-3331] design dcache has unconnected port dcache_dddr_wdata[0]
 WARNING: [Synth 8-3331] design dcache has unconnected port clk
 INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.855 ; gain = 110.508 ; free physical = 3518 ; free virtual = 6729
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -201,10 +301,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.855 ; gain = 110.508 ; free physical = 3519 ; free virtual = 6729
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.859 ; gain = 110.508 ; free physical = 1550 ; free virtual = 6474
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1290.855 ; gain = 110.508 ; free physical = 3519 ; free virtual = 6729
 ---------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7z020clg484-1
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -218,22 +318,22 @@ Completed Processing XDC Constraints
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1662.891 ; gain = 0.000 ; free physical = 1284 ; free virtual = 6208
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 1663.879 ; gain = 0.000 ; free physical = 3252 ; free virtual = 6462
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1354 ; free virtual = 6278
+Finished Constraint Validation : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3324 ; free virtual = 6535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7z020clg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1354 ; free virtual = 6278
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3324 ; free virtual = 6535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1356 ; free virtual = 6280
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3326 ; free virtual = 6537
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'icache_control'
 INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
@@ -246,7 +346,7 @@ INFO: [Synth 8-5544] ROM "next_state" won't be mapped to Block RAM because addre
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'icache_control'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1348 ; free virtual = 6272
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:22 ; elapsed = 00:00:35 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3317 ; free virtual = 6528
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -304,14 +404,16 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
-WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[0].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[1].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[2].data_array/data_reg was removed. 
-WARNING: [Synth 8-6014] Unused sequential element ic/datapath/arrays[3].data_array/data_reg was removed. 
 WARNING: [Synth 8-6014] Unused sequential element ifetch/instruction_reg was removed.  [/home/parallels/Desktop/riscv/riscvga/verilog/ifetch_stage.sv:22]
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[127] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[126] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[125] driven by constant 0
+WARNING: [Synth 8-3917] design rvga_top has port dcache_dddr_wdata[124] driven by constant 0
+INFO: [Common 17-14] Message 'Synth 8-3917' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_0/\ifetch/pc_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_0/\ifetch/pc_reg[1] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1334 ; free virtual = 6260
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:36 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3303 ; free virtual = 6516
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -346,13 +448,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1207 ; free virtual = 6133
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1206 ; free virtual = 6132
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -386,7 +488,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:43 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3173 ; free virtual = 6385
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -410,7 +512,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished IO Insertion : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -423,7 +525,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -435,25 +537,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -477,10 +579,10 @@ Report Cell Usage:
 |6     |LUT5     |     2|
 |7     |LUT6     |    35|
 |8     |RAM16X1S |   104|
-|9     |FDRE     |    28|
+|9     |FDRE     |    27|
 |10    |FDSE     |     4|
 |11    |IBUF     |     3|
-|12    |OBUF     |    33|
+|12    |OBUF     |   129|
 |13    |OBUFT    |    66|
 +------+---------+------+
 
@@ -488,7 +590,7 @@ Report Instance Areas:
 +------+------------------------------+------------------------+------+
 |      |Instance                      |Module                  |Cells |
 +------+------------------------------+------------------------+------+
-|1     |top                           |                        |   299|
+|1     |top                           |                        |   394|
 |2     |  ic                          |icache                  |   120|
 |3     |    control                   |icache_control          |     1|
 |4     |    datapath                  |icache_datapath         |   119|
@@ -502,14 +604,14 @@ Report Instance Areas:
 |12    |      \arrays[3].valid_array  |array_5                 |     1|
 |13    |      nmru                    |nmru                    |     8|
 |14    |        mru_array             |array__parameterized2   |     8|
-|15    |  ifetch                      |ifetch_stage            |    76|
+|15    |  ifetch                      |ifetch_stage            |    75|
 +------+------------------------------+------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1205 ; free virtual = 6131
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3174 ; free virtual = 6387
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 136 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:24 . Memory (MB): peak = 1662.891 ; gain = 110.508 ; free physical = 1263 ; free virtual = 6189
-Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1662.891 ; gain = 482.539 ; free physical = 1263 ; free virtual = 6189
+Synthesis finished with 0 errors, 0 critical warnings and 293 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:24 . Memory (MB): peak = 1663.879 ; gain = 110.508 ; free physical = 3231 ; free virtual = 6444
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:44 . Memory (MB): peak = 1663.879 ; gain = 483.531 ; free physical = 3231 ; free virtual = 6444
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 123 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -520,10 +622,10 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   RAM16X1S => RAM32X1S (RAMS32): 104 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-50 Infos, 111 Warnings, 0 Critical Warnings and 0 Errors encountered.
+52 Infos, 209 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:45 . Memory (MB): peak = 1662.891 ; gain = 482.641 ; free physical = 1256 ; free virtual = 6182
+synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:46 . Memory (MB): peak = 1663.879 ; gain = 483.633 ; free physical = 3224 ; free virtual = 6436
 INFO: [Common 17-1381] The checkpoint '/home/parallels/Desktop/riscv/riscvga/verilog/rvga/rvga.runs/synth_1/rvga_top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file rvga_top_utilization_synth.rpt -pb rvga_top_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.11 . Memory (MB): peak = 1662.891 ; gain = 0.000 ; free physical = 1255 ; free virtual = 6181
-INFO: [Common 17-206] Exiting Vivado at Sat Apr 14 20:27:59 2018...
+report_utilization: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.11 . Memory (MB): peak = 1663.879 ; gain = 0.000 ; free physical = 3223 ; free virtual = 6436
+INFO: [Common 17-206] Exiting Vivado at Mon Apr 16 00:34:34 2018...

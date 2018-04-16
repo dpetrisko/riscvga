@@ -1,28 +1,29 @@
 `include "rvga_types.svh"
 
 module test_ddr
+#(parameter latency = 100)
 (
 	input logic clk,
 	input logic rst,
 	
 	input rvga_word ddr_addr,
 	input logic ddr_read,
-	output rvga_word ddr_rdata,
+	output rvga_cacheline ddr_rdata,
 	input logic ddr_write,
-	input rvga_word ddr_wdata,
+	input rvga_cacheline ddr_wdata,
 	output logic ddr_resp
 );
 
 timeunit 1ns;
 timeprecision 1ns;
 
-parameter latency = 10;
+localparam line_size_bytes = $bits(rvga_cacheline) / 8;
 
 rvga_byte mem_array[0:ELF_SIZE-1];
 rvga_word internal_addr;
 logic ready;
 
-assign internal_addr = ddr_addr & ~(32'h3);
+assign internal_addr = {ddr_addr[$bits(rvga_word)-1:$clog2(line_size_bytes)], ddr_addr[$clog2(line_size_bytes)-1:0]};
 
 enum int unsigned {
 	idle,
@@ -51,13 +52,14 @@ always @(posedge clk) begin
 		busy: begin
 			if (ready) begin
 				if(ddr_write) begin 
-					mem_array[internal_addr+3] = ddr_wdata[31:24];
-					mem_array[internal_addr+2] = ddr_wdata[23:16];
-					mem_array[internal_addr+1] = ddr_wdata[15:8];
-					mem_array[internal_addr+0] = ddr_wdata[7:0];
+				    for(integer i = 0; i < line_size_bytes; i=i+1) begin
+					   mem_array[internal_addr+i] = ddr_wdata[(i+1)*8-1 -: 8];
+					end
 					ddr_resp = 1'b1;
 				end else if(ddr_read) begin				
-					ddr_rdata = { mem_array[internal_addr+3], mem_array[internal_addr+2], mem_array[internal_addr+1], mem_array[internal_addr+0] };
+					for(integer i = 0; i < line_size_bytes; i=i+1) begin
+					   ddr_rdata[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
+					end
 					ddr_resp = 1'b1;
 				end
 				

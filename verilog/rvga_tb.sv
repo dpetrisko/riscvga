@@ -10,14 +10,14 @@ logic rst;
 
 logic[31:0] icache_iddr_addr;
 logic icache_iddr_read;
-logic[31:0] iddr_icache_rdata;
+logic[127:0] iddr_icache_rdata;
 logic iddr_icache_resp;
 
 logic[31:0] dcache_dddr_addr;
 logic dcache_dddr_read;
-logic[31:0] dddr_dcache_rdata;
+logic[127:0] dddr_dcache_rdata;
 logic dcache_dddr_write;
-logic[31:0] dcache_dddr_wdata;
+logic[127:0] dcache_dddr_wdata;
 logic dddr_dcache_resp;
 
 rvga_top processor(.*);
@@ -61,7 +61,7 @@ always begin
 	#5 clk = ~clk; 
 	cycle = cycle + 1;
 
-    if(cycle >= 1000) begin
+    if(cycle >= 100000) begin
         $finish;
     end
 end

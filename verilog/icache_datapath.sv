@@ -13,26 +13,28 @@ module icache_datapath
     output rvga_word icache_ifetch_rdata,
     
     output rvga_word icache_iddr_addr,
-    input rvga_word iddr_icache_rdata,
+    input rvga_cacheline iddr_icache_rdata,
     
     input logic icache_load,
     input logic icache_replacement_update,
     output logic icache_hit
 );
 
+localparam byte_size_bits = 8;
 localparam lines_per_set = total_size_bytes / (num_sets * line_size_bytes);
 localparam index_bits = $clog2(lines_per_set);
 localparam offset_bits = $clog2(line_size_bytes);
 localparam valid_bits = 1;
-localparam data_bits = word_size_bytes * 8;
-localparam tag_bits = data_bits - index_bits - offset_bits;
+localparam line_size_bits = line_size_bytes * byte_size_bits;
+localparam word_size_bits = word_size_bytes * byte_size_bits;
+localparam tag_bits = word_size_bits - index_bits - offset_bits;
 
 logic[valid_bits-1:0] valid_array_data_in;
-logic[data_bits-1:0] data_array_data_in;
+logic[line_size_bits-1:0] data_array_data_in;
 logic[tag_bits-1:0] tag_array_data_in;
 
 logic[valid_bits-1:0] valid_array_data_out[num_sets-1:0];
-logic[data_bits-1:0] data_array_data_out[num_sets-1:0];
+logic[line_size_bits-1:0] data_array_data_out[num_sets-1:0];
 logic[tag_bits-1:0] tag_array_data_out[num_sets-1:0];
 
 logic[tag_bits-1:0] tag;
@@ -40,7 +42,7 @@ logic[index_bits-1:0] index;
 logic[offset_bits-1:0] offset;
 
 logic[num_sets-1:0] hit_vector;
-rvga_word hit_line_data;
+rvga_cacheline hit_line_data;
 rvga_word hit_word_data;
 
 logic[num_sets-1:0] icache_replacement_select;
@@ -56,7 +58,7 @@ generate
          .data_out(valid_array_data_out[i])
         );
         
-        array #(.width(data_bits), .height(lines_per_set)) data_array
+        array #(.width(line_size_bits), .height(lines_per_set)) data_array
         (.clk,
          .load(icache_replacement_select[i] & icache_load),
          .index,
@@ -110,7 +112,7 @@ always_comb begin
         end
     end
     
-    hit_word_data = hit_line_data[(offset+1)*data_bits-1 -: data_bits];
+    hit_word_data = hit_line_data[(offset)*byte_size_bits +: word_size_bits];
     icache_ifetch_rdata = hit_word_data;
 end
 

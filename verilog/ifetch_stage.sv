@@ -22,7 +22,7 @@ always_ff @(posedge clk) begin
         instruction <= 0;
     end else begin
         if (icache_ifetch_resp) begin
-            pc <= pc + 2;
+            pc <= pc + 4;
             instruction <= icache_ifetch_rdata;
         end
     end

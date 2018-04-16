@@ -7,6 +7,7 @@ timeprecision 1ns;
 parameter ELF_START = 32'h10054;
 parameter ELF_SIZE = 1048576;
 
+typedef logic[127:0] rvga_cacheline;
 typedef logic[31:0] rvga_word;
 typedef logic[15:0] rvga_short;
 typedef logic[7:0] rvga_byte;

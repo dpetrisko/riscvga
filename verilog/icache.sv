@@ -16,7 +16,7 @@ module icache
     
     output rvga_word icache_iddr_addr,
     output logic icache_iddr_read,
-    input rvga_word iddr_icache_rdata,
+    input rvga_cacheline iddr_icache_rdata,
     input logic iddr_icache_resp
 );
 
