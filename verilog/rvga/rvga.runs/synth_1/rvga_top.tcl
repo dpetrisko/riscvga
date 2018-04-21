@@ -16,6 +16,7 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
+set_msg_config -id {Common 17-41} -limit 10000000
 create_project -in_memory -part xc7z020clg484-1
 
 set_param project.singleFileAddWarning.threshold 0
@@ -44,12 +45,11 @@ read_verilog -library xil_defaultlib -sv {
   /home/parallels/Desktop/riscv/riscvga/verilog/writeback_stage.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/decode_stage.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/rvga_top.sv
-  /home/parallels/Desktop/riscv/riscvga/verilog/dcache.sv
-  /home/parallels/Desktop/riscv/riscvga/verilog/icache.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/array.sv
-  /home/parallels/Desktop/riscv/riscvga/verilog/icache_control.sv
-  /home/parallels/Desktop/riscv/riscvga/verilog/icache_datapath.sv
   /home/parallels/Desktop/riscv/riscvga/verilog/nmru.sv
+  /home/parallels/Desktop/riscv/riscvga/verilog/l1cache_control.sv
+  /home/parallels/Desktop/riscv/riscvga/verilog/l1cache.sv
+  /home/parallels/Desktop/riscv/riscvga/verilog/l1cache_datapath.sv
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

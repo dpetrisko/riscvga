@@ -1,10 +1,9 @@
 `include "rvga_types.svh"
 
 module writeback_stage
-(
-    input logic clk,
-    input logic rst
-);
+  ( input logic clk
+    , input logic rst
+    );
 
 always_ff @(posedge clk) begin
 

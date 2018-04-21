@@ -19,11 +19,13 @@ module rvga_top
 );
 
 rvga_word ifetch_decode_instruction;
+
 rvga_word ifetch_icache_addr;
 logic ifetch_icache_read;
 rvga_word icache_ifetch_rdata;
 logic icache_ifetch_resp;
 
+rvga_word dddr_dcache_wdata;
 rvga_word memory_dcache_addr;
 logic memory_dcache_read;
 rvga_word dcache_memory_rdata;
@@ -43,8 +45,47 @@ memory_stage memory(.*);
 
 writeback_stage writeback(.*);
 
-icache ic(.*);
+l1cache #(.total_size_bytes(8 * 1024)
+          ,.num_sets(4)
+          )
+    l1ic (.clk(clk)
+          ,.rst(rst)
+          
+          ,.core_l1cache_addr(ifetch_icache_addr)
+          ,.core_l1cache_read(ifetch_icache_read)
+          ,.core_l1cache_write(0)
+          ,.l1cache_core_rdata(icache_ifetch_rdata)
+          ,.core_l1cache_wdata(0)
+          ,.l1cache_core_resp(icache_ifetch_resp)
+   
+          ,.l1cache_ddr_addr(icache_iddr_addr)
+          ,.l1cache_ddr_read(icache_iddr_read)
+          ,.l1cache_ddr_write(0)
+          ,.ddr_l1cache_rdata(iddr_icache_rdata)
+          ,.l1cache_ddr_wdata(0)
+          ,.ddr_l1cache_resp(iddr_icache_resp)
+          );
+          
+l1cache #(.total_size_bytes(8 * 1024)
+          ,.num_sets(4)
+          )
+    l1id (.clk(clk)
+          ,.rst(rst)
+        
+          ,.core_l1cache_addr(memory_dcache_addr)
+          ,.core_l1cache_read(memory_dcache_read)
+          ,.core_l1cache_write(memory_dcache_write)
+          ,.l1cache_core_rdata(dcache_memory_rdata)
+          ,.core_l1cache_wdata(dddr_dcache_wdata)
+          ,.l1cache_core_resp(dcache_memory_resp)
+   
+          ,.l1cache_ddr_addr(dcache_dddr_addr)
+          ,.l1cache_ddr_read(dcache_dddr_read)
+          ,.l1cache_ddr_write(dcache_dddr_write)
+          ,.ddr_l1cache_rdata(dddr_dcache_rdata)
+          ,.l1cache_ddr_wdata(dcache_dddr_wdata)
+          ,.ddr_l1cache_resp(dddr_dcache_resp)
+          );
 
-dcache dc(.*);
 
 endmodule : rvga_top
