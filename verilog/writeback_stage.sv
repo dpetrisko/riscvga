@@ -1,10 +1,9 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module writeback_stage
   ( input logic clk
     , input logic rst
-    
-    , output logic writeback_hazard_pc_redirect
     
     , output rvga_word writeback_ifetch_pc_target
     , output logic writeback_ifetch_pc_redirect

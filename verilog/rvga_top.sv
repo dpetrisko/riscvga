@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module rvga_top
 (
@@ -25,13 +26,15 @@ logic ifetch_icache_read;
 rvga_word icache_ifetch_rdata;
 logic icache_ifetch_resp;
 
-rvga_word dddr_dcache_wdata;
 rvga_word memory_dcache_addr;
 logic memory_dcache_read;
 rvga_word dcache_memory_rdata;
 logic memory_dcache_write;
 rvga_word memory_dcache_wdata;
 logic dcache_memory_resp;
+
+rvga_word writeback_ifetch_pc_target;
+logic writeback_ifetch_pc_redirect;
 
 ifetch_stage ifetch(.*);
 
@@ -76,7 +79,7 @@ l1cache #(.total_size_bytes(8 * 1024)
           ,.core_l1cache_read(memory_dcache_read)
           ,.core_l1cache_write(memory_dcache_write)
           ,.l1cache_core_rdata(dcache_memory_rdata)
-          ,.core_l1cache_wdata(dddr_dcache_wdata)
+          ,.core_l1cache_wdata(memory_dcache_wdata)
           ,.l1cache_core_resp(dcache_memory_resp)
    
           ,.l1cache_ddr_addr(dcache_dddr_addr)

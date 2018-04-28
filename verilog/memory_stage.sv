@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module memory_stage
   ( input logic clk
@@ -10,8 +11,6 @@ module memory_stage
     , output logic memory_dcache_write
     , output rvga_word memory_dcache_wdata
     , input logic dcache_memory_resp
-    
-    , output logic memory_hazard_pc_redirect
     );
 
 always_ff @(posedge clk) begin
@@ -23,8 +22,6 @@ always_comb begin
   memory_dcache_read = 0;
   memory_dcache_write = 0;
   memory_dcache_wdata = 0;
-  
-  memory_hazard_pc_redirect = 0;
 end
 
 endmodule : memory_stage

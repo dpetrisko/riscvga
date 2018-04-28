@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module array #(parameter width = 128 
                , parameter height = 8)

@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module l1cache_control
   ( input logic clk

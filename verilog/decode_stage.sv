@@ -1,3 +1,4 @@
+`include "rvga_types.sv"
 import rvga_types::*;
 
 module decode_stage
@@ -5,8 +6,6 @@ module decode_stage
     , input logic rst
     
     , input rvga_word ifetch_decode_instruction
-    
-    , output logic decode_hazard_pc_redirect
     );
 
 rvga_opcode opcode;

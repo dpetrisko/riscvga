@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module nmru #(parameter num_sets = 4
               , parameter lines_per_set = 16)

@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module l1cache_datapath #(parameter total_size_bytes = (8 * 1024) 
                           , parameter num_sets = 4)
