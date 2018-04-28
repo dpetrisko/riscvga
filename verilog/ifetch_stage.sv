@@ -10,6 +10,9 @@ module ifetch_stage
     , input logic icache_ifetch_resp
     
     , output rvga_word ifetch_decode_instruction
+    
+    , input rvga_word writeback_ifetch_pc_target
+    , input logic writeback_ifetch_pc_redirect
     );
 
 rvga_word pc;

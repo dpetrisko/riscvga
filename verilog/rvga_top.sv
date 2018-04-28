@@ -53,16 +53,16 @@ l1cache #(.total_size_bytes(8 * 1024)
           
           ,.core_l1cache_addr(ifetch_icache_addr)
           ,.core_l1cache_read(ifetch_icache_read)
-          ,.core_l1cache_write(0)
+          ,.core_l1cache_write(1'b0)
           ,.l1cache_core_rdata(icache_ifetch_rdata)
-          ,.core_l1cache_wdata(0)
+          ,.core_l1cache_wdata(32'b0)
           ,.l1cache_core_resp(icache_ifetch_resp)
    
           ,.l1cache_ddr_addr(icache_iddr_addr)
           ,.l1cache_ddr_read(icache_iddr_read)
-          ,.l1cache_ddr_write(0)
+          ,.l1cache_ddr_write()
           ,.ddr_l1cache_rdata(iddr_icache_rdata)
-          ,.l1cache_ddr_wdata(0)
+          ,.l1cache_ddr_wdata()
           ,.ddr_l1cache_resp(iddr_icache_resp)
           );
           

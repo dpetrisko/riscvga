@@ -25,8 +25,8 @@ rvga_cacheline l1cache_ddr_wdata;
 logic ddr_l1cache_resp;
 
 
-l1cache  #(.total_size_bytes(256)
-           ,.num_sets(2)
+l1cache  #(.total_size_bytes(1024)
+           ,.num_sets(4)
           )
      l1c (.clk(clk)
           ,.rst(rst)
@@ -73,7 +73,7 @@ end
 integer i;
 always begin 
   #5
-  for(integer i = 0; i < 1000; i=i+4) begin
+  for(integer i = 0; i < 10000; i=i+4) begin
     core_l1cache_addr = i;
     core_l1cache_read = 1;
     core_l1cache_write = 0;
