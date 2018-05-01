@@ -36,6 +36,15 @@ logic dcache_memory_resp;
 rvga_word writeback_ifetch_pc_target;
 logic writeback_ifetch_pc_redirect;
 
+rvga_opcode_e decode_rfetch_opcode;
+rvga_inst_type_e decode_rfetch_inst_type;
+rvga_funct3_e decode_refetch_funct3;
+rvga_funct7_e decode_refetch_funct7;
+rvga_reg decode_rfetch_rs1;
+rvga_reg decode_rfetch_rs2;
+rvga_reg decode_rfetch_rd;
+rvga_word decode_rfetch_imm;
+
 ifetch_stage ifetch(.*);
 
 decode_stage decode(.*);

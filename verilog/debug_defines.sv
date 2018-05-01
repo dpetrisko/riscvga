@@ -1,6 +1,6 @@
 `ifndef DEBUG_DEFINES_SVH
 `define DEBUG_DEFINES_SVH
-    `define IFETCH_DEBUG
+    //`define IFETCH_DEBUG
     //`define DECODE_DEBUG
     //`define RFETCH_DEBUG
     //`define EXECUTE_DEBUG
