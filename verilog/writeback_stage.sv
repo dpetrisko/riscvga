@@ -7,6 +7,10 @@ module writeback_stage
     
     , output rvga_word writeback_ifetch_pc_target
     , output logic writeback_ifetch_pc_redirect
+    
+    , output logic writeback_rfetch_rd_w_v
+    , output rvga_reg writeback_rfetch_rd
+    , output rvga_word writeback_rfetch_rd_data
     );
 
 always_ff @(posedge clk) begin

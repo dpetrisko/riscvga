@@ -38,12 +38,38 @@ logic writeback_ifetch_pc_redirect;
 
 rvga_opcode_e decode_rfetch_opcode;
 rvga_inst_type_e decode_rfetch_inst_type;
-rvga_funct3_e decode_refetch_funct3;
-rvga_funct7_e decode_refetch_funct7;
+rvga_funct3 decode_refetch_funct3;
+rvga_funct7 decode_refetch_funct7;
 rvga_reg decode_rfetch_rs1;
 rvga_reg decode_rfetch_rs2;
 rvga_reg decode_rfetch_rd;
 rvga_word decode_rfetch_imm;
+
+rvga_word rfetch_execute_rs1_data;
+rvga_word rfetch_execute_rs2_data;
+    
+logic writeback_rfetch_rd_w_v;
+rvga_reg writeback_rfetch_rd;
+rvga_word writeback_rfetch_rd_data;
+
+rvga_opcode_e rfetch_execute_opcode;
+rvga_inst_type_e rfetch_execute_inst_type;
+rvga_funct3 refetch_execute_funct3;
+rvga_funct7 refetch_execute_funct7;
+rvga_reg rfetch_execute_rs1;
+rvga_reg rfetch_execute_rs2;
+rvga_reg rfetch_execute_rd;
+rvga_word rfetch_execute_imm;
+
+rvga_opcode_e execute_memory_opcode;
+rvga_inst_type_e execute_memory_inst_type;
+rvga_funct3 execute_memory_funct3;
+rvga_funct7 execute_memory_funct7;
+
+rvga_reg execute_memory_rs1;
+rvga_reg execute_memory_rs2;
+rvga_reg execute_memory_rd;
+rvga_word execute_memory_rd_data;
 
 ifetch_stage ifetch(.*);
 
