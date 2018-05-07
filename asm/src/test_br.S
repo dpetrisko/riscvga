@@ -7,8 +7,8 @@ _start:
 
 # Load branch addresses
 jal x2, good_br1
-addi x1 , x0, 0xDEADBEEF
-addi x2 , x0, 0xDEADBEEF
+addi x1 , x0, 0xDE
+addi x2 , x0, 0xAD
 jalr x3, x0, 0
 
 good_br1:
