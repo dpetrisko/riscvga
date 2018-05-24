@@ -1,3 +1,5 @@
+`include "debug_defines.sv"
+`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 
@@ -5,34 +7,27 @@ module execute_stage
   ( input logic clk
     , input logic rst
     
-    `ifdef INST_DEBUG_BUS
-    , input rvga_opcode rfetch_execute_opcode
-    , input rvga_inst_type rfetch_execute_inst_type
-    , input rvga_funct3 refetch_execute_funct3
-    , input rvga_funct7 refetch_execute_funct7
-    `endif
-    
     , input rvga_reg rfetch_execute_rs1
     , input rvga_reg rfetch_execute_rs2
     , input rvga_reg rfetch_execute_rd
+    , input logic rfetch_execute_rd_w_v
     , input rvga_word rfetch_execute_imm_data
     , input logic rfetch_execute_imm_v
     , input rvga_word rfetch_execute_rs1_data
     , input rvga_word rfetch_execute_rs2_data
-    , input rvga_artop rfetch_execute_artop
+    , input rvga_artop_e rfetch_execute_artop
     , input logic rfetch_execute_alt_art
-    
-    `ifdef INST_DEBUG_BUS
-    , output rvga_opcode execute_memory_opcode
-    , output rvga_inst_type execute_memory_inst_type
-    , output rvga_funct3 execute_memory_funct3
-    , output rvga_funct7 execute_memory_funct7
-    `endif
-    
+
     , output rvga_reg execute_memory_rs1
     , output rvga_reg execute_memory_rs2
     , output rvga_reg execute_memory_rd
-    , output rvga_reg execute_memory_result
+    , output logic execute_memory_rd_w_v
+    , output rvga_word execute_memory_result
+    
+    `ifdef INST_DEBUG_BUS
+    , rvga_debug_io debug_if_i
+    , rvga_debug_io debug_if_o
+    `endif
     );
 
 rvga_word alu_result;
@@ -41,16 +36,13 @@ rvga_word alu_srcb;
 
 always_ff @(posedge clk) begin
   `ifdef INST_DEBUG_BUS
-    execute_memory_opcode <= rfetch_execute_opcode;
-    execute_memory_inst_type <= rfetch_execute_inst_type;
-    execute_memory_funct3 <= rfetch_execute_funct3;
-    execute_memory_funct7 <= rfetch_execute_funct7;
+    debug_if_o <= debug_if_i;
   `endif
   
   execute_memory_rs1 <= rfetch_execute_rs1;
   execute_memory_rs2 <= rfetch_execute_rs2;
   execute_memory_rd <= rfetch_execute_rd;
-  
+  execute_memory_rd_w_v <= rfetch_execute_rd_w_v;
   execute_memory_result <= alu_result;
 end
 

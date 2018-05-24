@@ -1,3 +1,5 @@
+`include "debug_defines.sv"
+`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 
@@ -7,45 +9,48 @@ module decode_stage
     
     , input rvga_word ifetch_decode_instruction
     
-    `ifdef INST_DEBUG_BUS
-    , output rvga_opcode decode_rfetch_opcode
-    , output rvga_inst_type decode_rfetch_inst_type
-    , output rvga_funct3 decode_refetch_funct3
-    , output rvga_funct7 decode_refetch_funct7
-    `endif
-    
     , output rvga_reg decode_rfetch_rs1
     , output rvga_reg decode_rfetch_rs2
     , output rvga_reg decode_rfetch_rd
+    , output logic decode_rfetch_rd_w_v
     , output rvga_word decode_rfetch_imm_data
     , output logic decode_rfetch_imm_v
-    , output rvga_artop decode_rfetch_artop 
+    , output rvga_artop_e decode_rfetch_artop 
     , output logic decode_rfetch_alt_art
+    
+    `ifdef INST_DEBUG_BUS
+    , rvga_debug_io debug_if_o
+    `endif
     );
 
 rvga_opcode_e opcode;
 rvga_inst_type_e inst_type;
-rvga_funct3 funct3;
-rvga_funct7 funct7;
+logic[2:0] funct3;
+logic[6:0] funct7;
 rvga_reg rs1;
 rvga_reg rs2;
 rvga_reg rd;
 rvga_word imm;
 logic imm_v;
 logic alt_art;
+logic rd_w_v;
 
 always_ff @(posedge clk) begin
   `ifdef INST_DEBUG_BUS
-    decode_rfetch_opcode <= opcode;
-    decode_rfetch_inst_type <= inst_type;
-    decode_refetch_funct3 <= funct3;
-    decode_refetch_funct7 <= funct7;
+    debug_if_o.opcode <= opcode;
+    debug_if_o.inst_type <= inst_type;
+    debug_if_o.brop <= rvga_brop_e'(funct3);
+    debug_if_o.lop <= rvga_lop_e'(funct3);
+    debug_if_o.strop <= rvga_strop_e'(funct3);
+    debug_if_o.artop <= rvga_artop_e'(funct3);
   `endif
+  
   decode_rfetch_rs1 <= rs1;
   decode_rfetch_rs2 <= rs2;
   decode_rfetch_rd <= rd;
+  decode_rfetch_rd_w_v <= rd_w_v;
   decode_rfetch_imm_data <= imm;
-  decode_rfetch_artop <= funct3;
+  decode_rfetch_artop <= rvga_artop_e'(funct3);
   decode_rfetch_imm_v <= imm_v; 
   decode_rfetch_alt_art <= alt_art;
 end
@@ -60,6 +65,7 @@ always_comb begin
   
   alt_art = 1'b0;
   imm_v = 1'b0;
+  rd_w_v = 1'b0;
     
   case(opcode) 
     e_rvga_opcode_br: begin 
@@ -69,7 +75,12 @@ always_comb begin
     e_rvga_opcode_imm : begin 
       inst_type = e_rvga_inst_type_i;
       imm_v = 1'b1;
-      alt_art = ifetch_decode_instruction[30];
+      
+      case(funct3)
+        e_rvga_artop_srx: alt_art = ifetch_decode_instruction[30];
+      endcase
+
+      rd_w_v = 1'b1;
     end
     
     default: inst_type = e_rvga_inst_type_e;

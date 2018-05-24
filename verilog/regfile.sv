@@ -1,3 +1,5 @@
+`include "debug_defines.sv"
+`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 
@@ -26,8 +28,8 @@ initial begin
 end
 
 always_ff @(posedge clk) begin
-  data_rs1_o <= (rs1_i == rd_i) ? data_rd_i : physical_r[rs1_i];
-  data_rs2_o <= (rs2_i == rd_i) ? data_rd_i : physical_r[rs2_i];
+  data_rs1_o <= (rd_w_v_i && (rs1_i == rd_i)) ? data_rd_i : physical_r[rs1_i];
+  data_rs2_o <= (rd_w_v_i && (rs2_i == rd_i)) ? data_rd_i : physical_r[rs2_i];
   
   if (rd_w_v_i) begin
     physical_r[rd_i] <= (rd_i == 0) ? 0 : data_rd_i;

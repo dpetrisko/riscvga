@@ -1,3 +1,5 @@
+`include "debug_defines.sv"
+`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 

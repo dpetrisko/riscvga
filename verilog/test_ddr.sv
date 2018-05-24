@@ -1,6 +1,8 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
-module test_ddr #(parameter latency = 100
+module test_ddr #(parameter latency = 0
+                  , magic = 0
                   , use_program = 0
                   , use_identity = 0)
   ( input logic clk
@@ -49,8 +51,15 @@ always @(posedge clk) begin
   case(state)
   	idle: begin
   	  if(ddr_read | ddr_write) begin
-  	    next_state = busy;
-  		ready <= #latency 1'b1;
+  	    if(magic) begin
+          for(integer i = 0; i < line_size_bytes; i=i+1) begin
+            ddr_rdata[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
+          end
+  	      ddr_resp <= 1'b1;
+  	    end else begin
+  	      next_state = busy;
+  		  ready <= #latency 1'b1;
+  		end
   	  end
   	end
   	

@@ -1,4 +1,5 @@
-`include "rvga_types.svh"
+`include "rvga_types.sv"
+import rvga_types::*;
 
 module rvga_tb;
 
@@ -20,9 +21,11 @@ logic dcache_dddr_write;
 logic[127:0] dcache_dddr_wdata;
 logic dddr_dcache_resp;
 
-rvga_top processor(.*);
+rvga_top #(.enable_caches(0)) 
+processor (.*);
 
 test_ddr #(.use_program(1)
+           ,.magic(1)
            )
      iddr (.clk(clk)
            ,.rst(rst)
@@ -31,11 +34,12 @@ test_ddr #(.use_program(1)
            ,.ddr_read(icache_iddr_read)
            ,.ddr_rdata(iddr_icache_rdata)
            ,.ddr_write(1'b0)
-           ,.ddr_wdata(32'h0)
+           ,.ddr_wdata(128'h0)
            ,.ddr_resp(iddr_icache_resp)
            );
 
 test_ddr #(.use_program(1)
+           ,.magic(1)
            )
      dddr (.clk(clk)
            ,.rst(rst)

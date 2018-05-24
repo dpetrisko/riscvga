@@ -1,3 +1,5 @@
+`include "debug_defines.sv"
+`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 
@@ -5,15 +7,12 @@ module ifetch_stage
   ( input logic clk
     , input logic rst
     
-    , output rvga_word ifetch_icache_addr
-    , output logic ifetch_icache_read
-    , input rvga_word icache_ifetch_rdata
-    , input logic icache_ifetch_resp
+    , rvga_membus_io.master membus_if_io
     
     , output rvga_word ifetch_decode_instruction
     
     , input rvga_word writeback_ifetch_pc_target
-    , input logic writeback_ifetch_pc_redirect
+    , input logic writeback_ifetch_pc_redirect_v
     );
 
 rvga_word pc;
@@ -24,16 +23,18 @@ always_ff @(posedge clk) begin
       pc <= ELF_START;
       instruction <= 0;
   end else begin
-      if(icache_ifetch_resp) begin 
+      if(membus_if_io.resp_i) begin 
         pc <= pc + 4;
-        instruction <= icache_ifetch_rdata;
+        instruction <= membus_if_io.rdata_i;
       end
     end
 end
 
 always_comb begin
-  ifetch_icache_addr = pc;
-  ifetch_icache_read = 1'b1;
+  membus_if_io.addr_o = pc;
+  membus_if_io.read_o = 1'b1;
+  membus_if_io.write_o = 1'b0;
+  membus_if_io.wdata_o = 32'b0;
   ifetch_decode_instruction = instruction;
 end
 
