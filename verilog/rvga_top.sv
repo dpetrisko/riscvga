@@ -8,8 +8,8 @@ module rvga_top #(parameter enable_caches = 0)
     input logic clk
     , input logic rst
     
-    , rvga_membus_io.master imembus_if_io
-    , rvga_membus_io.master dmembus_if_io
+    , rvga_membus_if.master imembus_io
+    , rvga_membus_if.master dmembus_io
 );
 
 rvga_word ifetch_decode_instruction;
@@ -52,37 +52,37 @@ rvga_reg memory_writeback_rd;
 rvga_word memory_writeback_result;
 logic memory_writeback_rd_w_v;
 
-rvga_debug_io decode_debug_if();
-rvga_debug_io rfetch_debug_if();
-rvga_debug_io execute_debug_if();
-rvga_debug_io memory_debug_if();
-rvga_debug_io writeback_debug_if();
+rvga_debugbus_if decode_debugbus();
+rvga_debugbus_if rfetch_debugbus();
+rvga_debugbus_if execute_debugbus();
+rvga_debugbus_if memory_debugbus();
+rvga_debugbus_if writeback_debugbus();
 
-rvga_membus_io ifetch_membus_if();
-rvga_membus_io memory_membus_if();
+rvga_cachebus_if ifetch_cachebus();
+rvga_cachebus_if memory_cachebus();
 
 generate
-  ifetch_stage ifetch(.membus_if_io(ifetch_membus_if)
+  ifetch_stage ifetch(.cachebus_io(ifetch_cachebus)
                       ,.*);
     
-  decode_stage decode(.debug_if_o(decode_debug_if)
+  decode_stage decode(.debugbus_o(decode_debugbus)
                       ,.*);
     
-  rfetch_stage rfetch(.debug_if_i(decode_debug_if)
-                      ,.debug_if_o(rfetch_debug_if)
+  rfetch_stage rfetch(.debugbus_i(decode_debugbus)
+                      ,.debugbus_o(rfetch_debugbus)
                       ,.*);
     
-  execute_stage execute(.debug_if_i(rfetch_debug_if)
-                        ,.debug_if_o(execute_debug_if)
+  execute_stage execute(.debugbus_i(rfetch_debugbus)
+                        ,.debugbus_o(execute_debugbus)
                         ,.*);
     
-  memory_stage memory(.membus_if_io(memory_membus_if)
-                      ,.debug_if_i(execute_debug_if)
-                      ,.debug_if_o(memory_debug_if)
+  memory_stage memory(.cachebus_io(memory_cachebus)
+                      ,.debugbus_i(execute_debugbus)
+                      ,.debugbus_o(memory_debugbus)
                       ,.*);
     
-  writeback_stage writeback(.debug_if_i(memory_debug_if)
-                            ,.debug_if_o(writeback_debug_if)
+  writeback_stage writeback(.debugbus_i(memory_debugbus)
+                            ,.debugbus_o(writeback_debugbus)
                             ,.*);
                             
   if(enable_caches) begin
@@ -92,19 +92,8 @@ generate
         l1ic (.clk(clk)
               ,.rst(rst)
           
-              ,.core_l1cache_addr(ifetch_membus_if.addr)
-              ,.core_l1cache_read(ifetch_membus_if.read)
-              ,.core_l1cache_write(1'b0)
-              ,.l1cache_core_rdata(ifetch_membus_if.rdata)
-              ,.core_l1cache_wdata(32'b0)
-              ,.l1cache_core_resp(ifetch_membus_if.resp)
-   
-              ,.l1cache_ddr_addr(imembus_if_io.addr)
-              ,.l1cache_ddr_read(imembus_if_io.read)
-              ,.l1cache_ddr_write(1'b0)
-              ,.ddr_l1cache_rdata(imembus_if_io.rdata)
-              ,.l1cache_ddr_wdata(128'b0)
-              ,.ddr_l1cache_resp(imembus_if_io.resp)
+              ,.cachebus_io(ifetch_cachebus)
+              ,.membus_io(imembus_io)
               );
           
     l1cache #(.total_size_bytes(8 * 1024)
@@ -113,34 +102,23 @@ generate
         l1id (.clk(clk)
               ,.rst(rst)
          
-              ,.core_l1cache_addr(memory_membus_if.addr)
-              ,.core_l1cache_read(memory_membus_if.read)
-              ,.core_l1cache_write(memory_membus_if.write)
-              ,.l1cache_core_rdata(memory_membus_if.rdata)
-              ,.core_l1cache_wdata(memory_membus_if.wdata)
-              ,.l1cache_core_resp(memory_membus_if.resp)
-   
-              ,.l1cache_ddr_addr(dmembus_if_io.addr)
-              ,.l1cache_ddr_read(dmembus_if_io.read)
-              ,.l1cache_ddr_write(dmembus_if_io.write)
-              ,.ddr_l1cache_rdata(dmembus_if_io.rdata)
-              ,.l1cache_ddr_wdata(dmembus_if_io.wdata)
-              ,.ddr_l1cache_resp(dmembus_if_io.resp)
+              ,.cachebus_io(memory_cachebus)
+              ,.membus_io(dmembus_io)
             );
   end else begin
-    assign imembus_if_io.addr_o = ifetch_membus_if.addr;
-    assign imembus_if_io.read_o = ifetch_membus_if.read;
-    assign imembus_if_io.write_o = ifetch_membus_if.write;
-    assign imembus_if_io.wdata_o = ifetch_membus_if.wdata;
-    assign ifetch_membus_if.rdata = imembus_if_io.rdata_i;
-    assign ifetch_membus_if.resp = imembus_if_io.resp_i;
+    assign imembus_io.addr_o = ifetch_cachebus.addr;
+    assign imembus_io.read_o = ifetch_cachebus.read;
+    assign imembus_io.write_o = ifetch_cachebus.write;
+    assign imembus_io.wdata_o = ifetch_cachebus.wdata;
+    assign ifetch_cachebus.rdata = imembus_io.rdata_i;
+    assign ifetch_cachebus.resp = imembus_io.resp_i;
     
-    assign dmembus_if_io.addr_o = memory_membus_if.addr;
-    assign dmembus_if_io.read_o = memory_membus_if.read;
-    assign dmembus_if_io.write_o = memory_membus_if.write;
-    assign dmembus_if_io.wdata_o = memory_membus_if.wdata;
-    assign memory_membus_if.rdata = dmembus_if_io.rdata_i;
-    assign memory_membus_if.resp = dmembus_if_io.resp_i;
+    assign dmembus_io.addr_o = memory_cachebus.addr;
+    assign dmembus_io.read_o = memory_cachebus.read;
+    assign dmembus_io.write_o = memory_cachebus.write;
+    assign dmembus_io.wdata_o = memory_cachebus.wdata;
+    assign memory_cachebus.rdata = dmembus_io.rdata_i;
+    assign memory_cachebus.resp = dmembus_io.resp_i;
   end
 endgenerate
 

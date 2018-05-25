@@ -25,8 +25,8 @@ module execute_stage
     , output rvga_word execute_memory_result
     
     `ifdef INST_DEBUG_BUS
-    , rvga_debug_io debug_if_i
-    , rvga_debug_io debug_if_o
+    , rvga_debugbus_if.i debugbus_i
+    , rvga_debugbus_if.o debugbus_o
     `endif
     );
 
@@ -36,7 +36,12 @@ rvga_word alu_srcb;
 
 always_ff @(posedge clk) begin
   `ifdef INST_DEBUG_BUS
-    debug_if_o <= debug_if_i;
+    debugbus_o.opcode <= debugbus_i.opcode;
+    debugbus_o.inst_type <= debugbus_i.inst_type;  
+    debugbus_o.brop <= debugbus_i.brop;
+    debugbus_o.ldop <= debugbus_i.ldop;
+    debugbus_o.strop <= debugbus_i.strop;
+    debugbus_o.artop <= debugbus_i.artop;
   `endif
   
   execute_memory_rs1 <= rfetch_execute_rs1;

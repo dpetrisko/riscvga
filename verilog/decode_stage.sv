@@ -19,7 +19,7 @@ module decode_stage
     , output logic decode_rfetch_alt_art
     
     `ifdef INST_DEBUG_BUS
-    , rvga_debug_io debug_if_o
+    , rvga_debugbus_if debugbus_o
     `endif
     );
 
@@ -37,12 +37,12 @@ logic rd_w_v;
 
 always_ff @(posedge clk) begin
   `ifdef INST_DEBUG_BUS
-    debug_if_o.opcode <= opcode;
-    debug_if_o.inst_type <= inst_type;
-    debug_if_o.brop <= rvga_brop_e'(funct3);
-    debug_if_o.lop <= rvga_lop_e'(funct3);
-    debug_if_o.strop <= rvga_strop_e'(funct3);
-    debug_if_o.artop <= rvga_artop_e'(funct3);
+    debugbus_o.opcode <= opcode;
+    debugbus_o.inst_type <= inst_type;
+    debugbus_o.brop <= rvga_brop_e'(funct3);
+    debugbus_o.ldop <= rvga_ldop_e'(funct3);
+    debugbus_o.strop <= rvga_strop_e'(funct3);
+    debugbus_o.artop <= rvga_artop_e'(funct3);
   `endif
   
   decode_rfetch_rs1 <= rs1;

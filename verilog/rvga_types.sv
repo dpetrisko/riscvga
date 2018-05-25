@@ -48,12 +48,12 @@ typedef enum logic[2:0] {
 } rvga_brop_e;
 
 typedef enum logic[2:0] {
-    e_rvga_lop_lb    = 3'b000
-    , e_rvga_lop_lh  = 3'b001
-    , e_rvga_lop_lw  = 3'b010
-    , e_rvga_lop_lbu = 3'b100
-    , e_rvga_lop_lhu = 3'b101
-} rvga_lop_e;
+    e_rvga_ldop_lb    = 3'b000
+    , e_rvga_ldop_lh  = 3'b001
+    , e_rvga_ldop_lw  = 3'b010
+    , e_rvga_ldop_lbu = 3'b100
+    , e_rvga_ldop_lhu = 3'b101
+} rvga_ldop_e;
 
 typedef enum logic[2:0] {
     e_rvga_strop_sb   = 3'b000

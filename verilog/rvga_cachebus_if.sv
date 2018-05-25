@@ -3,7 +3,7 @@
 `include "rvga_types.sv"
 import rvga_types::*;
 
-interface rvga_membus_io;
+interface rvga_cachebus_if;
   rvga_word addr;
   logic read;
   rvga_word rdata;

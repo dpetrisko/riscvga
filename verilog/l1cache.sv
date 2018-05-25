@@ -8,19 +8,8 @@ module l1cache #(parameter total_size_bytes = (8 * 1024)
   ( input logic clk
     , input logic rst
     
-    , input rvga_word core_l1cache_addr
-    , input logic core_l1cache_read
-    , input logic core_l1cache_write
-    , output rvga_word l1cache_core_rdata
-    , input rvga_word core_l1cache_wdata
-    , output logic l1cache_core_resp
-    
-    , output rvga_word l1cache_ddr_addr
-    , output logic l1cache_ddr_read
-    , output logic l1cache_ddr_write
-    , input rvga_cacheline ddr_l1cache_rdata
-    , output rvga_cacheline l1cache_ddr_wdata
-    , input logic ddr_l1cache_resp
+    , rvga_cachebus_if.slave cachebus_io
+    , rvga_membus_if.master membus_io
     );
 
 logic dp_ctl_cacheline_hit_lo;
@@ -38,13 +27,13 @@ l1cache_datapath #(.total_size_bytes(total_size_bytes)
         datapath (.clk(clk)
                   ,.rst(rst)
                   
-                  ,.core_l1cache_addr(core_l1cache_addr)
-                  ,.l1cache_core_rdata(l1cache_core_rdata)
-                  ,.core_l1cache_wdata(core_l1cache_wdata)
+                  ,.core_l1cache_addr(cachebus_io.addr_i)
+                  ,.l1cache_core_rdata(cachebus_io.rdata_o)
+                  ,.core_l1cache_wdata(cachebus_io.wdata_i)
                   
-                  ,.l1cache_ddr_addr(l1cache_ddr_addr)
-                  ,.ddr_l1cache_rdata(ddr_l1cache_rdata)
-                  ,.l1cache_ddr_wdata(l1cache_ddr_wdata)
+                  ,.l1cache_ddr_addr(membus_io.addr_o)
+                  ,.ddr_l1cache_rdata(membus_io.rdata_i)
+                  ,.l1cache_ddr_wdata(membus_io.wdata_o)
                   
                   ,.dp_ctl_cacheline_hit_lo(dp_ctl_cacheline_hit_lo)
                   ,.dp_ctl_cacheline_dirty_lo(dp_ctl_cacheline_dirty_lo)
@@ -61,13 +50,13 @@ l1cache_control #(
        control (.clk(clk)
                 ,.rst(rst)
                 
-                ,.core_l1cache_read(core_l1cache_read)
-                ,.core_l1cache_write(core_l1cache_write)
-                ,.l1cache_core_resp(l1cache_core_resp)
+                ,.core_l1cache_read(cachebus_io.read_i)
+                ,.core_l1cache_write(cachebus_io.write_i)
+                ,.l1cache_core_resp(cachebus_io.resp_o)
                 
-                ,.l1cache_ddr_read(l1cache_ddr_read)
-                ,.l1cache_ddr_write(l1cache_ddr_write)
-                ,.ddr_l1cache_resp(ddr_l1cache_resp)
+                ,.l1cache_ddr_read(membus_io.read_o)
+                ,.l1cache_ddr_write(membus_io.write_o)
+                ,.ddr_l1cache_resp(membus_io.resp_i)
                 
                 ,.dp_ctl_cacheline_hit_lo(dp_ctl_cacheline_hit_lo)
                 ,.dp_ctl_cacheline_dirty_lo(dp_ctl_cacheline_dirty_lo)

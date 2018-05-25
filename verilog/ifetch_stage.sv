@@ -7,7 +7,7 @@ module ifetch_stage
   ( input logic clk
     , input logic rst
     
-    , rvga_membus_io.master membus_if_io
+    , rvga_cachebus_if.master cachebus_io
     
     , output rvga_word ifetch_decode_instruction
     
@@ -23,18 +23,18 @@ always_ff @(posedge clk) begin
       pc <= ELF_START;
       instruction <= 0;
   end else begin
-      if(membus_if_io.resp_i) begin 
+      if(cachebus_io.resp_i) begin 
         pc <= pc + 4;
-        instruction <= membus_if_io.rdata_i;
+        instruction <= cachebus_io.rdata_i;
       end
     end
 end
 
 always_comb begin
-  membus_if_io.addr_o = pc;
-  membus_if_io.read_o = 1'b1;
-  membus_if_io.write_o = 1'b0;
-  membus_if_io.wdata_o = 32'b0;
+  cachebus_io.addr_o = pc;
+  cachebus_io.read_o = 1'b1;
+  cachebus_io.write_o = 1'b0;
+  cachebus_io.wdata_o = 32'b0;
   ifetch_decode_instruction = instruction;
 end
 

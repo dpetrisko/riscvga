@@ -19,14 +19,19 @@ module writeback_stage
     , output rvga_word writeback_rfetch_rd_data
     
     `ifdef INST_DEBUG_BUS
-    , rvga_debug_io debug_if_i
-    , rvga_debug_io debug_if_o
+    , rvga_debugbus_if.i debugbus_i
+    , rvga_debugbus_if.o debugbus_o
     `endif
     );
 
 always_ff @(posedge clk) begin
   `ifdef INST_DEBUG_BUS
-    debug_if_o <= debug_if_i;
+    debugbus_o.opcode <= debugbus_i.opcode;
+    debugbus_o.inst_type <= debugbus_i.inst_type;  
+    debugbus_o.brop <= debugbus_i.brop;
+    debugbus_o.ldop <= debugbus_i.ldop;
+    debugbus_o.strop <= debugbus_i.strop;
+    debugbus_o.artop <= debugbus_i.artop;
   `endif
 
   writeback_ifetch_pc_target <= 0;
@@ -37,13 +42,11 @@ always_ff @(posedge clk) begin
   writeback_rfetch_rd_data <= memory_writeback_result;
   
   `ifdef INST_TRACE_DEBUG
-    $display("Inst: %0s Type: %0s F3: %x F7: %x WB: %x RD: %x Result: %x", memory_writeback_opcode.name()
-                                                                         , memory_writeback_inst_type.name()
-                                                                         , memory_writeback_funct3
-                                                                         , memory_writeback_funct7                                                                             
-                                                                         , memory_writeback_rd_w_v
-                                                                         , writeback_rfetch_rd
-                                                                         , writeback_rfetch_rd_data);
+    $display("Inst: %0s Type: %0s WB: %x RD: %x Result: %x", debugbus_o.opcode.name()
+                                                           , debugbus_o.inst_type.name()                                                                          
+                                                           , writeback_rfetch_rd_w_v
+                                                           , writeback_rfetch_rd
+                                                           , writeback_rfetch_rd_data);
   `endif
 end
 
