@@ -19,7 +19,7 @@ always_comb begin
     e_rvga_artop_slt: o = (a < b);
     e_rvga_artop_sltu: o = ($unsigned(a) < $unsigned(b));
     e_rvga_artop_xor: o = a ^ b;
-    e_rvga_artop_srx: o = alt ? ($signed(a) >>> $signed(b)) : (a >> b);
+    e_rvga_artop_srx: o = alt ? $signed($signed(a) >>> $signed(b)) : (a >> b);
     e_rvga_artop_or: o = a | b;
     e_rvga_artop_and: o = a & b;
     default: o = 0;

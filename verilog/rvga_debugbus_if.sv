@@ -19,7 +19,7 @@ interface rvga_debugbus_if;
             , input artop
             );
             
-  modport o(input opcode
+  modport o(output opcode
             , output inst_type
             , output brop
             , output ldop

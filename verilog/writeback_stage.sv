@@ -8,12 +8,13 @@ module writeback_stage
     , input logic rst
     
     , input logic memory_writeback_rd_w_v
+    , input logic memory_writeback_pc_w_v
     , input rvga_reg memory_writeback_rd
     , input rvga_word memory_writeback_result
     
     , output rvga_word writeback_ifetch_pc_target
-    , output logic writeback_ifetch_pc_redirect_v
     
+    , output logic writeback_ifetch_pc_w_v
     , output logic writeback_rfetch_rd_w_v
     , output rvga_reg writeback_rfetch_rd
     , output rvga_word writeback_rfetch_rd_data
@@ -34,8 +35,7 @@ always_ff @(posedge clk) begin
     debugbus_o.artop <= debugbus_i.artop;
   `endif
 
-  writeback_ifetch_pc_target <= 0;
-  writeback_ifetch_pc_redirect_v <= 0;
+  writeback_ifetch_pc_target <= memory_writeback_result;
   
   writeback_rfetch_rd_w_v <= memory_writeback_rd_w_v;
   writeback_rfetch_rd <= memory_writeback_rd;
@@ -43,7 +43,11 @@ always_ff @(posedge clk) begin
   
   `ifdef INST_TRACE_DEBUG
     $display("Inst: %0s Type: %0s WB: %x RD: %x Result: %x", debugbus_o.opcode.name()
-                                                           , debugbus_o.inst_type.name()                                                                          
+                                                           , debugbus_o.inst_type.name()    
+                                                           , debugbus_o.brop.name()
+                                                           , debugbus_o.ldop.name()
+                                                           , debugbus_o.strop.name()
+                                                           , debugbus_o.artop.name()                                                                      
                                                            , writeback_rfetch_rd_w_v
                                                            , writeback_rfetch_rd
                                                            , writeback_rfetch_rd_data);

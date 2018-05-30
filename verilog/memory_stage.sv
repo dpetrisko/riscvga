@@ -8,10 +8,12 @@ module memory_stage
     , input logic rst
     
     , input logic execute_memory_rd_w_v
+    , input logic execute_memory_pc_w_v
     , input rvga_reg execute_memory_rd
     , input rvga_word execute_memory_result
     
     , output logic memory_writeback_rd_w_v
+    , output logic memory_writeback_pc_w_v
     , output rvga_reg memory_writeback_rd
     , output rvga_word memory_writeback_result
     
@@ -34,6 +36,7 @@ always_ff @(posedge clk) begin
   `endif
   
   memory_writeback_rd_w_v <= execute_memory_rd_w_v;
+  memory_writeback_pc_w_v <= execute_memory_pc_w_v;
   memory_writeback_rd <= execute_memory_rd;
   memory_writeback_result <= execute_memory_result;
 end

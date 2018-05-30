@@ -9,10 +9,11 @@ module ifetch_stage
     
     , rvga_cachebus_if.master cachebus_io
     
+    , output rvga_word ifetch_decode_pc
     , output rvga_word ifetch_decode_instruction
     
     , input rvga_word writeback_ifetch_pc_target
-    , input logic writeback_ifetch_pc_redirect_v
+    , input logic writeback_ifetch_pc_w_v
     );
 
 rvga_word pc;
@@ -36,6 +37,7 @@ always_comb begin
   cachebus_io.write_o = 1'b0;
   cachebus_io.wdata_o = 32'b0;
   ifetch_decode_instruction = instruction;
+  ifetch_decode_pc = pc;
 end
 
 endmodule : ifetch_stage
