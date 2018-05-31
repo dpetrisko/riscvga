@@ -22,14 +22,7 @@ rvga_word decode_rfetch_pc;
 rvga_reg decode_rfetch_rs1;
 rvga_reg decode_rfetch_rs2;
 rvga_reg decode_rfetch_rd;
-logic decode_rfetch_rd_w_v;
-logic decode_rfetch_pc_w_v;
 rvga_word decode_rfetch_imm_data;
-logic decode_rfetch_imm_v;
-logic decode_rfetch_imm_passthrough_v;
-logic decode_rfetch_rs1_pc_sel;
-rvga_artop_e decode_rfetch_artop;
-logic decode_rfetch_alt_art;
 
 rvga_word rfetch_execute_rs1_data;
 rvga_word rfetch_execute_rs2_data;
@@ -42,26 +35,15 @@ rvga_word rfetch_execute_pc;
 rvga_reg rfetch_execute_rs1;
 rvga_reg rfetch_execute_rs2;
 rvga_reg rfetch_execute_rd;
-logic rfetch_execute_rd_w_v;
-logic rfetch_execute_pc_w_v;
 rvga_word rfetch_execute_imm_data;
-logic rfetch_execute_imm_v;
-logic rfetch_execute_imm_passthrough_v;
-logic rfetch_execute_rs1_pc_sel;
-rvga_artop_e rfetch_execute_artop;
-logic rfetch_execute_alt_art;
 
 rvga_reg execute_memory_rs1;
 rvga_reg execute_memory_rs2;
 rvga_reg execute_memory_rd;
-logic execute_memory_rd_w_v;
-logic execute_memory_pc_w_v;
 rvga_word execute_memory_result;
 
 rvga_reg memory_writeback_rd;
 rvga_word memory_writeback_result;
-logic memory_writeback_rd_w_v;
-logic memory_writeback_pc_w_v;
 
 logic forwarding_rs1_v;
 logic forwarding_rs2_v;
@@ -75,22 +57,33 @@ rvga_debugbus_if writeback_debugbus();
 rvga_cachebus_if ifetch_cachebus();
 rvga_cachebus_if memory_cachebus();
 
+rvga_cword_if decode_cword();
+rvga_cword_if rfetch_cword();
+rvga_cword_if execute_cword();
+rvga_cword_if memory_cword();
+rvga_cword_if writeback_cword();
+
 generate
   ifetch_stage ifetch(.cachebus_io(ifetch_cachebus)
                       ,.*
                       );
     
   decode_stage decode(.debugbus_o(decode_debugbus)
+                      ,.cword_o(decode_cword)
                       ,.*
                       );
     
   rfetch_stage rfetch(.debugbus_i(decode_debugbus)
                       ,.debugbus_o(rfetch_debugbus)
+                      ,.cword_i(decode_cword)
+                      ,.cword_o(rfetch_cword)
                       ,.*
                       );
     
   execute_stage execute(.debugbus_i(rfetch_debugbus)
                         ,.debugbus_o(execute_debugbus)
+                        ,.cword_i(rfetch_cword)
+                        ,.cword_o(execute_cword)
                         ,.forwarding_rs1_v(forwarding_rs1_v)
                         ,.forwarding_rs2_v(forwarding_rs2_v)
                         ,.execute_result(execute_memory_result)
@@ -100,15 +93,18 @@ generate
   memory_stage memory(.cachebus_io(memory_cachebus)
                       ,.debugbus_i(execute_debugbus)
                       ,.debugbus_o(memory_debugbus)
+                      ,.cword_i(execute_cword)
+                      ,.cword_o(memory_cword)
                       ,.*
                       );
     
   writeback_stage writeback(.debugbus_i(memory_debugbus)
                             ,.debugbus_o(writeback_debugbus)
+                            ,.cword_i(memory_cword)
                             ,.*
                             );
                             
-  forwarding forwarding(.execute_rd_w_v(execute_memory_rd_w_v)
+  forwarding forwarding(.execute_rd_w_v(execute_cword.rd_w_v)
                         ,.execute_rd(execute_memory_rd)
                     
                         ,.rfetch_rs1(rfetch_execute_rs1)

@@ -11,29 +11,17 @@ module rfetch_stage
     , input rvga_reg decode_rfetch_rs1
     , input rvga_reg decode_rfetch_rs2
     , input rvga_reg decode_rfetch_rd
-    , input logic decode_rfetch_rd_w_v
-    , input logic decode_rfetch_pc_w_v
     , input rvga_word decode_rfetch_imm_data
-    , input logic decode_rfetch_imm_v
-    , input logic decode_rfetch_imm_passthrough_v
-    , input logic decode_rfetch_rs1_pc_sel
-    , input rvga_artop_e decode_rfetch_artop
-    , input logic decode_rfetch_alt_art
+    , rvga_cword_if.i cword_i
    
     , output rvga_word rfetch_execute_pc
     , output rvga_reg rfetch_execute_rs1
     , output rvga_reg rfetch_execute_rs2
     , output rvga_reg rfetch_execute_rd
-    , output logic rfetch_execute_rd_w_v
-    , output logic rfetch_execute_pc_w_v
     , output rvga_word rfetch_execute_imm_data
-    , output logic rfetch_execute_imm_v
-    , output logic rfetch_execute_imm_passthrough_v
-    , output logic rfetch_execute_rs1_pc_sel
     , output rvga_word rfetch_execute_rs1_data
     , output rvga_word rfetch_execute_rs2_data
-    , output rvga_artop_e rfetch_execute_artop
-    , output logic rfetch_execute_alt_art
+    , rvga_cword_if.o cword_o
     
     , input logic writeback_rfetch_rd_w_v
     , input rvga_reg writeback_rfetch_rd
@@ -73,15 +61,19 @@ always_ff @(posedge clk) begin
   rfetch_execute_pc <= decode_rfetch_pc;
   rfetch_execute_rs1 <= decode_rfetch_rs1;
   rfetch_execute_rs2 <= decode_rfetch_rs2;
-  rfetch_execute_rs1_pc_sel <= decode_rfetch_rs1_pc_sel;
   rfetch_execute_rd <= decode_rfetch_rd;
-  rfetch_execute_rd_w_v <= decode_rfetch_rd_w_v;
-  rfetch_execute_pc_w_v <= decode_rfetch_rd_w_v;
   rfetch_execute_imm_data <= decode_rfetch_imm_data;
-  rfetch_execute_imm_v <= decode_rfetch_imm_v;
-  rfetch_execute_imm_passthrough_v <= decode_rfetch_imm_passthrough_v;
-  rfetch_execute_artop <= decode_rfetch_artop;
-  rfetch_execute_alt_art <= decode_rfetch_alt_art;
+  
+  cword_o.rd_w_v <= cword_i.rd_w_v;
+  cword_o.pc_w_v <= cword_i.pc_w_v;
+  cword_o.artop <= cword_i.artop;
+  cword_o.brop <= cword_i.brop;
+  cword_o.ldop <= cword_i.ldop;
+  cword_o.strop <= cword_i.strop;
+  cword_o.imm_v <= cword_i.imm_v; 
+  cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
+  cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
+  cword_o.alt_art <= cword_i.alt_art;
 end
 
 always_comb begin

@@ -14,14 +14,9 @@ module decode_stage
     , output rvga_reg decode_rfetch_rs1
     , output rvga_reg decode_rfetch_rs2
     , output rvga_reg decode_rfetch_rd
-    , output logic decode_rfetch_rd_w_v
-    , output logic decode_rfetch_pc_w_v
     , output rvga_word decode_rfetch_imm_data
-    , output logic decode_rfetch_imm_v
-    , output logic decode_rfetch_rs1_pc_sel
-    , output logic decode_rfetch_imm_passthrough_v
-    , output rvga_artop_e decode_rfetch_artop 
-    , output logic decode_rfetch_alt_art
+    
+    , rvga_cword_if.o cword_o
     
     `ifdef INST_DEBUG_BUS
     , rvga_debugbus_if.o debugbus_o
@@ -31,6 +26,9 @@ module decode_stage
 rvga_opcode_e opcode;
 rvga_inst_type_e inst_type;
 rvga_artop_e artop;
+rvga_brop_e brop;
+rvga_ldop_e ldop;
+rvga_strop_e strop;
 logic[2:0] funct3;
 logic[6:0] funct7;
 rvga_reg rs1;
@@ -54,18 +52,21 @@ always_ff @(posedge clk) begin
     debugbus_o.artop <= rvga_artop_e'(funct3);
   `endif
   
+  decode_rfetch_pc <= ifetch_decode_pc;
   decode_rfetch_rs1 <= rs1;
   decode_rfetch_rs2 <= rs2;
   decode_rfetch_rd <= rd;
-  decode_rfetch_rd_w_v <= rd_w_v;
-  decode_rfetch_pc_w_v <= pc_w_v;
   decode_rfetch_imm_data <= imm;
-  decode_rfetch_artop <= artop;
-  decode_rfetch_imm_v <= imm_v; 
-  decode_rfetch_pc <= ifetch_decode_pc;
-  decode_rfetch_rs1_pc_sel <= rs1_pc_sel;
-  decode_rfetch_imm_passthrough_v <= imm_passthrough_v;
-  decode_rfetch_alt_art <= alt_art;
+  cword_o.rd_w_v <= rd_w_v;
+  cword_o.pc_w_v <= pc_w_v;
+  cword_o.artop <= artop;
+  cword_o.brop <= brop;
+  cword_o.ldop <= ldop;
+  cword_o.strop <= strop;
+  cword_o.imm_v <= imm_v; 
+  cword_o.rs1_pc_sel <= rs1_pc_sel;
+  cword_o.imm_passthrough_v <= imm_passthrough_v;
+  cword_o.alt_art <= alt_art;
 end
 
 always_comb begin
@@ -76,6 +77,9 @@ always_comb begin
   rd = ifetch_decode_instruction[11:7];
   opcode = rvga_opcode_e'(ifetch_decode_instruction[6:0]);
   artop = e_rvga_artop_addsub;
+  brop = e_rvga_brop_beq;
+  ldop = e_rvga_ldop_lb;
+  strop = e_rvga_strop_sb;
   
   alt_art = 1'b0;
   imm_v = 1'b0;

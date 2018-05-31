@@ -7,17 +7,15 @@ module writeback_stage
   ( input logic clk
     , input logic rst
     
-    , input logic memory_writeback_rd_w_v
-    , input logic memory_writeback_pc_w_v
     , input rvga_reg memory_writeback_rd
     , input rvga_word memory_writeback_result
+    , rvga_cword_if.i cword_i
     
     , output rvga_word writeback_ifetch_pc_target
     
-    , output logic writeback_ifetch_pc_w_v
-    , output logic writeback_rfetch_rd_w_v
     , output rvga_reg writeback_rfetch_rd
     , output rvga_word writeback_rfetch_rd_data
+    , output logic writeback_rfetch_rd_w_v
     
     `ifdef INST_DEBUG_BUS
     , rvga_debugbus_if.i debugbus_i
@@ -37,9 +35,9 @@ always_ff @(posedge clk) begin
 
   writeback_ifetch_pc_target <= memory_writeback_result;
   
-  writeback_rfetch_rd_w_v <= memory_writeback_rd_w_v;
   writeback_rfetch_rd <= memory_writeback_rd;
   writeback_rfetch_rd_data <= memory_writeback_result;
+  writeback_rfetch_rd_w_v <= cword_i.rd_w_v;
   
   `ifdef INST_TRACE_DEBUG
     $display("Inst: %0s Type: %0s WB: %x RD: %x Result: %x", debugbus_o.opcode.name()

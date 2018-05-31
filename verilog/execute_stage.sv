@@ -11,16 +11,10 @@ module execute_stage
     , input rvga_reg rfetch_execute_rs1
     , input rvga_reg rfetch_execute_rs2
     , input rvga_reg rfetch_execute_rd
-    , input logic rfetch_execute_rd_w_v
-    , input logic rfetch_execute_pc_w_v
     , input rvga_word rfetch_execute_imm_data
-    , input logic rfetch_execute_imm_v
-    , input logic rfetch_execute_imm_passthrough_v
-    , input logic rfetch_execute_rs1_pc_sel
     , input rvga_word rfetch_execute_rs1_data
     , input rvga_word rfetch_execute_rs2_data
-    , input rvga_artop_e rfetch_execute_artop
-    , input logic rfetch_execute_alt_art
+    , rvga_cword_if.i cword_i
     
     , input logic forwarding_rs1_v
     , input logic forwarding_rs2_v
@@ -29,9 +23,8 @@ module execute_stage
     , output rvga_reg execute_memory_rs1
     , output rvga_reg execute_memory_rs2
     , output rvga_reg execute_memory_rd
-    , output logic execute_memory_rd_w_v
-    , output logic execute_memory_pc_w_v
     , output rvga_word execute_memory_result
+    , rvga_cword_if.o cword_o
     
     `ifdef INST_DEBUG_BUS
     , rvga_debugbus_if.i debugbus_i
@@ -56,22 +49,31 @@ always_ff @(posedge clk) begin
   execute_memory_rs1 <= rfetch_execute_rs1;
   execute_memory_rs2 <= rfetch_execute_rs2;
   execute_memory_rd <= rfetch_execute_rd;
-  execute_memory_rd_w_v <= rfetch_execute_rd_w_v;
-  execute_memory_pc_w_v <= rfetch_execute_rd_w_v;
   execute_memory_result <= alu_result;
+  
+  cword_o.rd_w_v <= cword_i.rd_w_v;
+  cword_o.pc_w_v <= cword_i.pc_w_v;
+  cword_o.artop <= cword_i.artop;
+  cword_o.brop <= cword_i.brop;
+  cword_o.ldop <= cword_i.ldop;
+  cword_o.strop <= cword_i.strop;
+  cword_o.imm_v <= cword_i.imm_v; 
+  cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
+  cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
+  cword_o.alt_art <= cword_i.alt_art;
 end
 
 always_comb begin
-  alu_srca = rfetch_execute_rs1_pc_sel ? rfetch_execute_pc : (rfetch_execute_imm_passthrough_v ? 32'b0 : (forwarding_rs1_v ? execute_result : (rfetch_execute_rs1_data)));
-  alu_srcb = rfetch_execute_imm_v ? rfetch_execute_imm_data : (forwarding_rs2_v ? execute_result : rfetch_execute_rs2_data);
+  alu_srca = cword_i.rs1_pc_sel ? rfetch_execute_pc : (cword_i.imm_passthrough_v ? 32'b0 : (forwarding_rs1_v ? execute_result : (rfetch_execute_rs1_data)));
+  alu_srcb = cword_i.imm_v ? rfetch_execute_imm_data : (forwarding_rs2_v ? execute_result : rfetch_execute_rs2_data);
 end
 
 alu #(
       )
- alu (.op(rfetch_execute_artop)
+ alu (.op(cword_i.artop)
       ,.a(alu_srca)
       ,.b(alu_srcb)
-      ,.alt(rfetch_execute_alt_art)
+      ,.alt(cword_i.alt_art)
       
       ,.o(alu_result)
       );

@@ -39,6 +39,17 @@ typedef enum logic[2:0] {
 } rvga_inst_type_e;
 
 typedef enum logic[2:0] {
+    e_rvga_artop_addsub  = 3'b000
+    , e_rvga_artop_sll   = 3'b001 
+    , e_rvga_artop_slt   = 3'b010
+    , e_rvga_artop_sltu  = 3'b011
+    , e_rvga_artop_xor   = 3'b100
+    , e_rvga_artop_srx   = 3'b101
+    , e_rvga_artop_or    = 3'b110
+    , e_rvga_artop_and   = 3'b111
+} rvga_artop_e;
+
+typedef enum logic[2:0] {
     e_rvga_brop_beq    = 3'b000
     , e_rvga_brop_bne  = 3'b001
     , e_rvga_brop_blt  = 3'b100
@@ -60,17 +71,6 @@ typedef enum logic[2:0] {
     , e_rvga_strop_sh = 3'b001
     , e_rvga_strop_sw = 3'b010
 } rvga_strop_e;
-
-typedef enum logic[2:0] {
-    e_rvga_artop_addsub  = 3'b000
-    , e_rvga_artop_sll   = 3'b001 
-    , e_rvga_artop_slt   = 3'b010
-    , e_rvga_artop_sltu  = 3'b011
-    , e_rvga_artop_xor   = 3'b100
-    , e_rvga_artop_srx   = 3'b101
-    , e_rvga_artop_or    = 3'b110
-    , e_rvga_artop_and   = 3'b111
-} rvga_artop_e;
 
 endpackage
 
