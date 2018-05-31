@@ -113,6 +113,18 @@ always_comb begin
       rs1_pc_sel = 1'b1;
     end
     
+    e_rvga_opcode_reg : begin
+      inst_type = e_rvga_inst_type_r;
+      
+      case(funct3)
+        e_rvga_artop_srx: alt_art = ifetch_decode_instruction[30];
+        e_rvga_artop_addsub: alt_art = ifetch_decode_instruction[30];
+      endcase
+      
+      artop = rvga_artop_e'(funct3);
+      rd_w_v = 1'b1;
+    end
+    
     e_rvga_opcode_imm : begin 
       inst_type = e_rvga_inst_type_i;
       imm_v = 1'b1;
