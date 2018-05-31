@@ -39,6 +39,8 @@ logic imm_v;
 logic alt_art;
 logic rd_w_v;
 logic pc_w_v;
+logic dcache_w_v;
+logic dcache_r_v;
 logic imm_passthrough_v;
 logic rs1_pc_sel;
 
@@ -59,6 +61,8 @@ always_ff @(posedge clk) begin
   decode_rfetch_imm_data <= imm;
   cword_o.rd_w_v <= rd_w_v;
   cword_o.pc_w_v <= pc_w_v;
+  cword_o.dcache_w_v <= dcache_w_v;
+  cword_o.dcache_r_v <= dcache_r_v;
   cword_o.artop <= artop;
   cword_o.brop <= brop;
   cword_o.ldop <= ldop;
@@ -85,6 +89,8 @@ always_comb begin
   imm_v = 1'b0;
   rd_w_v = 1'b0;
   pc_w_v = 1'b0;
+  dcache_w_v = 1'b0;
+  dcache_r_v = 1'b0;
   imm_passthrough_v = 1'b0;
   rs1_pc_sel = 1'b0;
     
@@ -116,6 +122,23 @@ always_comb begin
       endcase
 
       artop = rvga_artop_e'(funct3);
+      rd_w_v = 1'b1;
+    end
+    
+    e_rvga_opcode_st: begin
+      inst_type = e_rvga_inst_type_s;
+      imm_v = 1'b1;
+      
+      strop = rvga_strop_e'(funct3);
+      dcache_w_v = 1'b1;
+    end
+    
+    e_rvga_opcode_ld: begin
+      inst_type = e_rvga_inst_type_i;
+      imm_v = 1'b1;
+      
+      ldop = rvga_ldop_e'(funct3);
+      dcache_r_v = 1'b1;
       rd_w_v = 1'b1;
     end
     

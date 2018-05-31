@@ -24,6 +24,7 @@ module execute_stage
     , output rvga_reg execute_memory_rs2
     , output rvga_reg execute_memory_rd
     , output rvga_word execute_memory_result
+    , output rvga_word execute_memory_data
     , rvga_cword_if.o cword_o
     
     `ifdef INST_DEBUG_BUS
@@ -50,6 +51,7 @@ always_ff @(posedge clk) begin
   execute_memory_rs2 <= rfetch_execute_rs2;
   execute_memory_rd <= rfetch_execute_rd;
   execute_memory_result <= alu_result;
+  execute_memory_data <= rfetch_execute_rs2_data;
   
   cword_o.rd_w_v <= cword_i.rd_w_v;
   cword_o.pc_w_v <= cword_i.pc_w_v;
@@ -58,6 +60,8 @@ always_ff @(posedge clk) begin
   cword_o.ldop <= cword_i.ldop;
   cword_o.strop <= cword_i.strop;
   cword_o.imm_v <= cword_i.imm_v; 
+  cword_o.dcache_r_v <= cword_i.dcache_r_v;
+  cword_o.dcache_w_v <= cword_i.dcache_w_v;
   cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
   cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
   cword_o.alt_art <= cword_i.alt_art;

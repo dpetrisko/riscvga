@@ -9,6 +9,7 @@ module memory_stage
     
     , input rvga_reg execute_memory_rd
     , input rvga_word execute_memory_result
+    , input rvga_word execute_memory_data
     , rvga_cword_if.i cword_i
     
     , output rvga_reg memory_writeback_rd
@@ -34,7 +35,7 @@ always_ff @(posedge clk) begin
   `endif
   
   memory_writeback_rd <= execute_memory_rd;
-  memory_writeback_result <= execute_memory_result;
+  memory_writeback_result <= cword_i.dcache_r_v ? cachebus_io.rdata_i : execute_memory_result;
   
   cword_o.rd_w_v <= cword_i.rd_w_v;
   cword_o.pc_w_v <= cword_i.pc_w_v;
@@ -43,16 +44,18 @@ always_ff @(posedge clk) begin
   cword_o.ldop <= cword_i.ldop;
   cword_o.strop <= cword_i.strop;
   cword_o.imm_v <= cword_i.imm_v; 
+  cword_o.dcache_r_v <= cword_i.dcache_r_v;
+  cword_o.dcache_w_v <= cword_i.dcache_w_v;
   cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
   cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
   cword_o.alt_art <= cword_i.alt_art;
 end
 
 always_comb begin
-  cachebus_io.addr_o = 0;
-  cachebus_io.read_o = 0;
-  cachebus_io.write_o = 0;
-  cachebus_io.wdata_o = 0;
+  cachebus_io.addr_o = execute_memory_result;
+  cachebus_io.read_o = cword_i.dcache_r_v;
+  cachebus_io.write_o = cword_i.dcache_w_v;
+  cachebus_io.wdata_o = execute_memory_data;
 end
 
 endmodule : memory_stage
