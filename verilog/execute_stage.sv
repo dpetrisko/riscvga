@@ -4,77 +4,77 @@
 import rvga_types::*;
 
 module execute_stage
-  ( input logic clk
-    , input logic rst
+  ( input logic clk_i
+    , input logic rst_i
     
-    , input rvga_word rfetch_execute_pc
-    , input rvga_reg rfetch_execute_rs1
-    , input rvga_reg rfetch_execute_rs2
-    , input rvga_reg rfetch_execute_rd
-    , input rvga_word rfetch_execute_imm_data
-    , input rvga_word rfetch_execute_rs1_data
-    , input rvga_word rfetch_execute_rs2_data
-    , rvga_cword_if.i cword_i
+    , input rvga_word rfetch_pc
+    , input rvga_reg rfetch_rs1
+    , input rvga_reg rfetch_rs2
+    , input rvga_reg rfetch_rd
+    , input rvga_word rfetch_imm_data
+    , input rvga_word rfetch_rs1_data
+    , input rvga_word rfetch_rs2_data
+    , rvga_cword_s cword_i
     
-    , input logic forwarding_rs1_v
-    , input logic forwarding_rs2_v
-    , input rvga_word execute_result
+    , input logic forwarding_execute_rs1_v
+    , input logic forwarding_execute_rs2_v
+    
+    , input logic forwarding_memory_rs1_v
+    , input logic forwarding_memory_rs2_v
+    , input rvga_word memory_result
 
-    , output rvga_reg execute_memory_rs1
-    , output rvga_reg execute_memory_rs2
-    , output rvga_reg execute_memory_rd
-    , output rvga_word execute_memory_result
-    , output rvga_word execute_memory_data
-    , rvga_cword_if.o cword_o
+    , output rvga_reg execute_rs1
+    , output rvga_reg execute_rs2
+    , output rvga_reg execute_rd
+    , output rvga_word execute_result
+    , output rvga_word execute_data
+    , rvga_cword_s cword_o
     
-    `ifdef INST_DEBUG_BUS
-    , rvga_debugbus_if.i debugbus_i
-    , rvga_debugbus_if.o debugbus_o
-    `endif
+    , input rvga_dword_s dword_i
+    , output rvga_dword_s dword_o
     );
 
 rvga_word alu_result;
 rvga_word alu_srca;
 rvga_word alu_srcb;
 
-always_ff @(posedge clk) begin
-  `ifdef INST_DEBUG_BUS
-    debugbus_o.opcode <= debugbus_i.opcode;
-    debugbus_o.inst_type <= debugbus_i.inst_type;  
-    debugbus_o.brop <= debugbus_i.brop;
-    debugbus_o.ldop <= debugbus_i.ldop;
-    debugbus_o.strop <= debugbus_i.strop;
-    debugbus_o.artop <= debugbus_i.artop;
-  `endif
-  
-  execute_memory_rs1 <= rfetch_execute_rs1;
-  execute_memory_rs2 <= rfetch_execute_rs2;
-  execute_memory_rd <= rfetch_execute_rd;
-  execute_memory_result <= alu_result;
-  execute_memory_data <= rfetch_execute_rs2_data;
-  
-  cword_o.rd_w_v <= cword_i.rd_w_v;
-  cword_o.pc_w_v <= cword_i.pc_w_v;
-  cword_o.artop <= cword_i.artop;
-  cword_o.brop <= cword_i.brop;
-  cword_o.ldop <= cword_i.ldop;
-  cword_o.strop <= cword_i.strop;
-  cword_o.imm_v <= cword_i.imm_v; 
-  cword_o.dcache_r_v <= cword_i.dcache_r_v;
-  cword_o.dcache_w_v <= cword_i.dcache_w_v;
-  cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
-  cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
-  cword_o.alt_art <= cword_i.alt_art;
+    dff #(.width($bits(rvga_dword_s))
+          )
+   debug (.clk_i(clk_i)
+          ,.rst_i(rst_i)
+          ,.w_v_i(1'b1)
+          ,.data_i(dword_i)
+          ,.data_o(dword_o)
+          );
+
+always_ff @(posedge clk_i) begin
+  if (rst_i) begin
+    execute_rs1 <= '0;
+    execute_rs2 <= '0;
+    execute_rd <= '0;
+    execute_result <= '0;
+    execute_data <= '0;
+    
+    cword_o <= '0;
+  end else begin
+    execute_rs1 <= rfetch_rs1;
+    execute_rs2 <= rfetch_rs2;
+    execute_rd <= rfetch_rd;
+    execute_result <= alu_result;
+    execute_data <= rfetch_rs2_data;
+    
+    cword_o <= cword_i;
+  end
 end
 
 always_comb begin
-  alu_srca = cword_i.rs1_pc_sel ? rfetch_execute_pc : (cword_i.imm_passthrough_v ? 32'b0 : (forwarding_rs1_v ? execute_result : (rfetch_execute_rs1_data)));
-  alu_srcb = cword_i.imm_v ? rfetch_execute_imm_data : (forwarding_rs2_v ? execute_result : rfetch_execute_rs2_data);
+  alu_srca = cword_i.rs1_pc_sel ? rfetch_pc : (cword_i.imm_passthrough_v ? 32'b0 : (forwarding_memory_rs1_v ? memory_result : (forwarding_execute_rs1_v ? execute_result : (rfetch_rs1_data))));
+  alu_srcb = cword_i.imm_v ? rfetch_imm_data : (forwarding_memory_rs2_v ? memory_result : (forwarding_execute_rs2_v ? execute_result : rfetch_rs2_data));
 end
 
 alu #(
       )
- alu (.op(cword_i.artop)
+ alu (.op(rvga_artop_e'(cword_i.funct3))
       ,.a(alu_srca)
       ,.b(alu_srcb)
       ,.alt(cword_i.alt_art)

@@ -4,76 +4,84 @@
 import rvga_types::*;
 
 module rfetch_stage
-  ( input logic clk
-    , input logic rst  
+  ( input logic clk_i
+    , input logic rst_i  
     
-    , input rvga_word decode_rfetch_pc
-    , input rvga_reg decode_rfetch_rs1
-    , input rvga_reg decode_rfetch_rs2
-    , input rvga_reg decode_rfetch_rd
-    , input rvga_word decode_rfetch_imm_data
-    , rvga_cword_if.i cword_i
+    , input rvga_word decode_pc
+    , input rvga_reg decode_rs1
+    , input rvga_reg decode_rs2
+    , input rvga_reg decode_rd
+    , input rvga_word decode_imm_data
+    , input rvga_cword_s cword_i
    
-    , output rvga_word rfetch_execute_pc
-    , output rvga_reg rfetch_execute_rs1
-    , output rvga_reg rfetch_execute_rs2
-    , output rvga_reg rfetch_execute_rd
-    , output rvga_word rfetch_execute_imm_data
-    , output rvga_word rfetch_execute_rs1_data
-    , output rvga_word rfetch_execute_rs2_data
-    , rvga_cword_if.o cword_o
+    , output rvga_word rfetch_pc
+    , output rvga_reg rfetch_rs1
+    , output rvga_reg rfetch_rs2
+    , output rvga_reg rfetch_rd
+    , output rvga_word rfetch_imm_data
+    , output rvga_word rfetch_rs1_data
+    , output rvga_word rfetch_rs2_data
     
-    , input logic writeback_rfetch_rd_w_v
-    , input rvga_reg writeback_rfetch_rd
-    , input rvga_word writeback_rfetch_rd_data
+    , output rvga_cword_s cword_o
     
-    `ifdef INST_DEBUG_BUS    
-    , rvga_debugbus_if.i debugbus_i
-    , rvga_debugbus_if.o debugbus_o
-    `endif  
+    , input logic writeback_rd_w_v
+    , input rvga_reg writeback_rd
+    , input rvga_word writeback_rd_data
+    
+    , input rvga_dword_s dword_i
+    , output rvga_dword_s dword_o
     );
     
-regfile #(.width_p(32)
+rvga_word rs1_data;
+rvga_word rs2_data;
+    
+regfile #(.width_p($bits(rvga_word))
           ,.reg_els_p(32)
           )
- pregfile(.clk(clk)
-          ,.rst(rst)
+ pregfile(.clk_i(clk_i)
+          ,.rst_i(rst_i)
           
-          ,.rd_w_v_i(writeback_rfetch_rd_w_v)
-          ,.rs1_i(decode_rfetch_rs1)
-          ,.rs2_i(decode_rfetch_rs2)
-          ,.rd_i(writeback_rfetch_rd)
-          ,.data_rs1_o(rfetch_execute_rs1_data)
-          ,.data_rs2_o(rfetch_execute_rs2_data)
-          ,.data_rd_i(writeback_rfetch_rd_data)
+          ,.rd_w_v_i(writeback_rd_w_v)
+          ,.rs1_i(decode_rs1)
+          ,.rs2_i(decode_rs2)
+          ,.rd_i(writeback_rd)
+          ,.data_rs1_o(rs1_data)
+          ,.data_rs2_o(rs2_data)
+          ,.data_rd_i(writeback_rd_data)
+          );
+          
+    dff #(.width($bits(rvga_dword_s))
+          )
+   debug (.clk_i(clk_i)
+          ,.rst_i(rst_i)
+          ,.w_v_i(1'b1)
+          ,.data_i(dword_i)
+          ,.data_o(dword_o)
           );
 
-always_ff @(posedge clk) begin
-  `ifdef INST_DEBUG_BUS
-    debugbus_o.opcode <= debugbus_i.opcode;
-    debugbus_o.inst_type <= debugbus_i.inst_type;  
-    debugbus_o.brop <= debugbus_i.brop;
-    debugbus_o.ldop <= debugbus_i.ldop;
-    debugbus_o.strop <= debugbus_i.strop;
-    debugbus_o.artop <= debugbus_i.artop;
-  `endif
 
-  rfetch_execute_pc <= decode_rfetch_pc;
-  rfetch_execute_rs1 <= decode_rfetch_rs1;
-  rfetch_execute_rs2 <= decode_rfetch_rs2;
-  rfetch_execute_rd <= decode_rfetch_rd;
-  rfetch_execute_imm_data <= decode_rfetch_imm_data;
-  
-  cword_o.rd_w_v <= cword_i.rd_w_v;
-  cword_o.pc_w_v <= cword_i.pc_w_v;
-  cword_o.artop <= cword_i.artop;
-  cword_o.brop <= cword_i.brop;
-  cword_o.ldop <= cword_i.ldop;
-  cword_o.strop <= cword_i.strop;
-  cword_o.imm_v <= cword_i.imm_v; 
-  cword_o.rs1_pc_sel <= cword_i.rs1_pc_sel;
-  cword_o.imm_passthrough_v <= cword_i.imm_passthrough_v;
-  cword_o.alt_art <= cword_i.alt_art;
+always_ff @(posedge clk_i) begin
+  if (rst_i) begin
+    rfetch_pc <= '0;
+    rfetch_rs1 <= '0;
+    rfetch_rs2 <= '0;
+    rfetch_rd <= '0;
+    rfetch_imm_data <= '0;
+    rfetch_rs1_data <= '0;
+    rfetch_rs2_data <= '0;
+    
+    cword_o <= '0;
+  end else begin
+    rfetch_pc <= decode_pc;
+    rfetch_rs1 <= decode_rs1;
+    rfetch_rs2 <= decode_rs2;
+    rfetch_rd <= decode_rd;
+    rfetch_imm_data <= decode_imm_data;
+    rfetch_rs1_data <= rs1_data;
+    rfetch_rs2_data <= rs2_data;
+    
+    cword_o <= cword_i;
+  end
 end
 
 always_comb begin

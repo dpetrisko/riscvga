@@ -5,8 +5,8 @@ import rvga_types::*;
 
 module regfile #(parameter width_p = 32
                  , parameter reg_els_p = 32)
-  ( input logic clk
-    , input logic rst 
+  ( input logic clk_i
+    , input logic rst_i
     
     , input logic rd_w_v_i
     
@@ -27,11 +27,15 @@ initial begin
   end
 end
 
-always_ff @(posedge clk) begin
+always_ff @(posedge clk_i) begin
   data_rs1_o <= (rd_w_v_i && (rs1_i == rd_i)) ? data_rd_i : physical_r[rs1_i];
   data_rs2_o <= (rd_w_v_i && (rs2_i == rd_i)) ? data_rd_i : physical_r[rs2_i];
   
-  if (rd_w_v_i) begin
+  if (rst_i) begin
+    for (integer i = 0; i < reg_els_p; i++) begin
+      physical_r[i] <= 0;
+    end
+  end else if (rd_w_v_i) begin
     physical_r[rd_i] <= (rd_i == 0) ? 0 : data_rd_i;
   end
 end

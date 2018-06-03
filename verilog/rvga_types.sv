@@ -3,10 +3,6 @@
 
 package rvga_types;
 
-//parameter ELF_START = 32'h10054;
-parameter ELF_START = 32'h00000;
-parameter ELF_SIZE = 1048576;
-
 typedef logic[127:0] rvga_cacheline;
 typedef logic[31:0] rvga_word;
 typedef logic[15:0] rvga_short;
@@ -71,6 +67,23 @@ typedef enum logic[2:0] {
     , e_rvga_strop_sh = 3'b001
     , e_rvga_strop_sw = 3'b010
 } rvga_strop_e;
+
+typedef struct packed {
+  logic rd_w_v;
+  logic imm_v;
+  logic dcache_w_v;
+  logic dcache_r_v;
+  logic rs1_pc_sel;
+  logic imm_passthrough_v;
+  logic[2:0] funct3;
+  logic alt_art;
+} rvga_cword_s;
+
+typedef struct packed {
+  rvga_opcode_e opcode;
+  rvga_inst_type_e inst_type;  
+  logic[2:0] funct3;
+} rvga_dword_s;
 
 endpackage
 

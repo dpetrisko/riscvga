@@ -2,6 +2,7 @@
 import rvga_types::*;
 
 module test_ddr #(parameter latency = 0
+                  , read_only = 0
                   , magic = 0
                   , use_program = 0
                   , use_identity = 0)
@@ -15,6 +16,7 @@ timeunit 1ns;
 timeprecision 1ns;
 
 localparam line_size_bytes = $bits(rvga_cacheline) / 8;
+localparam ELF_SIZE=10000;
 
 rvga_byte mem_array[0:ELF_SIZE-1];
 rvga_word internal_addr;
@@ -90,5 +92,5 @@ begin : next_state_assignment
   state <= next_state;
 end
 
-endmodule 
+endmodule : test_ddr
 

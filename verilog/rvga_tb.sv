@@ -9,12 +9,18 @@ timeprecision 1ns;
 logic clk;
 logic rst;
 
+rvga_dword_s dword;
 rvga_membus_if imembus();
 rvga_membus_if dmembus();
+rvga_cword_s cword;
 
 rvga_top #(.enable_caches(0)) 
-processor (.imembus_io(imembus)
+processor (.dword_o(dword)
+           ,.imembus_io(imembus)
            ,.dmembus_io(dmembus)
+           ,.cword_o(cword)
+           ,.clk_i(clk)
+           ,.rst_i(rst)
            ,.*);
 
 test_ddr #(.use_program(1)

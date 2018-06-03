@@ -4,40 +4,47 @@
 import rvga_types::*;
 
 module ifetch_stage
-  ( input logic clk
-    , input logic rst
+  ( input logic clk_i
+    , input logic rst_i
     
     , rvga_cachebus_if.master cachebus_io
     
-    , output rvga_word ifetch_decode_pc
-    , output rvga_word ifetch_decode_instruction
+    , output rvga_word ifetch_pc
+    , output rvga_word ifetch_inst
     
-    , input rvga_word writeback_ifetch_pc_target
-    , input logic writeback_ifetch_pc_w_v
+    , input rvga_word writeback_pc_target
     );
 
-rvga_word pc;
-rvga_word instruction;
+rvga_word pc_n, pc_r;
+rvga_word ir_n, ir_r;
 
-always_ff @(posedge clk) begin
-  if(rst) begin
-      pc <= ELF_START;
-      instruction <= 0;
-  end else begin
-      if(cachebus_io.resp_i) begin 
-        pc <= pc + 4;
-        instruction <= cachebus_io.rdata_i;
-      end
-    end
-end
-
+  dff #(.width($bits(rvga_word))
+        )
+    pc (.clk_i(clk_i)
+        ,.rst_i(rst_i)
+        ,.w_v_i(cachebus_io.resp_i)
+        ,.data_i(pc_n)
+        ,.data_o(pc_r)
+        );
+        
+  dff #(.width($bits(rvga_word))
+        )
+    ir (.clk_i(clk_i)
+        ,.rst_i(rst_i)
+        ,.w_v_i(cachebus_io.resp_i)
+        ,.data_i(ir_n)
+        ,.data_o(ir_r)
+        );
+        
 always_comb begin
-  cachebus_io.addr_o = pc;
+  pc_n = pc_r + 32'h4;
+  ir_n = cachebus_io.rdata_i;
+  
+  cachebus_io.addr_o = pc_r;
   cachebus_io.read_o = 1'b1;
-  cachebus_io.write_o = 1'b0;
-  cachebus_io.wdata_o = 32'b0;
-  ifetch_decode_instruction = instruction;
-  ifetch_decode_pc = pc;
+  
+  ifetch_pc = pc_r;
+  ifetch_inst = ir_r;
 end
 
 endmodule : ifetch_stage
