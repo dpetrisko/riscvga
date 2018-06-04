@@ -16,7 +16,7 @@ always_comb begin
   case(op)
     e_rvga_artop_addsub: o = alt ? a - b : a + b;
     e_rvga_artop_sll: o = a << b;
-    e_rvga_artop_slt: o = (a < b);
+    e_rvga_artop_slt: o = ($signed(a) < $signed(b));
     e_rvga_artop_sltu: o = ($unsigned(a) < $unsigned(b));
     e_rvga_artop_xor: o = a ^ b;
     e_rvga_artop_srx: o = alt ? $signed($signed(a) >>> $signed(b)) : (a >> b);
