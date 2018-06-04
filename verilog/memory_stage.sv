@@ -22,15 +22,6 @@ module memory_stage
     , output rvga_dword_s dword_o
     );
 
-    dff #(.width($bits(rvga_dword_s))
-          )
-   debug (.clk_i(clk_i)
-          ,.rst_i(rst_i)
-          ,.w_v_i(1'b1)
-          ,.data_i(dword_i)
-          ,.data_o(dword_o)
-          );
-
 always_ff @(posedge clk_i) begin
   if (rst_i) begin
     memory_rd <= '0;
@@ -41,21 +32,23 @@ always_ff @(posedge clk_i) begin
     cachebus_io.read_o <= '0;
     cachebus_io.write_o <= '0;
     cachebus_io.wdata_o <= '0;
+    
+    dword_o <= '0;
   end else begin
     memory_rd <= execute_rd;
     memory_result <= cword_i.dcache_r_v ? cachebus_io.rdata_i : execute_result;
     
     cword_o <= cword_i;
     
-    cachebus_io.addr_o <= execute_result;
-    cachebus_io.read_o <= cword_i.dcache_r_v;
-    cachebus_io.write_o <= cword_i.dcache_w_v;
-    cachebus_io.wdata_o <= execute_data;
+    dword_o <= dword_i;
   end
 end
 
 always_comb begin
-
+    cachebus_io.addr_o = execute_result;
+    cachebus_io.read_o = cword_i.dcache_r_v;
+    cachebus_io.write_o = cword_i.dcache_w_v;
+    cachebus_io.wdata_o = execute_data;
 end
 
 endmodule : memory_stage

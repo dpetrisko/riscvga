@@ -46,7 +46,7 @@ integer cycle = 0;
 initial begin
   clk = 0;
   rst = 1;
-  #12 rst = 0;
+  #8 rst = 0;
 end
 
 integer i;

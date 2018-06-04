@@ -37,14 +37,7 @@ logic dcache_r_v;
 logic imm_passthrough_v;
 logic rs1_pc_sel;
 
-    dff #(.width($bits(rvga_dword_s))
-          )
-   debug (.clk_i(clk_i)
-          ,.rst_i(rst_i)
-          ,.w_v_i(1'b1)
-          ,.data_i({opcode, inst_type, funct3})
-          ,.data_o(dword_o)
-          );
+rvga_dword_s dword;
 
 always_ff @(posedge clk_i) begin
   if (rst_i) begin
@@ -54,6 +47,7 @@ always_ff @(posedge clk_i) begin
     decode_rd <= '0;
     decode_imm_data <= '0;
     cword_o <= '0;
+    dword_o <= '0;
   end else begin
     decode_pc <= ifetch_pc;
     decode_rs1 <= rs1;
@@ -68,6 +62,8 @@ always_ff @(posedge clk_i) begin
     cword_o.rs1_pc_sel <= rs1_pc_sel;
     cword_o.imm_passthrough_v <= imm_passthrough_v;
     cword_o.alt_art <= alt_art;
+    dword_o.opcode <= opcode;
+    dword_o.inst_type <= inst_type;
   end
 end
 
@@ -103,6 +99,7 @@ always_comb begin
       inst_type = e_rvga_inst_type_u;
       imm_v = 1'b1;
       rd_w_v = 1'b1;
+      funct3 = e_rvga_artop_addsub;
       rs1_pc_sel = 1'b1;
     end
     

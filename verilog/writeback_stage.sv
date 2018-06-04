@@ -23,15 +23,6 @@ module writeback_stage
     , output rvga_dword_s dword_o
     );
 
-    dff #(.width($bits(rvga_dword_s))
-          )
-   debug (.clk_i(clk_i)
-          ,.rst_i(rst_i)
-          ,.w_v_i(1'b1)
-          ,.data_i(dword_i)
-          ,.data_o(dword_o)
-          );
-
 always_ff @(posedge clk_i) begin
   writeback_pc_target <= memory_result;
   
@@ -42,6 +33,7 @@ always_ff @(posedge clk_i) begin
     writeback_rd_w_v <= 1'b0;
     
     cword_o <= '0;
+    dword_o <= '0;
   end else begin
     writeback_pc_target <= 32'b0;
     writeback_rd <= memory_rd;
@@ -49,6 +41,7 @@ always_ff @(posedge clk_i) begin
     writeback_rd_w_v <= cword_i.rd_w_v;
     
     cword_o <= cword_i;
+    dword_o <= dword_i;
   end
 end
 

@@ -38,15 +38,6 @@ rvga_word alu_result;
 rvga_word alu_srca;
 rvga_word alu_srcb;
 
-    dff #(.width($bits(rvga_dword_s))
-          )
-   debug (.clk_i(clk_i)
-          ,.rst_i(rst_i)
-          ,.w_v_i(1'b1)
-          ,.data_i(dword_i)
-          ,.data_o(dword_o)
-          );
-
 always_ff @(posedge clk_i) begin
   if (rst_i) begin
     execute_rs1 <= '0;
@@ -56,19 +47,21 @@ always_ff @(posedge clk_i) begin
     execute_data <= '0;
     
     cword_o <= '0;
+    dword_o <= '0;
   end else begin
     execute_rs1 <= rfetch_rs1;
     execute_rs2 <= rfetch_rs2;
     execute_rd <= rfetch_rd;
-    execute_result <= alu_result;
+    execute_result <= cword_i.imm_passthrough_v ? rfetch_imm_data : alu_result;
     execute_data <= rfetch_rs2_data;
     
     cword_o <= cword_i;
+    dword_o <= dword_i;
   end
 end
 
 always_comb begin
-  alu_srca = cword_i.rs1_pc_sel ? rfetch_pc : (cword_i.imm_passthrough_v ? 32'b0 : (forwarding_memory_rs1_v ? memory_result : (forwarding_execute_rs1_v ? execute_result : (rfetch_rs1_data))));
+  alu_srca = cword_i.rs1_pc_sel ? rfetch_pc : (forwarding_memory_rs1_v ? memory_result : (forwarding_execute_rs1_v ? execute_result : (rfetch_rs1_data)));
   alu_srcb = cword_i.imm_v ? rfetch_imm_data : (forwarding_memory_rs2_v ? memory_result : (forwarding_execute_rs2_v ? execute_result : rfetch_rs2_data));
 end
 

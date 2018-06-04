@@ -28,15 +28,16 @@ initial begin
 end
 
 always_ff @(posedge clk_i) begin
-  data_rs1_o <= (rd_w_v_i && (rs1_i == rd_i)) ? data_rd_i : physical_r[rs1_i];
-  data_rs2_o <= (rd_w_v_i && (rs2_i == rd_i)) ? data_rd_i : physical_r[rs2_i];
-  
-  if (rst_i) begin
-    for (integer i = 0; i < reg_els_p; i++) begin
-      physical_r[i] <= 0;
+  if(rst_i) begin
+    data_rs1_o <= '0;
+    data_rs2_o <= '0;
+  end else begin
+    data_rs1_o <= (rd_w_v_i && (rs1_i == rd_i)) ? data_rd_i : physical_r[rs1_i];
+    data_rs2_o <= (rd_w_v_i && (rs2_i == rd_i)) ? data_rd_i : physical_r[rs2_i];
+      
+    if (rd_w_v_i) begin
+      physical_r[rd_i] <= (rd_i == 0) ? 0 : data_rd_i;
     end
-  end else if (rd_w_v_i) begin
-    physical_r[rd_i] <= (rd_i == 0) ? 0 : data_rd_i;
   end
 end
 

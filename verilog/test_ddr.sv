@@ -43,48 +43,52 @@ end
 always @(posedge clk) begin
   membus_io.resp_o = 1'b0;
   
-  next_state = state;
-  
-  case(state)
-  	idle: begin
-  	  if(membus_io.read_i | membus_io.write_i) begin
-  	    if(magic) begin
-          for(integer i = 0; i < line_size_bytes; i=i+1) begin
-            membus_io.rdata_o[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
+  if(magic) begin
+    if (rst) begin
+      membus_io.rdata_o = '0;
+    end else begin
+      for(integer i = 0; i < line_size_bytes; i=i+1) begin
+        membus_io.rdata_o[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
+      end
+    end
+    membus_io.resp_o = 1'b1;
+  end else begin 
+    next_state = state;
+ 
+    case(state)
+      idle: begin
+        if(membus_io.read_i | membus_io.write_i) begin
+          next_state = busy;
+          ready <= #latency 1'b1;
+        end
+      end
+    
+      busy: begin
+        if (ready) begin
+          if(membus_io.write_i) begin 
+            for(integer i = 0; i < line_size_bytes; i=i+1) begin
+              mem_array[internal_addr+i] = membus_io.wdata_i[(i+1)*8-1 -: 8];
+            end
+            membus_io.resp_o = 1'b1;
+          end 
+          else if(membus_io.read_i) begin				
+            for(integer i = 0; i < line_size_bytes; i=i+1) begin
+              membus_io.rdata_o[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
+            end
+              membus_io.resp_o = 1'b1;
           end
-  	      membus_io.resp_o <= 1'b1;
-  	    end else begin
-  	      next_state = busy;
-  		  ready <= #latency 1'b1;
-  		end
-  	  end
-  	end
-  	
-  	busy: begin
-      if (ready) begin
-  	    if(membus_io.write_i) begin 
-  	      for(integer i = 0; i < line_size_bytes; i=i+1) begin
- 	        mem_array[internal_addr+i] = membus_io.wdata_i[(i+1)*8-1 -: 8];
-  		  end
-  	   	  membus_io.resp_o = 1'b1;
-  		end 
-  		else if(membus_io.read_i) begin				
-  		  for(integer i = 0; i < line_size_bytes; i=i+1) begin
-  		    membus_io.rdata_o[(i+1)*8-1 -: 8] = mem_array[internal_addr+i];
-  		  end
-  			membus_io.resp_o = 1'b1;
-  		end
-  		next_state = respond;
-  	  end
-  	end
-  	
-  	respond: begin
-  	  ready <= 0;
-  	  next_state = idle;
-  	end
-  	
-  	default: next_state = idle;
-  endcase
+          next_state = respond;
+        end
+      end
+    
+      respond: begin
+        ready <= 0;
+        next_state = idle;
+      end
+    
+      default: next_state = idle;
+    endcase
+  end
 end
 
 always @(posedge clk)

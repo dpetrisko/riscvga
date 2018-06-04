@@ -17,24 +17,6 @@ module ifetch_stage
 
 rvga_word pc_n, pc_r;
 rvga_word ir_n, ir_r;
-
-  dff #(.width($bits(rvga_word))
-        )
-    pc (.clk_i(clk_i)
-        ,.rst_i(rst_i)
-        ,.w_v_i(cachebus_io.resp_i)
-        ,.data_i(pc_n)
-        ,.data_o(pc_r)
-        );
-        
-  dff #(.width($bits(rvga_word))
-        )
-    ir (.clk_i(clk_i)
-        ,.rst_i(rst_i)
-        ,.w_v_i(cachebus_io.resp_i)
-        ,.data_i(ir_n)
-        ,.data_o(ir_r)
-        );
         
 always_comb begin
   pc_n = pc_r + 32'h4;
@@ -42,9 +24,21 @@ always_comb begin
   
   cachebus_io.addr_o = pc_r;
   cachebus_io.read_o = 1'b1;
+  cachebus_io.write_o = '0;
+  cachebus_io.wdata_o = '0;
   
   ifetch_pc = pc_r;
   ifetch_inst = ir_r;
+end
+
+always_ff @(posedge clk_i) begin
+  if (rst_i) begin
+    pc_r <= '0;
+    ir_r <= '0;
+  end else if(cachebus_io.resp_i) begin
+    pc_r <= pc_n;
+    ir_r <= ir_n;
+  end
 end
 
 endmodule : ifetch_stage
