@@ -28,6 +28,7 @@ module execute_stage
     , output rvga_reg execute_rd
     , output rvga_word execute_result
     , output rvga_word execute_data
+    , output logic execute_mispredict_v
     , rvga_cword_s cword_o
     
     , input rvga_dword_s dword_i
@@ -37,6 +38,10 @@ module execute_stage
 rvga_word alu_result;
 rvga_word alu_srca;
 rvga_word alu_srcb;
+
+rvga_word blu_srca;
+rvga_word blu_srcb;
+logic mispredict_v;
 
 always_ff @(posedge clk_i) begin
   if (rst_i) begin
@@ -54,6 +59,7 @@ always_ff @(posedge clk_i) begin
     execute_rd <= rfetch_rd;
     execute_result <= cword_i.imm_passthrough_v ? rfetch_imm_data : alu_result;
     execute_data <= rfetch_rs2_data;
+    execute_mispredict_v <= mispredict_v & cword_i.br_v;
     
     cword_o <= cword_i;
     dword_o <= dword_i;
@@ -63,6 +69,10 @@ end
 always_comb begin
   alu_srca = cword_i.rs1_pc_sel ? rfetch_pc : (forwarding_memory_rs1_v ? memory_result : (forwarding_execute_rs1_v ? execute_result : (rfetch_rs1_data)));
   alu_srcb = cword_i.imm_v ? rfetch_imm_data : (forwarding_memory_rs2_v ? memory_result : (forwarding_execute_rs2_v ? execute_result : rfetch_rs2_data));
+
+  blu_srca = (forwarding_memory_rs1_v ? memory_result : (forwarding_execute_rs1_v ? execute_result : (rfetch_rs1_data)));
+  blu_srcb = (forwarding_memory_rs2_v ? memory_result : (forwarding_execute_rs2_v ? execute_result : (rfetch_rs2_data)));
+
 end
 
 alu #(
@@ -73,6 +83,16 @@ alu #(
       ,.alt(cword_i.alt_art)
       
       ,.o(alu_result)
+      );
+      
+blu #(
+      )
+ blu (.op(rvga_brop_e'(cword_i.funct3))
+      ,.rs1_data(blu_srca)
+      ,.rs2_data(blu_srcb)
+      ,.prediction(1'b1)
+      
+      ,.mispredict_v(mispredict_v)
       );
 
 endmodule : execute_stage

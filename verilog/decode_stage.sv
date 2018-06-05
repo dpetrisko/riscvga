@@ -16,6 +16,9 @@ module decode_stage
     , output rvga_reg decode_rd
     , output rvga_word decode_imm_data
     
+    , output logic decode_br_v
+    , output rvga_word decode_btarget
+    
     , output rvga_cword_s cword_o
   
     , output rvga_dword_s dword_o
@@ -34,8 +37,10 @@ logic alt_art;
 logic rd_w_v;
 logic dcache_w_v;
 logic dcache_r_v;
+logic br_v;
 logic imm_passthrough_v;
 logic rs1_pc_sel;
+rvga_word btarget;
 
 rvga_dword_s dword;
 
@@ -54,6 +59,9 @@ always_ff @(posedge clk_i) begin
     decode_rs2 <= rs2;
     decode_rd <= rd;
     decode_imm_data <= imm;
+    decode_br_v <= br_v;
+    decode_btarget <= btarget;
+    cword_o.br_v <= br_v;
     cword_o.rd_w_v <= rd_w_v;
     cword_o.dcache_w_v <= dcache_w_v;
     cword_o.dcache_r_v <= dcache_r_v;
@@ -86,6 +94,8 @@ always_comb begin
   case(opcode) 
     e_rvga_opcode_br: begin 
       inst_type = e_rvga_inst_type_b;
+      
+      br_v = 1'b1;   
     end
     
     e_rvga_opcode_lui: begin
@@ -150,11 +160,13 @@ always_comb begin
                             imm = {{20{ifetch_inst[31]}}, ifetch_inst[31:20]};
                         end
     e_rvga_inst_type_s: imm = {{20{ifetch_inst[31]}}, ifetch_inst[31:25], ifetch_inst[11:7]};
-    e_rvga_inst_type_b: imm = {{20{ifetch_inst[31]}}, ifetch_inst[7], ifetch_inst[30:25], ifetch_inst[11:8]};
+    e_rvga_inst_type_b: imm = {{19{ifetch_inst[31]}}, ifetch_inst[7], ifetch_inst[30:25], ifetch_inst[11:8], 1'b0};
     e_rvga_inst_type_u: imm = {ifetch_inst[31:12], {12{1'b0}}};
     e_rvga_inst_type_j: imm = {{12{ifetch_inst[31]}}, ifetch_inst[19:12], ifetch_inst[20], ifetch_inst[30:21]};
     default: imm = 0;
   endcase
+  
+  btarget = ifetch_pc + imm;
 end 
 
 endmodule : decode_stage

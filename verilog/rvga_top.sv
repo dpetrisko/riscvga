@@ -27,6 +27,9 @@ rvga_reg decode_rs2;
 rvga_reg decode_rd;
 rvga_word decode_imm_data;
 
+rvga_word decode_btarget;
+logic decode_br_v;
+
 rvga_word rfetch_rs1_data;
 rvga_word rfetch_rs2_data;
     

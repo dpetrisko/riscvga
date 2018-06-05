@@ -69,6 +69,7 @@ typedef enum logic[2:0] {
 } rvga_strop_e;
 
 typedef struct packed {
+  logic br_v;
   logic rd_w_v;
   logic imm_v;
   logic dcache_w_v;
