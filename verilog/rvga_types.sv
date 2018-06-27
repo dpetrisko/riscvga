@@ -68,24 +68,6 @@ typedef enum logic[2:0] {
     , e_rvga_strop_sw = 3'b010
 } rvga_strop_e;
 
-typedef struct packed {
-  logic br_v;
-  logic rd_w_v;
-  logic imm_v;
-  logic dcache_w_v;
-  logic dcache_r_v;
-  logic rs1_pc_sel;
-  logic imm_passthrough_v;
-  logic[2:0] funct3;
-  logic alt_art;
-} rvga_cword_s;
-
-typedef struct packed {
-  rvga_opcode_e opcode;
-  rvga_inst_type_e inst_type;  
-  logic[2:0] funct3;
-} rvga_dword_s;
-
 endpackage
 
 `endif

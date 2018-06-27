@@ -1,54 +1,17 @@
-`include "debug_defines.sv"
-`include "rvga_defines.sv"
 `include "rvga_types.sv"
 import rvga_types::*;
 
 module memory_stage
-  ( input logic clk_i
-    , input logic rst_i
-    
-    , input rvga_reg execute_rd
-    , input rvga_word execute_result
-    , input rvga_word execute_data
-    , rvga_cword_s cword_i
-    
-    , output rvga_reg memory_rd
-    , output rvga_word memory_result
-    , rvga_cword_s cword_o
-    
-    , rvga_cachebus_if.master cachebus_io
-    
-    , input rvga_dword_s dword_i
-    , output rvga_dword_s dword_o
-    );
-
-always_ff @(posedge clk_i) begin
-  if (rst_i) begin
-    memory_rd <= '0;
-    memory_result <= '0;
-    
-    cword_o <= '0;
-    cachebus_io.addr_o <= '0;
-    cachebus_io.read_o <= '0;
-    cachebus_io.write_o <= '0;
-    cachebus_io.wdata_o <= '0;
-    
-    dword_o <= '0;
-  end else begin
-    memory_rd <= execute_rd;
-    memory_result <= cword_i.dcache_r_v ? cachebus_io.rdata_i : execute_result;
-    
-    cword_o <= cword_i;
-    
-    dword_o <= dword_i;
-  end
-end
-
-always_comb begin
-    cachebus_io.addr_o = execute_result;
-    cachebus_io.read_o = cword_i.dcache_r_v;
-    cachebus_io.write_o = cword_i.dcache_w_v;
-    cachebus_io.wdata_o = execute_data;
-end
+  (input logic clk_i
+   , input logic rst_i
+   
+   , output logic dmem_r_v_o
+   , output logic dmem_w_v_o
+   , output rvga_word dmem_addr_o
+   , input rvga_word dmem_data_i
+   , output rvga_word dmem_data_o
+   , input logic dmem_resp_v_i
+   );
 
 endmodule : memory_stage
+
