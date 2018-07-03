@@ -52,5 +52,25 @@ rvga_word ir;
                             ,.rst_i(rst_i)
                             ,.*
                             );
+                            
+  hazard hazard(.clk_i(clk_i)
+                ,.rst_i(rst_i)
+                
+                ,.imem_resp_v_i(imem_resp_v_i)
+                ,.dmem_resp_v_i(dmem_resp_v_i)
+                
+                ,.decode_br_v_o()
+                ,.rfetch_br_v_o()
+                ,.execute_br_v_o()
+                ,.memory_br_v_o()
+                ,.writeback_br_v_o()
+                
+                ,.ifetch_flush_v_o()
+                ,.decode_flush_v_o()
+                ,.rfetch_flush_v_o()
+                ,.execute_flush_v_o()
+                ,.memory_flush_v_o()
+                ,.writeback_flush_v_o()
+                ); 
 
 endmodule : rvga_top

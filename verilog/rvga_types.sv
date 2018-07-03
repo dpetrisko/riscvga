@@ -9,6 +9,10 @@ typedef logic[15:0] rvga_short;
 typedef logic[7:0] rvga_byte;
 typedef logic[4:0] rvga_reg;
 
+typedef logic[6:0] rvga_funct7;
+typedef logic[2:0] rvga_funct3;
+
+typedef logic[6:0] rvga_opcode;
 typedef enum logic[6:0] {
     e_rvga_opcode_err     = 7'b0000000
     , e_rvga_opcode_lui   = 7'b0110111
@@ -24,6 +28,7 @@ typedef enum logic[6:0] {
     , e_rvga_opcode_misc  = 7'b1110011
 } rvga_opcode_e;
 
+typedef logic[2:0] rvga_inst_type;
 typedef enum logic[2:0] {
     e_rvga_inst_type_e = 3'b000
     , e_rvga_inst_type_r = 3'b001
@@ -34,6 +39,7 @@ typedef enum logic[2:0] {
     , e_rvga_inst_type_j = 3'b110
 } rvga_inst_type_e;
 
+typedef logic[2:0] rvga_artop;
 typedef enum logic[2:0] {
     e_rvga_artop_addsub  = 3'b000
     , e_rvga_artop_sll   = 3'b001 
@@ -45,6 +51,7 @@ typedef enum logic[2:0] {
     , e_rvga_artop_and   = 3'b111
 } rvga_artop_e;
 
+typedef logic[2:0] rvga_brop;
 typedef enum logic[2:0] {
     e_rvga_brop_beq    = 3'b000
     , e_rvga_brop_bne  = 3'b001
@@ -54,6 +61,7 @@ typedef enum logic[2:0] {
     , e_rvga_brop_bgeu = 3'b111
 } rvga_brop_e;
 
+typedef logic[2:0] rvga_ldop;
 typedef enum logic[2:0] {
     e_rvga_ldop_lb    = 3'b000
     , e_rvga_ldop_lh  = 3'b001
@@ -62,11 +70,22 @@ typedef enum logic[2:0] {
     , e_rvga_ldop_lhu = 3'b101
 } rvga_ldop_e;
 
+typedef logic[2:0] rvga_strop;
 typedef enum logic[2:0] {
     e_rvga_strop_sb   = 3'b000
     , e_rvga_strop_sh = 3'b001
     , e_rvga_strop_sw = 3'b010
 } rvga_strop_e;
+
+typedef struct packed {
+  rvga_opcode opcode;
+  rvga_reg rs1;
+  rvga_reg rs2;
+  rvga_reg rd;
+  rvga_funct3 funct3;
+  rvga_funct7 funct7;
+  logic br_v;
+} rvga_decode_cword;
 
 endpackage
 

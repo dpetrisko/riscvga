@@ -7,7 +7,9 @@ module ifetch_stage
    
    , output rvga_word imem_addr_o
    , input rvga_word imem_data_i
-   , input logic imem_resp_v_i
+   
+   , input logic stall_v_i
+   , input logic flush_v_i
    
    , output rvga_word ir_o
    
@@ -19,9 +21,11 @@ logic pc_w_v;
 logic ir_w_v;
 
 logic pcmux_sel;
+logic irmux_sel;
    
 ifetch_ctl #()
-         ctl(.imem_resp_v_i(imem_resp_v_i)
+         ctl(.stall_v_i(stall_v_i)
+             ,.flush_v_i(flush_v_i)
              
              ,.br_v_i(br_v_i)
     
@@ -29,6 +33,7 @@ ifetch_ctl #()
              ,.ir_w_v_o(ir_w_v)
              
              ,.pcmux_sel_o(pcmux_sel)
+             ,.irmux_sel_o(irmux_sel)
              );
 
 ifetch_dp #() 
@@ -44,6 +49,7 @@ ifetch_dp #()
             ,.ir_w_v_i(ir_w_v)
             
             ,.pcmux_sel_i(pcmux_sel)
+            ,.irmux_sel_i(irmux_sel)
     
             ,.ir_o(ir_o)
             );

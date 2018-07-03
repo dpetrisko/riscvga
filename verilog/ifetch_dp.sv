@@ -1,3 +1,6 @@
+`include "rvga_types.sv"
+import rvga_types::*;
+
 module ifetch_dp
   ( input logic clk_i
     , input logic rst_i
@@ -10,13 +13,16 @@ module ifetch_dp
     , input logic pc_w_v_i
     , input logic ir_w_v_i
     , input logic pcmux_sel_i
+    , input logic irmux_sel_i
     
     , output rvga_word ir_o
     );
     
 rvga_word pc_r, pc_n;
-rvga_word ir_r;
+rvga_word ir_r, ir_n;
 rvga_word pc_plus4;
+
+rvga_word rvga_nop;
    
 dff #(.width_p($bits(rvga_word))
       )
@@ -32,10 +38,7 @@ dff #(.width_p($bits(rvga_word))
        ,.width_p($bits(rvga_word))
        )
  pcmux(.sel_i(pcmux_sel_i)
-       ,.i({br_tgt_i
-            ,pc_plus4
-            }
-           )
+       ,.i({br_tgt_i, pc_plus4})
        ,.o(pc_n)
        );
       
@@ -44,9 +47,17 @@ dff #(.width_p($bits(rvga_word))
   ir(.clk_i(clk_i)
        ,.rst_i(rst_i)
        
-       ,.i(imem_data_i)
+       ,.i(ir_n)
        ,.w_v_i(ir_w_v_i)
        ,.o(ir_r)
+       );
+       
+ mux #(.els_p(2)
+       ,.width_p($bits(rvga_word))
+       )
+ irmux(.sel_i(irmux_sel_i)
+       ,.i({rvga_nop, imem_data_i})
+       ,.o(ir_n)
        );
         
 adder #(.width_p($bits(rvga_word))
@@ -56,6 +67,7 @@ adder #(.width_p($bits(rvga_word))
          ,.o(pc_plus4)
          );
          
+assign rvga_nop = 32'b0000_0000_0000_0000_0000_0000_0001_0011;
 assign imem_addr_o = pc_r;
 assign ir_o = ir_r;
 
