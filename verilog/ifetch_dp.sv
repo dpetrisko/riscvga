@@ -15,10 +15,11 @@ module ifetch_dp
     , input logic pcmux_sel_i
     , input logic irmux_sel_i
     
+    , output rvga_word pc_o
     , output rvga_word ir_o
     );
     
-rvga_word pc_r, pc_n;
+rvga_word pc_r, pcmux_o;
 rvga_word ir_r, ir_n;
 rvga_word pc_plus4;
 
@@ -29,7 +30,7 @@ dff #(.width_p($bits(rvga_word))
  pc(.clk_i(clk_i)
       ,.rst_i(rst_i)
       
-      ,.i(pc_n)
+      ,.i(pcmux_o)
       ,.w_v_i(pc_w_v_i)
       ,.o(pc_r)
       );
@@ -39,7 +40,7 @@ dff #(.width_p($bits(rvga_word))
        )
  pcmux(.sel_i(pcmux_sel_i)
        ,.i({br_tgt_i, pc_plus4})
-       ,.o(pc_n)
+       ,.o(pcmux_o)
        );
       
 dff #(.width_p($bits(rvga_word))
@@ -70,6 +71,7 @@ adder #(.width_p($bits(rvga_word))
 assign rvga_nop = 32'b0000_0000_0000_0000_0000_0000_0001_0011;
 assign imem_addr_o = pc_r;
 assign ir_o = ir_r;
+assign pc_o = pc_r;
 
 endmodule : ifetch_dp
 

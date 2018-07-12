@@ -11,6 +11,7 @@ module ifetch_stage
    , input logic stall_v_i
    , input logic flush_v_i
    
+   , output rvga_word pc_o
    , output rvga_word ir_o
    
    , input rvga_word br_tgt_i
@@ -51,6 +52,7 @@ ifetch_dp #()
             ,.pcmux_sel_i(pcmux_sel)
             ,.irmux_sel_i(irmux_sel)
     
+            ,.pc_o(pc_o)
             ,.ir_o(ir_o)
             );
 

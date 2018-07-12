@@ -2,10 +2,7 @@
 import rvga_types::*;
 
 module hazard
-  ( input logic clk_i
-    , input logic rst_i
-    
-    , input logic imem_read_v_i
+  ( input logic imem_read_v_i
     , input logic imem_resp_v_i
     , input logic dmem_read_v_i
     , input logic dmem_resp_v_i
