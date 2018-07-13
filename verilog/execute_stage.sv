@@ -12,11 +12,26 @@ module execute_stage
    , output rvga_execute_cword cword_o
    );
    
-   execute_ctl #()
-             ctl();
+logic cmux_sel;
+logic cword_w_v;   
+   
+  execute_ctl #()
+           ctl (.stall_v_i(stall_v_i)
+                ,.flush_v_i(flush_v_i)
+              
+                ,.cmux_sel_o(cmux_sel)
+                ,.cword_w_v_o(cword_w_v)
+                );
              
-   execute_dp #()
-             dp();
+  execute_dp #()
+           dp (.clk_i(clk_i)
+               ,.rst_i(rst_i)
+         
+               ,.cmux_sel_i(cmux_sel)
+               ,.cword_w_v_i(cword_w_v)
+       
+               ,.cword_o(cword_o)
+               );
 
 endmodule : execute_stage
 

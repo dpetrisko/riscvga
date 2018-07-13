@@ -3,16 +3,16 @@
 
 package rvga_types;
 
-typedef logic[127:0] rvga_cacheline;
-typedef logic[31:0] rvga_word;
-typedef logic[15:0] rvga_short;
-typedef logic[7:0] rvga_byte;
-typedef logic[4:0] rvga_reg;
+typedef logic [127:0] rvga_cacheline;
+typedef logic [31:0] rvga_word;
+typedef logic [15:0] rvga_short;
+typedef logic [7:0] rvga_byte;
+typedef logic [4:0] rvga_reg;
 
-typedef logic[6:0] rvga_funct7;
-typedef logic[2:0] rvga_funct3;
+typedef logic unsigned [6:0] rvga_funct7;
+typedef logic unsigned [2:0] rvga_funct3;
 
-typedef logic[6:0] rvga_opcode;
+typedef logic unsigned [6:0] rvga_opcode;
 typedef enum logic[6:0] {
     e_rvga_opcode_err     = 7'b0000000
     , e_rvga_opcode_lui   = 7'b0110111
@@ -115,6 +115,14 @@ typedef struct packed {
   logic rd_w_v;
   rvga_word alu_result;
 } rvga_execute_cword;
+
+typedef struct packed {
+  rvga_word pc;
+} rvga_memory_cword;
+
+typedef struct packed {
+  rvga_word pc;
+} rvga_writeback_cword;
 
 endpackage
 

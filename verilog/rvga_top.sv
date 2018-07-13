@@ -35,6 +35,9 @@ logic writeback_stall_v;
 
 rvga_decode_cword decode_cword;
 rvga_rfetch_cword rfetch_cword;
+rvga_execute_cword execute_cword;
+rvga_memory_cword memory_cword;
+rvga_writeback_cword writeback_cword;
 
   ifetch_stage ifetch(.clk_i(clk_i)
                       ,.rst_i(rst_i)
@@ -78,6 +81,9 @@ rvga_rfetch_cword rfetch_cword;
                         
                         ,.stall_v_i(execute_stall_v)
                         ,.flush_v_i(execute_flush_v)
+                        
+                        ,.cword_i(rfetch_cword)
+                        ,.cword_o(execute_cword)
                         );
     
   memory_stage memory(.clk_i(clk_i)
@@ -85,6 +91,9 @@ rvga_rfetch_cword rfetch_cword;
                       
                       ,.stall_v_i(memory_stall_v)
                       ,.flush_v_i(memory_flush_v)
+                      
+                      ,.cword_i(execute_cword)
+                      ,.cword_o(memory_cword)
                       
                       ,.dmem_r_v_o(dmem_r_v_o)
                       ,.dmem_w_v_o(dmem_w_v_o)
@@ -98,6 +107,9 @@ rvga_rfetch_cword rfetch_cword;
                             ,.rst_i(rst_i)
                             
                             ,.stall_v_i(writeback_stall_v)
+                            
+                            ,.cword_i(memory_cword)
+                            ,.cword_o(writeback_cword)
                             
                             ,.br_tgt_o()
                             ,.br_v_o()
