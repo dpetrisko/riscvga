@@ -14,6 +14,7 @@ module writeback_stage
    , output logic br_v_o
    );
    
+rvga_writeback_cword cmux_o, cword_n, cword_r;
 logic cword_w_v;   
    
   writeback_ctl #()
@@ -25,11 +26,23 @@ logic cword_w_v;
   writeback_dp #()
              dp (.clk_i(clk_i)
                  ,.rst_i(rst_i)
-           
-                 ,.cword_w_v_i(cword_w_v)
-         
-                 ,.cword_o(cword_o)
                  );
+                     
+ dff #(.width_p($bits(rvga_writeback_cword))
+       ) 
+cword (.clk_i(clk_i)
+       ,.rst_i(rst_i)
+       ,.w_v_i(cword_w_v)
+       
+       ,.i(cword_n)
+       ,.o(cword_r)
+       );
+       
+always_comb begin
+  cword_n = cword_i;
+  
+  cword_o = cword_r;
+end
 
 endmodule : writeback_stage
 
