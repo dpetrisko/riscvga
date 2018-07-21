@@ -10,6 +10,12 @@ module rfetch_stage
    
    , input rvga_decode_cword cword_i
    , output rvga_rfetch_cword cword_o
+   
+   , input rvga_reg rd_i
+   , input rvga_word rd_data_i 
+   , input logic rd_w_v_i
+   
+   , output logic br_v_o
    );
    
 logic cmux_sel;
@@ -35,9 +41,9 @@ rfetch_dp #()
             ,.rs1_data_o(rs1_data)
             ,.rs2_data_o(rs2_data)
            
-            ,.writeback_rd_w_v_i('0)
-            ,.writeback_rd_i('0)
-            ,.writeback_rd_data_i('0)
+            ,.writeback_rd_i(rd_i)
+            ,.writeback_rd_data_i(rd_data_i)
+            ,.writeback_rd_w_v_i(rd_w_v_i)
             );
             
  mux #(.els_p(2)
@@ -75,6 +81,8 @@ always_comb begin
   cword_n.rs2_data = rs2_data;
 
   cword_o = cword_r;
+  
+  br_v_o = cword_r.br_v;
 end
 
 endmodule : rfetch_stage

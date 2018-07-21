@@ -12,6 +12,8 @@ module decode_stage
    , input rvga_word ir_i
    
    , output rvga_decode_cword cword_o
+   
+   , output logic br_v_o
    );
    
 logic cmux_sel;
@@ -58,6 +60,8 @@ always_comb begin
   cword_n = decoded;
   
   cword_o = cword_r;
+  
+  br_v_o = cword_r.br_v;
 end
 
 endmodule : decode_stage

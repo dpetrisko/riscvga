@@ -33,11 +33,23 @@ logic memory_stall_v;
 logic memory_flush_v;
 logic writeback_stall_v;
 
+logic decode_br_v;
+logic rfetch_br_v;
+logic execute_br_v;
+logic memory_br_v;
+
 rvga_decode_cword decode_cword;
 rvga_rfetch_cword rfetch_cword;
 rvga_execute_cword execute_cword;
 rvga_memory_cword memory_cword;
 rvga_writeback_cword writeback_cword;
+
+rvga_word writeback_br_tgt;
+logic writeback_br_v;
+
+rvga_reg writeback_rd;
+rvga_word writeback_rd_data; 
+logic writeback_rd_w_v;
 
   ifetch_stage ifetch(.clk_i(clk_i)
                       ,.rst_i(rst_i)
@@ -50,8 +62,8 @@ rvga_writeback_cword writeback_cword;
                       ,.pc_o(pc)
                       ,.ir_o(ir)
                       
-                      ,.br_tgt_i('0)
-                      ,.br_v_i('0)
+                      ,.br_tgt_i(writeback_br_tgt)
+                      ,.br_v_i(writeback_br_v)
                       );
     
   decode_stage decode(.clk_i(clk_i)
@@ -64,6 +76,8 @@ rvga_writeback_cword writeback_cword;
                       ,.ir_i(ir)
                       
                       ,.cword_o(decode_cword)
+                      
+                      ,.br_v_o(decode_br_v)
                       );
     
   rfetch_stage rfetch(.clk_i(clk_i)
@@ -74,6 +88,12 @@ rvga_writeback_cword writeback_cword;
                       
                       ,.cword_i(decode_cword)
                       ,.cword_o(rfetch_cword)
+                      
+                      ,.rd_i(writeback_rd)
+                      ,.rd_data_i(writeback_rd_data) 
+                      ,.rd_w_v_i(writeback_rd_w_v)
+                      
+                      ,.br_v_o(rfetch_br_v)
                       );
                       
   execute_stage execute(.clk_i(clk_i)
@@ -84,6 +104,8 @@ rvga_writeback_cword writeback_cword;
                         
                         ,.cword_i(rfetch_cword)
                         ,.cword_o(execute_cword)
+                        
+                        ,.br_v_o(execute_br_v)
                         );
     
   memory_stage memory(.clk_i(clk_i)
@@ -101,6 +123,8 @@ rvga_writeback_cword writeback_cword;
                       ,.dmem_data_i(dmem_data_i)
                       ,.dmem_data_o(dmem_data_o)
                       ,.dmem_resp_v_i(dmem_resp_v_i)
+                      
+                      ,.br_v_o(memory_br_v)
                       );
     
   writeback_stage writeback(.clk_i(clk_i)
@@ -111,8 +135,12 @@ rvga_writeback_cword writeback_cword;
                             ,.cword_i(memory_cword)
                             ,.cword_o(writeback_cword)
                             
-                            ,.br_tgt_o()
-                            ,.br_v_o()
+                            ,.br_tgt_o(writeback_br_tgt)
+                            ,.br_v_o(writeback_br_v)
+                            
+                            ,.rd_o(writeback_rd)
+                            ,.rd_data_o(writeback_rd_data)
+                            ,.rd_w_v_o(writeback_rd_w_v)
                             );
                             
   hazard hazard(.imem_read_v_i('1)

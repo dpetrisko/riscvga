@@ -122,6 +122,7 @@ typedef struct packed {
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  rvga_word br_tgt;
 } rvga_execute_cword;
 
 typedef struct packed {
@@ -139,6 +140,7 @@ typedef struct packed {
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  rvga_word br_tgt;
 } rvga_memory_cword;
 
 typedef struct packed {
@@ -156,6 +158,7 @@ typedef struct packed {
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  rvga_word br_tgt;
 } rvga_writeback_cword;
 
 endpackage

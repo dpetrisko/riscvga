@@ -10,6 +10,8 @@ module execute_stage
    
    , input rvga_rfetch_cword cword_i
    , output rvga_execute_cword cword_o
+      
+   , output logic br_v_o
    );
    
 logic amux_sel, bmux_sel, cmux_sel;
@@ -80,8 +82,11 @@ always_comb begin
   cword_n.rs2_data = cword_i.rs2_data;
 
   cword_n.alu_result = alu_result;
+  cword_n.br_tgt = '0;
  
   cword_o = cword_r;
+  
+  br_v_o = cword_r.br_v;
 end
 
 
