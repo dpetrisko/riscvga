@@ -15,7 +15,7 @@ module ifetch_stage
    , output rvga_word ir_o
    
    , input rvga_word br_tgt_i
-   , input logic br_v_i
+   , input logic btaken_i
    );
    
 logic pc_w_v;
@@ -28,7 +28,7 @@ ifetch_ctl #()
          ctl(.stall_v_i(stall_v_i)
              ,.flush_v_i(flush_v_i)
              
-             ,.br_v_i(br_v_i)
+             ,.btaken_i(btaken_i)
     
              ,.pc_w_v_o(pc_w_v)
              ,.ir_w_v_o(ir_w_v)

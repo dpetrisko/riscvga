@@ -88,6 +88,9 @@ typedef struct packed {
   logic br_v;
   logic rd_w_v;
   logic imm_v;
+  logic ldst_v;
+  logic dmem_r_v;
+  logic dmem_w_v;
   rvga_word imm;
 } rvga_decode_cword;
 
@@ -102,6 +105,9 @@ typedef struct packed {
   logic br_v;
   logic rd_w_v;
   logic imm_v;
+  logic ldst_v;
+  logic dmem_r_v;
+  logic dmem_w_v;
   rvga_word imm;
   rvga_word rs1_data;
   rvga_word rs2_data;
@@ -118,10 +124,14 @@ typedef struct packed {
   logic br_v;
   logic rd_w_v;
   logic imm_v;
+  logic ldst_v;
+  logic dmem_r_v;
+  logic dmem_w_v;
   rvga_word imm;
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  logic bru_result;
   rvga_word br_tgt;
 } rvga_execute_cword;
 
@@ -136,11 +146,16 @@ typedef struct packed {
   logic br_v;
   logic rd_w_v;
   logic imm_v;
+  logic ldst_v;
+  logic dmem_r_v;
+  logic dmem_w_v;
   rvga_word imm;
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  logic bru_result;
   rvga_word br_tgt;
+  rvga_word ld_result;
 } rvga_memory_cword;
 
 typedef struct packed {
@@ -154,11 +169,16 @@ typedef struct packed {
   logic br_v;
   logic rd_w_v;
   logic imm_v;
+  logic ldst_v;
+  logic dmem_r_v;
+  logic dmem_w_v;
   rvga_word imm;
   rvga_word rs1_data;
   rvga_word rs2_data;
   rvga_word alu_result;
+  logic bru_result;
   rvga_word br_tgt;
+  rvga_word ld_result;
 } rvga_writeback_cword;
 
 endpackage

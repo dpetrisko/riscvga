@@ -29,10 +29,7 @@ decode_ctl #()
              );
              
 decode_dp #()
-        dp (.clk_i(clk_i)
-            ,.rst_i(rst_i)
-            
-            ,.pc_i(pc_i)
+        dp (.pc_i(pc_i)
             ,.ir_i(ir_i)
             
             ,.decoded_o(decoded)

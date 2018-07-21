@@ -24,6 +24,9 @@ always_comb begin
   decoded_o.rd_w_v = '0;
   decoded_o.imm = '0;
   decoded_o.imm_v = '0;
+  decoded_o.ldst_v = '0;
+  decoded_o.dmem_r_v = '0;
+  decoded_o.dmem_w_v = '0;
   
   case (decoded_o.opcode) 
     e_rvga_opcode_br: begin
@@ -45,6 +48,21 @@ always_comb begin
       inst_type = e_rvga_inst_type_i;
       decoded_o.imm_v = '1;
       decoded_o.rd_w_v = '1;
+    end
+    
+    e_rvga_opcode_ld: begin
+      inst_type = e_rvga_inst_type_i;
+      decoded_o.imm_v = '1;
+      decoded_o.ldst_v = '1;
+      decoded_o.dmem_r_v = '1;
+      decoded_o.rd_w_v = '1;
+    end
+    
+    e_rvga_opcode_st: begin
+      inst_type = e_rvga_inst_type_s;
+      decoded_o.imm_v = '1;
+      decoded_o.ldst_v = '1;
+      decoded_o.dmem_r_v = '1;
     end
     
     default: begin

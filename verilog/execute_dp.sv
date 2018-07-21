@@ -2,19 +2,18 @@
 import rvga_types::*;
 
 module execute_dp #()
-  ( input logic clk_i
-    , input logic rst_i
-    
-    , input logic amux_sel_i
+  ( input logic amux_sel_i
     , input logic bmux_sel_i
     
-    , input rvga_funct3 artop_i
+    , input rvga_funct3 op_i
     , input logic alu_alt_i
+    , input logic alu_ldst_v_i
     , input rvga_word imm_i
     , input rvga_word rs1_data_i
     , input rvga_word rs2_data_i
     
     , output rvga_word alu_result_o
+    , output logic bru_result_o
     );
 
 rvga_execute_cword cword_n, cword_r, cmux_o;
@@ -40,11 +39,20 @@ bmux (.sel_i(bmux_sel_i)
 rvga_alu #()
       alu (.a_i(amux_o)
            ,.b_i(bmux_o)
-           ,.op_i(artop_i)
+           ,.op_i(op_i)
            ,.alt_i(alu_alt_i)
+           ,.ldst_v_i(alu_ldst_v_i)
            
            ,.o(alu_result_o)
            );
+           
+ rvga_bru #()
+       bru (.a_i(amux_o)
+            ,.b_i(bmux_o)
+            ,.op_i(op_i)
+            
+            ,.o(bru_result_o)
+            );
 
 endmodule : execute_dp
 

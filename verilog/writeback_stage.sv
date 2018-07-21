@@ -12,6 +12,7 @@ module writeback_stage
    
    , output rvga_word br_tgt_o
    , output logic br_v_o
+   , output logic btaken_o
    
    , output rvga_reg rd_o
    , output rvga_word rd_data_o 
@@ -28,8 +29,10 @@ logic cword_w_v;
                 );
                
   writeback_dp #()
-             dp (.clk_i(clk_i)
-                 ,.rst_i(rst_i)
+             dp (.br_v_i(cword_i.br_v)
+                 ,.bru_result_i(cword_i.bru_result)
+                 
+                 ,.btaken_o(btaken_o)
                  );
                      
  dff #(.width_p($bits(rvga_writeback_cword))
@@ -53,18 +56,23 @@ always_comb begin
   cword_n.br_v = cword_i.br_v;
   cword_n.rd_w_v = cword_i.rd_w_v;
   cword_n.imm_v = cword_i.imm_v;
+  cword_n.ldst_v = cword_i.ldst_v;
+  cword_n.dmem_r_v = cword_i.dmem_r_v;
+  cword_n.dmem_w_v = cword_i.dmem_w_v;
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
   cword_n.alu_result = cword_i.alu_result;
+  cword_n.bru_result = cword_i.bru_result;
   cword_n.br_tgt = cword_i.br_tgt;
+  cword_n.ld_result = cword_i.ld_result;
   
   cword_o = cword_r;
   
   br_tgt_o = cword_r.br_tgt;
   br_v_o = cword_r.br_v;
   rd_o = cword_r.rd;
-  rd_data_o = cword_r.alu_result;
+  rd_data_o = cword_r.ldst_v ? cword_r.ld_result : cword_r.alu_result;
   rd_w_v_o = cword_r.rd_w_v;
   
   br_v_o = cword_r.br_v;

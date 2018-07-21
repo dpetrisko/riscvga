@@ -75,6 +75,9 @@ always_comb begin
   cword_n.br_v = cword_i.br_v;
   cword_n.rd_w_v = cword_i.rd_w_v;
   cword_n.imm_v = cword_i.imm_v;
+  cword_n.ldst_v = cword_i.ldst_v;
+  cword_n.dmem_r_v = cword_i.dmem_r_v;
+  cword_n.dmem_w_v = cword_i.dmem_w_v;
   cword_n.imm = cword_i.imm;
   
   cword_n.rs1_data = rs1_data;

@@ -18,6 +18,7 @@ logic amux_sel, bmux_sel, cmux_sel;
 logic cword_w_v;   
 rvga_execute_cword cword_n, cword_r, cmux_o;
 rvga_word alu_result;
+logic bru_result;
    
   execute_ctl #()
            ctl (.stall_v_i(stall_v_i)
@@ -33,19 +34,18 @@ rvga_word alu_result;
                 );
              
   execute_dp #()
-           dp (.clk_i(clk_i)
-               ,.rst_i(rst_i)
-               
-               ,.amux_sel_i(amux_sel)
+           dp (.amux_sel_i(amux_sel)
                ,.bmux_sel_i(bmux_sel)
                
-               ,.artop_i(cword_i.funct3)
+               ,.op_i(cword_i.funct3)
                ,.alu_alt_i(cword_i.funct7[5])
+               ,.alu_ldst_v_i(cword_i.ldst_v)
                ,.imm_i(cword_i.imm)
                ,.rs1_data_i(cword_i.rs1_data)
                ,.rs2_data_i(cword_i.rs2_data)
        
                ,.alu_result_o(alu_result)
+               ,.bru_result_o(bru_result)
                );
                
     mux #(.els_p(2)
@@ -77,11 +77,15 @@ always_comb begin
   cword_n.br_v = cword_i.br_v;
   cword_n.rd_w_v = cword_i.rd_w_v;
   cword_n.imm_v = cword_i.imm_v;
+  cword_n.ldst_v = cword_i.ldst_v;
+  cword_n.dmem_r_v = cword_i.dmem_r_v;
+  cword_n.dmem_w_v = cword_i.dmem_w_v;
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
 
   cword_n.alu_result = alu_result;
+  cword_n.bru_result = bru_result;
   cword_n.br_tgt = '0;
  
   cword_o = cword_r;

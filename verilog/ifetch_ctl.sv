@@ -2,7 +2,7 @@
 import rvga_types::*;
 
 module ifetch_ctl
-  ( input logic br_v_i
+  ( input logic btaken_i
     , input logic stall_v_i
     , input logic flush_v_i
     
@@ -15,7 +15,7 @@ module ifetch_ctl
 always_comb begin
   pc_w_v_o = ~stall_v_i;
   ir_w_v_o = ~stall_v_i;
-  pcmux_sel_o = br_v_i;
+  pcmux_sel_o = btaken_i;
   irmux_sel_o = flush_v_i;
 end
 
