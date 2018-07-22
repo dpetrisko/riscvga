@@ -21,18 +21,32 @@ module writeback_stage
    
 rvga_writeback_cword cmux_o, cword_n, cword_r;
 logic cword_w_v;   
-   
+logic[1:0] rdmux_sel;
+
   writeback_ctl #()
            ctl (.stall_v_i(stall_v_i)
                 
                 ,.cword_w_v_o(cword_w_v)
+                
+                ,.br_v_i(cword_i.br_v)
+                ,.bru_result_i(cword_i.bru_result)
+                ,.jmp_v_i(cword_i.jmp_v)
+                                 
+                ,.dmem_r_v_i(cword_i.dmem_r_v)
+                ,.dmem_w_v_i(cword_i.dmem_w_v)
+                
+                ,.rdmux_sel_o(rdmux_sel)
+                ,.btaken_o(btaken_o)
                 );
                
   writeback_dp #()
-             dp (.br_v_i(cword_i.br_v)
-                 ,.bru_result_i(cword_i.bru_result)
+             dp (.pc_i(cword_i.pc)
+                 ,.ld_result_i(cword_i.ld_result)
+                 ,.alu_result_i(cword_i.alu_result)
+             
+                 ,.rdmux_sel_i(rdmux_sel)
                  
-                 ,.btaken_o(btaken_o)
+                 ,.rd_data_o(rd_data_o)
                  );
                      
  dff #(.width_p($bits(rvga_writeback_cword))
@@ -56,23 +70,22 @@ always_comb begin
   cword_n.br_v = cword_i.br_v;
   cword_n.rd_w_v = cword_i.rd_w_v;
   cword_n.imm_v = cword_i.imm_v;
-  cword_n.ldst_v = cword_i.ldst_v;
   cword_n.dmem_r_v = cword_i.dmem_r_v;
   cword_n.dmem_w_v = cword_i.dmem_w_v;
+  cword_n.addpc_v = cword_i.addpc_v;
+  cword_n.jmp_v = cword_i.jmp_v;
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
   cword_n.alu_result = cword_i.alu_result;
   cword_n.bru_result = cword_i.bru_result;
-  cword_n.br_tgt = cword_i.br_tgt;
   cword_n.ld_result = cword_i.ld_result;
   
   cword_o = cword_r;
   
-  br_tgt_o = cword_r.br_tgt;
+  br_tgt_o = cword_r.alu_result;
   br_v_o = cword_r.br_v;
   rd_o = cword_r.rd;
-  rd_data_o = cword_r.ldst_v ? cword_r.ld_result : cword_r.alu_result;
   rd_w_v_o = cword_r.rd_w_v;
   
   br_v_o = cword_r.br_v;

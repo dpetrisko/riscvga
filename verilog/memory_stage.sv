@@ -43,6 +43,7 @@ module memory_stage
           dp (.alu_result_i(cword_i.alu_result)
               ,.st_result_i(cword_i.rs2_data)
                
+              ,.funct3_i(cword_i.funct3)
               ,.ld_result_o(ld_result)
                
               ,.dmem_addr_o(dmem_addr_o)
@@ -79,15 +80,15 @@ always_comb begin
   cword_n.br_v = cword_i.br_v;
   cword_n.rd_w_v = cword_i.rd_w_v;
   cword_n.imm_v = cword_i.imm_v;
-  cword_n.ldst_v = cword_i.ldst_v;
   cword_n.dmem_r_v = cword_i.dmem_r_v;
   cword_n.dmem_w_v = cword_i.dmem_w_v;
+  cword_n.addpc_v = cword_i.addpc_v;
+  cword_n.jmp_v = cword_i.jmp_v;
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
   cword_n.alu_result = cword_i.alu_result;
   cword_n.bru_result = cword_i.bru_result;
-  cword_n.br_tgt = cword_i.br_tgt;
   
   cword_n.ld_result = ld_result;
   

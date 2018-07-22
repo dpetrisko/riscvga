@@ -6,13 +6,13 @@ module rvga_alu
     , input rvga_word b_i
     , input rvga_funct3 op_i
     , input logic alt_i
-    , input logic ldst_v_i
+    , input logic add_override_v_i
     
     , output rvga_word o
     );
     
 always_comb begin
-  if (ldst_v_i) begin
+  if (add_override_v_i) begin
     o = (a_i + b_i);
   end else begin
     case (op_i) 

@@ -2,12 +2,13 @@
 import rvga_types::*;
 
 module execute_dp #()
-  ( input logic amux_sel_i
-    , input logic bmux_sel_i
+  ( input logic[1:0] amux_sel_i
+    , input logic[1:0] bmux_sel_i
     
+    , input rvga_word pc_i
     , input rvga_funct3 op_i
     , input logic alu_alt_i
-    , input logic alu_ldst_v_i
+    , input logic alu_add_override_v_i
     , input rvga_word imm_i
     , input rvga_word rs1_data_i
     , input rvga_word rs2_data_i
@@ -20,19 +21,19 @@ rvga_execute_cword cword_n, cword_r, cmux_o;
 
 rvga_word amux_o, bmux_o, alu_o;
         
-mux #(.els_p(2)
+mux #(.els_p(4)
       ,.width_p($bits(rvga_word))
       )
 amux (.sel_i(amux_sel_i)
-      ,.i({'0, rs1_data_i})
+      ,.i({'0, '0, pc_i, rs1_data_i})
       ,.o({amux_o})
       );
       
-mux #(.els_p(2)
+mux #(.els_p(4)
       ,.width_p($bits(rvga_word))            
       )
 bmux (.sel_i(bmux_sel_i)
-      ,.i({imm_i, rs2_data_i})
+      ,.i({'0, imm_i, rs2_data_i})
       ,.o({bmux_o})
       );
 
@@ -41,7 +42,7 @@ rvga_alu #()
            ,.b_i(bmux_o)
            ,.op_i(op_i)
            ,.alt_i(alu_alt_i)
-           ,.ldst_v_i(alu_ldst_v_i)
+           ,.add_override_v_i(alu_add_override_v_i)
            
            ,.o(alu_result_o)
            );
