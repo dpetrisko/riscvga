@@ -18,6 +18,7 @@ module rfetch_dp
     
   regfile #(.width_p($bits(rvga_word))
             ,.els_p(32)
+            ,.zero_init_p('1)
             )
    regfile (.clk_i(clk_i)
             ,.rst_i(rst_i)

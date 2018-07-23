@@ -17,7 +17,7 @@ module execute_stage
 logic cmux_sel;
 logic[1:0] amux_sel, bmux_sel;
 logic cword_w_v;   
-rvga_execute_cword cword_n, cword_r, cmux_o;
+rvga_execute_cword cword_n, cword_r, cmux_o, nop;
 rvga_word alu_result;
 logic bru_result;
 logic add_override_v;
@@ -59,7 +59,7 @@ logic add_override_v;
          ,.width_p($bits(rvga_execute_cword))
          )
     cmux(.sel_i(cmux_sel)
-         ,.i({'0, cword_n})
+         ,.i({nop, cword_n})
          ,.o(cmux_o)
          );
                   
@@ -73,7 +73,10 @@ logic add_override_v;
         ,.o(cword_r)
         );
 
+assign nop = '0;
+
 always_comb begin
+  cword_n.v = cword_i.v;
   cword_n.pc = cword_i.pc;
   cword_n.opcode = cword_i.opcode;
   cword_n.rs1 = cword_i.rs1;

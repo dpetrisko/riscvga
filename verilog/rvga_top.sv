@@ -20,8 +20,8 @@ module rvga_top #()
     , input logic dmem_resp_v_i
     
     /* Debug Interface */
-    , output rvga_writeback_cword debug_word_o
-    , output logic debug_word_v_o
+    , output rvga_writeback_cword debug_cword_o
+    , output logic debug_cword_v_o
 );
 
 rvga_word pc;
@@ -162,7 +162,7 @@ logic writeback_rd_w_v;
                 ,.writeback_stall_v_o(writeback_stall_v)
                 ); 
 
-assign debug_word_o = writeback_cword;
-assign debug_word_v_o = ~writeback_stall_v;
+assign debug_cword_o = writeback_cword;
+assign debug_cword_v_o = writeback_cword.v & (~writeback_stall_v);
 
 endmodule : rvga_top

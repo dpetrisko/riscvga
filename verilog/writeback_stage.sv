@@ -1,8 +1,7 @@
 `include "rvga_types.sv"
 import rvga_types::*;
 
-module writeback_stage
-  (input logic clk_i
+module writeback_stage  (input logic clk_i
    , input logic rst_i
    
    , input logic stall_v_i
@@ -19,7 +18,7 @@ module writeback_stage
    , output logic rd_w_v_o
    );
    
-rvga_writeback_cword cmux_o, cword_n, cword_r;
+rvga_writeback_cword cmux_o, cword_n, cword_r, nop;
 logic cword_w_v;   
 logic[1:0] rdmux_sel;
 
@@ -60,6 +59,17 @@ cword (.clk_i(clk_i)
        );
        
 always_comb begin
+  /* TODO: Move to datapath */
+  br_tgt_o = cword_n.alu_result;
+  br_v_o = cword_n.br_v;
+  rd_o = cword_n.rd;
+  rd_w_v_o = cword_n.rd_w_v;
+
+  br_v_o = cword_n.br_v;
+end
+       
+always_comb begin
+  cword_n.v = cword_i.v;
   cword_n.pc = cword_i.pc;
   cword_n.opcode = cword_i.opcode;  
   cword_n.rs1 = cword_i.rs1;
@@ -80,15 +90,9 @@ always_comb begin
   cword_n.alu_result = cword_i.alu_result;
   cword_n.bru_result = cword_i.bru_result;
   cword_n.ld_result = cword_i.ld_result;
+  cword_n.rd_data = rd_data_o;
   
   cword_o = cword_r;
-  
-  br_tgt_o = cword_r.alu_result;
-  br_v_o = cword_r.br_v;
-  rd_o = cword_r.rd;
-  rd_w_v_o = cword_r.rd_w_v;
-  
-  br_v_o = cword_r.br_v;
 end
 
 endmodule : writeback_stage

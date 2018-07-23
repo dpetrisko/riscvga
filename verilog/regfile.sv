@@ -3,6 +3,7 @@ import rvga_types::*;
 
 module regfile #(parameter width_p = 32
                  , parameter els_p = 32
+                 , parameter zero_init_p = 0
 		         )
   ( input logic clk_i
     , input logic rst_i
@@ -20,12 +21,6 @@ module regfile #(parameter width_p = 32
 
 logic[width_p-1:0] phys_r[els_p-1:0];
 
-initial begin
-  for(integer i = 0; i < els_p; i++) begin
-    phys_r[i] = i;
-  end
-end
-
 always_comb begin
   rs1_data_o = (rd_w_v_i && (rs1_i == rd_i)) ? rd_data_i : phys_r[rs1_i];
   rs2_data_o = (rd_w_v_i && (rs2_i == rd_i)) ? rd_data_i : phys_r[rs2_i];
@@ -34,7 +29,11 @@ end
 always_ff @(posedge clk_i) begin
   if (rst_i) begin
     for (integer i = 0; i < els_p; i++) begin
-      phys_r[i] <= i;
+      if(zero_init_p) begin
+        phys_r[i] <= '0;
+      end else begin
+        phys_r[i] <= i;
+      end
     end
   end else if (rd_w_v_i) begin
     phys_r[rd_i] <= (rd_i == 0) ? 0 : rd_data_i;

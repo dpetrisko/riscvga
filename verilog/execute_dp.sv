@@ -20,12 +20,13 @@ module execute_dp #()
 rvga_execute_cword cword_n, cword_r, cmux_o;
 
 rvga_word amux_o, bmux_o, alu_o;
+rvga_word rvga_zero;
         
 mux #(.els_p(4)
       ,.width_p($bits(rvga_word))
       )
 amux (.sel_i(amux_sel_i)
-      ,.i({'0, '0, pc_i, rs1_data_i})
+      ,.i({rvga_zero, rvga_zero, pc_i, rs1_data_i})
       ,.o({amux_o})
       );
       
@@ -33,7 +34,7 @@ mux #(.els_p(4)
       ,.width_p($bits(rvga_word))            
       )
 bmux (.sel_i(bmux_sel_i)
-      ,.i({'0, imm_i, rs2_data_i})
+      ,.i({rvga_zero, rvga_zero, imm_i, rs2_data_i})
       ,.o({bmux_o})
       );
 
@@ -54,6 +55,8 @@ rvga_alu #()
             
             ,.o(bru_result_o)
             );
+            
+assign rvga_zero = '0;
 
 endmodule : execute_dp
 

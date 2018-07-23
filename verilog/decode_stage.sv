@@ -18,7 +18,7 @@ module decode_stage
    
 logic cmux_sel;
 logic cword_w_v;
-rvga_decode_cword decoded, cword_n, cword_r, cmux_o;
+rvga_decode_cword decoded, cword_n, cword_r, cmux_o, nop;
    
 decode_ctl #()
         ctl (.stall_v_i(stall_v_i)
@@ -39,7 +39,7 @@ decode_dp #()
        ,.width_p($bits(rvga_decode_cword))
        )
   cmux(.sel_i(cmux_sel)
-       ,.i({'0, cword_n})
+       ,.i({nop, cword_n})
        ,.o(cmux_o)
        );
                  
@@ -52,6 +52,8 @@ cword (.clk_i(clk_i)
        ,.i(cmux_o)
        ,.o(cword_r)
        );
+
+assign nop = '0;
 
 always_comb begin
   cword_n = decoded;

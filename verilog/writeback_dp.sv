@@ -11,13 +11,13 @@ module writeback_dp #()
     , output rvga_word rd_data_o
     );
 
-rvga_word pc_plus4;
+rvga_word pc_plus4, rvga_zero;
 
   mux #(.els_p(4)
         ,.width_p($bits(rvga_word))
         )
  rdmux (.sel_i(rdmux_sel_i)
-        ,.i({'0, ld_result_i, pc_plus4, alu_result_i})
+        ,.i({rvga_zero, ld_result_i, pc_plus4, alu_result_i})
         ,.o(rd_data_o)
         );    
     
@@ -26,6 +26,8 @@ rvga_word pc_plus4;
           ,.b_i(32'd4)
           ,.o(pc_plus4)
           );   
+          
+assign rvga_zero = '0;
 
 endmodule : writeback_dp
 

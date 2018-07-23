@@ -21,7 +21,7 @@ module rfetch_stage
 logic cmux_sel;
 logic cword_w_v;
 rvga_word rs1_data, rs2_data;
-rvga_rfetch_cword cword_n, cword_r, cmux_o;
+rvga_rfetch_cword cword_n, cword_r, cmux_o, nop;
    
 rfetch_ctl #()
         ctl (.stall_v_i(stall_v_i)
@@ -50,7 +50,7 @@ rfetch_dp #()
        ,.width_p($bits(rvga_rfetch_cword))
        )
   cmux(.sel_i(cmux_sel)
-       ,.i({'0, cword_n})
+       ,.i({nop, cword_n})
        ,.o(cmux_o)
        );
                 
@@ -64,7 +64,10 @@ cword (.clk_i(clk_i)
       ,.o(cword_r)
       );
 
+assign nop = '0;
+
 always_comb begin
+  cword_n.v = cword_i.v;
   cword_n.pc = cword_i.pc;
   cword_n.opcode = cword_i.opcode;
   cword_n.rs1 = cword_i.rs1;

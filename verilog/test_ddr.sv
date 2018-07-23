@@ -3,6 +3,7 @@ import rvga_types::*;
 
 module test_ddr #(parameter use_program_p = 0
                   , use_identity_p = 0
+                  , debug_p = 0
                   )
   ( input logic clk_i
 	, input logic rst_i
@@ -17,11 +18,17 @@ module test_ddr #(parameter use_program_p = 0
 
 localparam ELF_SIZE=10000;
 
-rvga_word mem_array[0:ELF_SIZE-1];
+logic[7:0] mem_array[0:ELF_SIZE-1];
 
 initial begin
   if(use_program_p) begin
     $readmemh("test_memory.mem", mem_array);
+    
+    $display("---------------- BEGIN MEMORY DUMP ----------------\n");
+    for(integer i = 0; i < 100; i=i+1) begin
+      $display("ADDR: %x DATA: %x\n", i, mem_array[i]);
+    end
+    $display("---------------- END MEMORY DUMP ----------------\n");
   end 
   else if(use_identity_p) begin
     for(integer i = 0; i < ELF_SIZE; i=i+1) begin
@@ -31,8 +38,27 @@ initial begin
 end
 
 always_comb begin  
-  data_o = mem_array[addr_i];
-  resp_v_o = 1'b1;
+  data_o = {mem_array[addr_i+3], mem_array[addr_i+2], mem_array[addr_i+1], mem_array[addr_i+0]};
+  resp_v_o = (r_v_i | w_v_i);
+end
+
+always_ff @(posedge clk_i) begin
+  if(w_v_i) begin
+    mem_array[addr_i+0] <= data_i[7:0];
+    mem_array[addr_i+1] <= data_i[15:0];
+    mem_array[addr_i+2] <= data_i[23:0];
+    mem_array[addr_i+3] <= data_i[31:0];
+  end
+end
+
+always_ff @(posedge clk_i) begin
+  if(debug_p) begin
+    if(r_v_i) begin
+      $display("READ MEM[%x] (%x)\n", addr_i, data_o);             
+    end else if(w_v_i) begin
+      $display("WRITE MEM[%x] = (%x)\n", addr_i, data_i);
+    end
+  end
 end
 
 endmodule : test_ddr

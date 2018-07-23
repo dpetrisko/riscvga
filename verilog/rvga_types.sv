@@ -78,6 +78,7 @@ typedef enum logic[2:0] {
 } rvga_strop_e;
 
 typedef struct packed {
+  logic v;
   rvga_word pc;
   rvga_opcode opcode;
   rvga_reg rs1;
@@ -96,6 +97,7 @@ typedef struct packed {
 } rvga_decode_cword;
 
 typedef struct packed {
+  logic v;
   rvga_word pc;
   rvga_opcode opcode;
   rvga_reg rs1;
@@ -116,6 +118,7 @@ typedef struct packed {
 } rvga_rfetch_cword;
 
 typedef struct packed {
+  logic v;
   rvga_word pc;
   rvga_opcode opcode;
   rvga_reg rs1;
@@ -138,6 +141,7 @@ typedef struct packed {
 } rvga_execute_cword;
 
 typedef struct packed {
+  logic v;
   rvga_word pc;
   rvga_opcode opcode;
   rvga_reg rs1;
@@ -161,6 +165,7 @@ typedef struct packed {
 } rvga_memory_cword;
 
 typedef struct packed {
+  logic v;
   rvga_word pc;
   rvga_opcode opcode;
   rvga_reg rs1;
@@ -181,6 +186,7 @@ typedef struct packed {
   rvga_word alu_result;
   logic bru_result;
   rvga_word ld_result;
+  rvga_word rd_data;
 } rvga_writeback_cword;
 
 endpackage

@@ -12,6 +12,7 @@ module inst_decoder
 rvga_inst_type inst_type;
 
 always_comb begin
+  decoded_o.v = '1;
   decoded_o.pc = pc_i;
   decoded_o.opcode = ir_i[6:0];
   decoded_o.rs1 = ir_i[19:15];
@@ -65,6 +66,7 @@ always_comb begin
     
     e_rvga_opcode_imm: begin
       inst_type = e_rvga_inst_type_i;
+      decoded_o.funct7 = '0;
       decoded_o.imm_v = '1;
       decoded_o.rd_w_v = '1;
     end
