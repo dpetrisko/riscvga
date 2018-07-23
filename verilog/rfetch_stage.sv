@@ -8,8 +8,8 @@ module rfetch_stage
    , input logic stall_v_i
    , input logic flush_v_i
    
-   , input rvga_decode_cword cword_i
-   , output rvga_rfetch_cword cword_o
+   , input rvga_rfetch_cword cword_i
+   , output rvga_execute_cword cword_o
    
    , input rvga_reg rd_i
    , input rvga_word rd_data_i 
@@ -21,7 +21,7 @@ module rfetch_stage
 logic cmux_sel;
 logic cword_w_v;
 rvga_word rs1_data, rs2_data;
-rvga_rfetch_cword cword_n, cword_r, cmux_o, nop;
+rvga_execute_cword cword_n, cword_r, cmux_o, nop;
    
 rfetch_ctl #()
         ctl (.stall_v_i(stall_v_i)
@@ -47,14 +47,14 @@ rfetch_dp #()
             );
             
  mux #(.els_p(2)
-       ,.width_p($bits(rvga_rfetch_cword))
+       ,.width_p($bits(rvga_execute_cword))
        )
   cmux(.sel_i(cmux_sel)
        ,.i({nop, cword_n})
        ,.o(cmux_o)
        );
                 
- dff #(.width_p($bits(rvga_rfetch_cword))
+ dff #(.width_p($bits(rvga_execute_cword))
        ) 
 cword (.clk_i(clk_i)
       ,.rst_i(rst_i)

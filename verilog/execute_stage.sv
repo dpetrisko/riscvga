@@ -8,8 +8,16 @@ module execute_stage
    , input logic stall_v_i
    , input logic flush_v_i
    
-   , input rvga_rfetch_cword cword_i
-   , output rvga_execute_cword cword_o
+   , input rvga_execute_cword cword_i
+   , output rvga_memory_cword cword_o
+                  
+   , input logic forward_memory_execute_rs1_v_i
+   , input logic forward_memory_execute_rs2_v_i
+   , input logic forward_writeback_execute_rs1_v_i
+   , input logic forward_writeback_execute_rs2_v_i 
+   
+   , input rvga_word memory_rd_data_i
+   , input rvga_word writeback_rd_data_i
       
    , output logic br_v_o
    );
@@ -17,11 +25,11 @@ module execute_stage
 logic cmux_sel;
 logic[1:0] amux_sel, bmux_sel;
 logic cword_w_v;   
-rvga_execute_cword cword_n, cword_r, cmux_o, nop;
+rvga_memory_cword cword_n, cword_r, cmux_o, nop;
 rvga_word alu_result;
 logic bru_result;
 logic add_override_v;
-   
+
   execute_ctl #()
            ctl (.stall_v_i(stall_v_i)
                 ,.flush_v_i(flush_v_i)
@@ -33,6 +41,11 @@ logic add_override_v;
                 ,.dmem_w_v_i(cword_i.dmem_w_v)
                 ,.imm_v_i(cword_i.imm_v)
                 ,.addpc_v_i(cword_i.addpc_v)
+                
+                ,.forward_memory_execute_rs1_v_i(forward_memory_execute_rs1_v_i)
+                ,.forward_memory_execute_rs2_v_i(forward_memory_execute_rs2_v_i)
+                ,.forward_writeback_execute_rs1_v_i(forward_writeback_execute_rs1_v_i)
+                ,.forward_writeback_execute_rs2_v_i(forward_writeback_execute_rs2_v_i)   
                 
                 ,.amux_sel_o(amux_sel)
                 ,.bmux_sel_o(bmux_sel)
@@ -53,17 +66,20 @@ logic add_override_v;
        
                ,.alu_result_o(alu_result)
                ,.bru_result_o(bru_result)
+               
+               ,.memory_rd_data_i(memory_rd_data_i)
+               ,.writeback_rd_data_i(writeback_rd_data_i)
                );
                
     mux #(.els_p(2)
-         ,.width_p($bits(rvga_execute_cword))
+         ,.width_p($bits(rvga_memory_cword))
          )
     cmux(.sel_i(cmux_sel)
          ,.i({nop, cword_n})
          ,.o(cmux_o)
          );
                   
-   dff #(.width_p($bits(rvga_execute_cword))
+   dff #(.width_p($bits(rvga_memory_cword))
          ) 
   cword (.clk_i(clk_i)
         ,.rst_i(rst_i)
@@ -95,7 +111,7 @@ always_comb begin
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
 
-  cword_n.alu_result = alu_result;
+  cword_n.alu_or_ld_result = alu_result;
   cword_n.bru_result = bru_result;
  
   cword_o = cword_r;

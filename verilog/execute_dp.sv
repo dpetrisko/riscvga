@@ -15,6 +15,9 @@ module execute_dp #()
     
     , output rvga_word alu_result_o
     , output logic bru_result_o
+    
+    , input rvga_word memory_rd_data_i
+    , input rvga_word writeback_rd_data_i
     );
 
 rvga_execute_cword cword_n, cword_r, cmux_o;
@@ -26,7 +29,7 @@ mux #(.els_p(4)
       ,.width_p($bits(rvga_word))
       )
 amux (.sel_i(amux_sel_i)
-      ,.i({rvga_zero, rvga_zero, pc_i, rs1_data_i})
+      ,.i({writeback_rd_data_i, memory_rd_data_i, pc_i, rs1_data_i})
       ,.o({amux_o})
       );
       
@@ -34,7 +37,7 @@ mux #(.els_p(4)
       ,.width_p($bits(rvga_word))            
       )
 bmux (.sel_i(bmux_sel_i)
-      ,.i({rvga_zero, rvga_zero, imm_i, rs2_data_i})
+      ,.i({writeback_rd_data_i, memory_rd_data_i, imm_i, rs2_data_i})
       ,.o({bmux_o})
       );
 

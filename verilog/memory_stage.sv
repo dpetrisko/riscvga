@@ -8,8 +8,8 @@ module memory_stage
    , input logic stall_v_i
    , input logic flush_v_i
    
-   , input rvga_execute_cword cword_i
-   , output rvga_memory_cword cword_o
+   , input rvga_memory_cword cword_i
+   , output rvga_writeback_cword cword_o
    
    , output logic dmem_r_v_o
    , output logic dmem_w_v_o
@@ -22,7 +22,7 @@ module memory_stage
  
  logic cmux_sel;
  logic cword_w_v;
- rvga_memory_cword cword_n, cword_r, cmux_o, nop;
+ rvga_writeback_cword cword_n, cword_r, cmux_o, nop;
  rvga_word ld_result;
    
   memory_ctl #()
@@ -40,7 +40,7 @@ module memory_stage
                );
               
   memory_dp #()
-          dp (.alu_result_i(cword_i.alu_result)
+          dp (.alu_result_i(cword_i.alu_or_ld_result)
               ,.st_result_i(cword_i.rs2_data)
                
               ,.funct3_i(cword_i.funct3)
@@ -52,14 +52,14 @@ module memory_stage
               );
                 
    mux #(.els_p(2)
-         ,.width_p($bits(rvga_memory_cword))
+         ,.width_p($bits(rvga_writeback_cword))
          )
     cmux(.sel_i(cmux_sel)
          ,.i({nop, cword_n})
          ,.o(cmux_o)
          );
                   
-   dff #(.width_p($bits(rvga_memory_cword))
+   dff #(.width_p($bits(rvga_writeback_cword))
          ) 
   cword (.clk_i(clk_i)
         ,.rst_i(rst_i)
@@ -90,10 +90,8 @@ always_comb begin
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
-  cword_n.alu_result = cword_i.alu_result;
+  cword_n.alu_or_ld_result = cword_i.dmem_r_v ? ld_result : cword_i.alu_or_ld_result;
   cword_n.bru_result = cword_i.bru_result;
-  
-  cword_n.ld_result = ld_result;
   
   cword_o = cword_r;
   

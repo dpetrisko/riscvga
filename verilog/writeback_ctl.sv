@@ -7,22 +7,17 @@ module writeback_ctl #()
     , input logic jmp_v_i
     , input logic bru_result_i
     
-    , input logic dmem_r_v_i
-    , input logic dmem_w_v_i
-    
-    , output logic[1:0] rdmux_sel_o
+    , output logic rdmux_sel_o
     , output logic btaken_o
     );
     
 always_comb begin
   cword_w_v_o = ~stall_v_i;
   
-  if(dmem_r_v_i || dmem_w_v_i) begin
-    rdmux_sel_o = 2'b10;
-  end else if(jmp_v_i) begin
-    rdmux_sel_o = 2'b01;
+  if(jmp_v_i) begin
+    rdmux_sel_o = 1'b1;
   end else begin
-    rdmux_sel_o = 2'b00;
+    rdmux_sel_o = 1'b0;
   end
   
   btaken_o = jmp_v_i || (br_v_i && bru_result_i);

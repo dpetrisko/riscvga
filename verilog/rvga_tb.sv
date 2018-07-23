@@ -17,7 +17,7 @@ rvga_word dmem_rdata;
 rvga_word dmem_wdata;
 logic dmem_resp_v;
 
-rvga_writeback_cword debug_cword;
+rvga_debug_cword debug_cword;
 logic debug_cword_v;
 
 rvga_top #() 

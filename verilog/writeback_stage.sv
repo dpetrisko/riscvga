@@ -6,8 +6,8 @@ module writeback_stage  (input logic clk_i
    
    , input logic stall_v_i
    
-   , input rvga_memory_cword cword_i
-   , output rvga_writeback_cword cword_o
+   , input rvga_writeback_cword cword_i
+   , output rvga_debug_cword cword_o
    
    , output rvga_word br_tgt_o
    , output logic br_v_o
@@ -18,9 +18,9 @@ module writeback_stage  (input logic clk_i
    , output logic rd_w_v_o
    );
    
-rvga_writeback_cword cmux_o, cword_n, cword_r, nop;
+rvga_debug_cword cmux_o, cword_n, cword_r, nop;
 logic cword_w_v;   
-logic[1:0] rdmux_sel;
+logic rdmux_sel;
 
   writeback_ctl #()
            ctl (.stall_v_i(stall_v_i)
@@ -30,9 +30,6 @@ logic[1:0] rdmux_sel;
                 ,.br_v_i(cword_i.br_v)
                 ,.bru_result_i(cword_i.bru_result)
                 ,.jmp_v_i(cword_i.jmp_v)
-                                 
-                ,.dmem_r_v_i(cword_i.dmem_r_v)
-                ,.dmem_w_v_i(cword_i.dmem_w_v)
                 
                 ,.rdmux_sel_o(rdmux_sel)
                 ,.btaken_o(btaken_o)
@@ -40,15 +37,14 @@ logic[1:0] rdmux_sel;
                
   writeback_dp #()
              dp (.pc_i(cword_i.pc)
-                 ,.ld_result_i(cword_i.ld_result)
-                 ,.alu_result_i(cword_i.alu_result)
+                 ,.alu_or_ld_result_i(cword_i.alu_or_ld_result)
              
                  ,.rdmux_sel_i(rdmux_sel)
                  
                  ,.rd_data_o(rd_data_o)
                  );
                      
- dff #(.width_p($bits(rvga_writeback_cword))
+ dff #(.width_p($bits(rvga_debug_cword))
        ) 
 cword (.clk_i(clk_i)
        ,.rst_i(rst_i)
@@ -60,7 +56,7 @@ cword (.clk_i(clk_i)
        
 always_comb begin
   /* TODO: Move to datapath */
-  br_tgt_o = cword_n.alu_result;
+  br_tgt_o = cword_n.alu_or_ld_result;
   br_v_o = cword_n.br_v;
   rd_o = cword_n.rd;
   rd_w_v_o = cword_n.rd_w_v;
@@ -87,9 +83,8 @@ always_comb begin
   cword_n.imm = cword_i.imm;
   cword_n.rs1_data = cword_i.rs1_data;
   cword_n.rs2_data = cword_i.rs2_data;
-  cword_n.alu_result = cword_i.alu_result;
+  cword_n.alu_or_ld_result = cword_i.alu_or_ld_result;
   cword_n.bru_result = cword_i.bru_result;
-  cword_n.ld_result = cword_i.ld_result;
   cword_n.rd_data = rd_data_o;
   
   cword_o = cword_r;

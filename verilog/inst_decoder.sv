@@ -6,7 +6,7 @@ module inst_decoder
   ( input rvga_word pc_i
     , input rvga_word ir_i
   
-    , output rvga_decode_cword decoded_o
+    , output rvga_rfetch_cword decoded_o
     );
 
 rvga_inst_type inst_type;
