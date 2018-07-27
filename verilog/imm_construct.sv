@@ -19,9 +19,9 @@ always_comb begin
                             imm_o = {{20{imm_raw_i[31]}}, imm_raw_i[31:20]};
                         end
     e_rvga_inst_type_s: imm_o = {{20{imm_raw_i[31]}}, imm_raw_i[31:25], imm_raw_i[11:7]};
-    e_rvga_inst_type_b: imm_o = {{19{imm_raw_i[31]}}, imm_raw_i[7], imm_raw_i[30:25], imm_raw_i[11:8], 1'b0};
+    e_rvga_inst_type_b: imm_o = {{20{imm_raw_i[31]}}, imm_raw_i[7], imm_raw_i[30:25], imm_raw_i[11:8], 1'b0};
     e_rvga_inst_type_u: imm_o = {imm_raw_i[31:12], {12{1'b0}}};
-    e_rvga_inst_type_j: imm_o = {{11{imm_raw_i[31]}}, imm_raw_i[19:12], imm_raw_i[20], imm_raw_i[30:21], 1'b0};
+    e_rvga_inst_type_j: imm_o = {{12{imm_raw_i[31]}}, imm_raw_i[19:12], imm_raw_i[20], imm_raw_i[30:21], 1'b0};
     default: imm_o = 0;
   endcase
 end

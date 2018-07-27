@@ -18,8 +18,8 @@ always_comb begin
     case (op_i) 
       e_rvga_artop_addsub: o = alt_i ? (a_i - b_i) : (a_i + b_i);
       e_rvga_artop_sll: o = a_i << b_i;  
-      e_rvga_artop_slt: o = ($signed(a_i) < $signed(b_i));
-      e_rvga_artop_sltu: o = ($unsigned(a_i) < $unsigned(b_i));
+      e_rvga_artop_slt: o = {{31{'0}}, ($signed(a_i) < $signed(b_i))};
+      e_rvga_artop_sltu: o = {{31{'0}}, ($unsigned(a_i) < $unsigned(b_i))};
       e_rvga_artop_xor: o = a_i ^ b_i;
       e_rvga_artop_srx: o = alt_i ? $signed($signed(a_i) >>> $signed(b_i)) : (a_i >> b_i);
       e_rvga_artop_or: o = a_i | b_i;   
