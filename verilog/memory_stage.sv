@@ -6,96 +6,91 @@ module memory_stage
    , input logic rst_i
    
    , input logic stall_v_i
-   , input logic flush_v_i
    
-   , input rvga_memory_cword cword_i
-   , output rvga_writeback_cword cword_o
+   , input rvga_cword cword_i
+   , output rvga_cword cword_o
+   
+   , input rvga_dword dword_i
+   , output rvga_dword dword_o
+   
+   , input rvga_word alu_result_i
+   , input logic bru_result_i
+   , input rvga_word st_data_i
    
    , output logic dmem_r_v_o
    , output logic dmem_w_v_o
    , output rvga_word dmem_addr_o
    , input rvga_word dmem_data_i
-   , output rvga_word dmem_data_o
-         
-   , output logic br_v_o
+   , output rvga_word dmem_data_o   
+   
+   , output logic btaken_o
+   , output rvga_word alu_or_ld_result_o      
    );
  
- logic cmux_sel;
- logic cword_w_v;
- rvga_writeback_cword cword_n, cword_r, cmux_o, nop;
+ rvga_cword cword_n, cword_r;
+ rvga_dword dword_n, dword_r;
+ rvga_word alu_result_r;
  rvga_word ld_result;
-   
-  memory_ctl #()
-          ctl (.stall_v_i(stall_v_i)
-               ,.flush_v_i(flush_v_i)
-               
-               ,.cmux_sel_o(cmux_sel)
-               ,.cword_w_v_o(cword_w_v)
-               
-               ,.dmem_r_v_i(cword_i.dmem_r_v)
-               ,.dmem_w_v_i(cword_i.dmem_w_v)
-               
-               ,.dmem_r_v_o(dmem_r_v_o)
-               ,.dmem_w_v_o(dmem_w_v_o)
-               );
-              
-  memory_dp #()
-          dp (.alu_result_i(cword_i.alu_or_ld_result)
-              ,.st_result_i(cword_i.rs2_data)
-               
-              ,.funct3_i(cword_i.funct3)
-              ,.ld_result_o(ld_result)
-               
-              ,.dmem_addr_o(dmem_addr_o)
-              ,.dmem_data_i(dmem_data_i)
-              ,.dmem_data_o(dmem_data_o)
-              );
-                
-   mux #(.els_p(2)
-         ,.width_p($bits(rvga_writeback_cword))
-         )
-    cmux(.sel_i(cmux_sel)
-         ,.i({nop, cword_n})
-         ,.o(cmux_o)
-         );
+ 
+    mux #(.els_p(2)
+          ,.width_p($bits(rvga_word))
+          )
+result_mux(.sel_i(cword_r.dmem_r_v)
+          ,.i({ld_result, alu_result_r})
+          ,.o(alu_or_ld_result_o)
+          );    
                   
-   dff #(.width_p($bits(rvga_writeback_cword))
-         ) 
+   dff #(.width_p($bits(rvga_cword)))
   cword (.clk_i(clk_i)
         ,.rst_i(rst_i)
-        ,.w_v_i(cword_w_v)
+        ,.w_v_i(~stall_v_i)
          
-        ,.i(cmux_o)
+        ,.i(cword_n)
         ,.o(cword_r)
         );
         
-assign nop = '0;      
+   dff #(.width_p($bits(rvga_dword)))
+  dword (.clk_i(clk_i)
+         ,.rst_i(rst_i)
+         ,.w_v_i(~stall_v_i)
+        
+         ,.i(dword_n)
+         ,.o(dword_r)
+         );
+        
+  memory_slicer #()
+           slicer(.ld_data_i(dmem_data_i)
+                  ,.st_data_i(st_data_i)
+                 
+                  ,.op_i(cword_r.funct3)
+                 
+                  ,.ld_result_o(ld_result)
+                  ,.st_result_o(dmem_data_o)
+                  );
+             
+       dff #(.width_p($bits(rvga_word)))
+  alu_result(.clk_i(clk_i)
+             ,.rst_i(rst_i)
+             ,.w_v_i(~stall_v_i)
+             
+             ,.i(alu_result_i)
+             ,.o(alu_result_r)
+             );
         
 always_comb begin
-  cword_n.v = cword_i.v;
-  cword_n.pc = cword_i.pc;
-  cword_n.opcode = cword_i.opcode;  
-  cword_n.rs1 = cword_i.rs1;
-  cword_n.rs2 = cword_i.rs2;
-  cword_n.rd = cword_i.rd;
-  cword_n.funct3 = cword_i.funct3;
-  cword_n.funct7 = cword_i.funct7;
-  cword_n.br_v = cword_i.br_v;
-  cword_n.rd_w_v = cword_i.rd_w_v;
-  cword_n.imm_v = cword_i.imm_v;
-  cword_n.dmem_r_v = cword_i.dmem_r_v;
-  cword_n.dmem_w_v = cword_i.dmem_w_v;
-  cword_n.addpc_v = cword_i.addpc_v;
-  cword_n.jmp_v = cword_i.jmp_v;
-  cword_n.imm = cword_i.imm;
-  cword_n.rs1_data = cword_i.rs1_data;
-  cword_n.rs2_data = cword_i.rs2_data;
-  cword_n.alu_or_ld_result = cword_i.dmem_r_v ? ld_result : cword_i.alu_or_ld_result;
-  cword_n.bru_result = cword_i.bru_result;
+  cword_n = cword_i;
+  dword_n = dword_i;
+  
+  dword_n.alu_result = alu_result_i;
   
   cword_o = cword_r;
+  dword_o = dword_r;
   
-  br_v_o = cword_r.br_v;
+  dmem_r_v_o = cword_r.dmem_r_v;
+  dmem_w_v_o = cword_r.dmem_w_v;
+  dmem_addr_o = alu_result_r;
+  
+  btaken_o = cword_r.jmp_v || (cword_r.br_v && bru_result_i);
 end
 
 endmodule : memory_stage

@@ -78,14 +78,16 @@ typedef enum logic[2:0] {
 } rvga_strop_e;
 
 typedef struct packed {
-  logic v;
   rvga_word pc;
   rvga_opcode opcode;
+  rvga_inst_type inst_type;
   rvga_reg rs1;
   rvga_reg rs2;
   rvga_reg rd;
   rvga_funct3 funct3;
   rvga_funct7 funct7;
+  
+  logic v;
   logic br_v;
   logic rd_w_v;
   logic imm_v;
@@ -93,99 +95,16 @@ typedef struct packed {
   logic dmem_w_v;
   logic addpc_v;
   logic jmp_v;
-  rvga_word imm;
-} rvga_rfetch_cword;
+  logic shift_v;
+} rvga_cword;
 
 typedef struct packed {
-  logic v;
-  rvga_word pc;
-  rvga_opcode opcode;
-  rvga_reg rs1;
-  rvga_reg rs2;
-  rvga_reg rd;
-  rvga_funct3 funct3;
-  rvga_funct7 funct7;
-  logic br_v;
-  logic rd_w_v;
-  logic imm_v;
-  logic dmem_r_v;
-  logic dmem_w_v;
-  logic addpc_v;
-  logic jmp_v;
-  rvga_word imm;
+  rvga_word imm_data;
   rvga_word rs1_data;
   rvga_word rs2_data;
-} rvga_execute_cword;
-
-typedef struct packed {
-  logic v;
-  rvga_word pc;
-  rvga_opcode opcode;
-  rvga_reg rs1;
-  rvga_reg rs2;
-  rvga_reg rd;
-  rvga_funct3 funct3;
-  rvga_funct7 funct7;
-  logic br_v;
-  logic rd_w_v;
-  logic imm_v;
-  logic dmem_r_v;
-  logic dmem_w_v;
-  logic addpc_v;
-  logic jmp_v;
-  rvga_word imm;
-  rvga_word rs1_data;
-  rvga_word rs2_data;
-  rvga_word alu_or_ld_result;
-  logic bru_result;
-} rvga_memory_cword;
-
-typedef struct packed {
-  logic v;
-  rvga_word pc;
-  rvga_opcode opcode;
-  rvga_reg rs1;
-  rvga_reg rs2;
-  rvga_reg rd;
-  rvga_funct3 funct3;
-  rvga_funct7 funct7;
-  logic br_v;
-  logic rd_w_v;
-  logic imm_v;
-  logic dmem_r_v;
-  logic dmem_w_v;
-  logic addpc_v;
-  logic jmp_v;
-  rvga_word imm;
-  rvga_word rs1_data;
-  rvga_word rs2_data;
-  rvga_word alu_or_ld_result;
-  logic bru_result;
-} rvga_writeback_cword;
-
-typedef struct packed {
-  logic v;
-  rvga_word pc;
-  rvga_opcode opcode;
-  rvga_reg rs1;
-  rvga_reg rs2;
-  rvga_reg rd;
-  rvga_funct3 funct3;
-  rvga_funct7 funct7;
-  logic br_v;
-  logic rd_w_v;
-  logic imm_v;
-  logic dmem_r_v;
-  logic dmem_w_v;
-  logic addpc_v;
-  logic jmp_v;
-  rvga_word imm;
-  rvga_word rs1_data;
-  rvga_word rs2_data;
-  rvga_word alu_or_ld_result;
-  logic bru_result;
-  rvga_word rd_data;
-} rvga_debug_cword;
+  rvga_word alu_result;
+  rvga_word ld_result;
+} rvga_dword;
 
 endpackage
 

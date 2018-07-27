@@ -25,8 +25,8 @@ initial begin
     $readmemh("test_memory.mem", mem_array);
     
     $display("---------------- BEGIN MEMORY DUMP ----------------\n");
-    for(integer i = 0; i < 100; i=i+1) begin
-      $display("ADDR: %x DATA: %x\n", i, mem_array[i]);
+    for(integer i = 0; i < 100; i=i+4) begin
+      $display("ADDR: %x DATA: %x\n", i, {mem_array[i+3],mem_array[i+2],mem_array[i+1],mem_array[i+0]});
     end
     $display("---------------- END MEMORY DUMP ----------------\n");
   end 

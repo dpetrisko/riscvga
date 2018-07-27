@@ -3,6 +3,8 @@ import rvga_types::*;
 
 module rvga_tb;
 
+integer cycle = 0;
+
 logic clk;
 logic rst;
 
@@ -16,9 +18,6 @@ rvga_word dmem_addr;
 rvga_word dmem_rdata;
 rvga_word dmem_wdata;
 logic dmem_resp_v;
-
-rvga_debug_cword debug_cword;
-logic debug_cword_v;
 
 rvga_top #() 
 processor (.clk_i(clk)
@@ -34,9 +33,9 @@ processor (.clk_i(clk)
            ,.dmem_data_i(dmem_rdata)
            ,.dmem_data_o(dmem_wdata)
            ,.dmem_resp_v_i(dmem_resp_v)
+           );
            
-           ,.debug_cword_o(debug_cword)
-           ,.debug_cword_v_o(debug_cword_v));
+
 
 test_ddr #(.use_program_p(1)
            )
@@ -65,13 +64,14 @@ test_ddr #(.use_identity_p(1)
            ,.resp_v_o(dmem_resp_v)
            );
            
-rvga_nonsynth_monitor #()
-               monitor (.clk_i(clk)
-                        ,.debug_word_i(debug_cword)
-                        ,.debug_word_v_i(debug_cword_v)
-                        );
+           
 
-integer cycle = 0;
+rvga_nonsynth_commit_monitor #()
+                      monitor (.cycle_i(cycle)
+                               ,.clk_i(clk)
+                               ,.cword_i(processor.writeback_cword)
+                               ,.dword_i(processor.writeback_dword)
+                               );
 
 initial begin
   clk = 0;

@@ -1,151 +1,155 @@
-module rvga_nonsynth_monitor
-  ( input logic clk_i
-    , input logic debug_word_v_i
-    , input rvga_debug_cword debug_word_i
+`include "rvga_types.sv"
+import rvga_types::*;
+
+module rvga_nonsynth_commit_monitor
+  ( input integer cycle_i
+    , input logic clk_i
+    , input rvga_cword cword_i
+    , input rvga_dword dword_i
   );
   
-task print_imm(input rvga_debug_cword debug_word);
-  case(debug_word.funct3) 
-    e_rvga_artop_addsub : if(debug_word.funct7 == 0) begin
-                            $display("@PC %x, COMMITTED ADDIMM: R%d (%x) = R%d (%x) + IMM (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.alu_or_ld_result, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
+task print_imm(input rvga_cword cword);
+  case(cword_i.funct3) 
+    e_rvga_artop_addsub : if(cword_i.funct7 == 0) begin
+                            $display("Cycle %d: @PC %x, COMMITTED ADDIMM: R%d (%x) = R%d (%x) + IMM (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
                           end else begin
-                            $display("@PC %x, COMMITTED SUBIMM: R%d (%x) = R%d (%x) - IMM (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);               
+                            $display("Cycle %d: @PC %x, COMMITTED SUBIMM: R%d (%x) = R%d (%x) - IMM (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);               
                           end
-    e_rvga_artop_sll    : $display("@PC %x, COMMITTED SLLIMM: R%d (%x) = R%d (%x) << IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
-    e_rvga_artop_slt    : $display("@PC %x, COMMITTED SLTIMM: R%d (%x) = R%d (%x) < IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
-    e_rvga_artop_sltu   : $display("@PC %x, COMMITTED SLTUIMM: R%d (%x) = R%d (%x) < IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
-    e_rvga_artop_xor    : $display("@PC %x, COMMITTED XORIMM: R%d (%x) = R%d (%x) ^ IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
-    e_rvga_artop_srx    : if(debug_word.funct7 == 0) begin
-                            $display("@PC %x, COMMITTED SRAIMM: R%d (%x) = R%d (%x) >a IMM (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);  
+    e_rvga_artop_sll    : $display("Cycle %d: @PC %x, COMMITTED SLLIMM: R%d (%x) = R%d (%x) << IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
+    e_rvga_artop_slt    : $display("Cycle %d: @PC %x, COMMITTED SLTIMM: R%d (%x) = R%d (%x) < IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
+    e_rvga_artop_sltu   : $display("Cycle %d: @PC %x, COMMITTED SLTUIMM: R%d (%x) = R%d (%x) < IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
+    e_rvga_artop_xor    : $display("Cycle %d: @PC %x, COMMITTED XORIMM: R%d (%x) = R%d (%x) ^ IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
+    e_rvga_artop_srx    : if(cword_i.funct7 == 0) begin
+                            $display("Cycle %d: @PC %x, COMMITTED SRAIMM: R%d (%x) = R%d (%x) >a IMM (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);  
                           end else begin
-                            $display("@PC %x, COMMITTED SRLIMM: R%d (%x) = R%d (%x) > IMM (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm);               
+                            $display("Cycle %d: @PC %x, COMMITTED SRLIMM: R%d (%x) = R%d (%x) > IMM (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data);               
                           end
-    e_rvga_artop_or     : $display("@PC %x, COMMITTED ORIMM: R%d (%x) = R%d (%x) | IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm); 
-    e_rvga_artop_and    : $display("@PC %x, COMMITTED ANDIMM: R%d (%x) = R%d (%x) & IMM (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.imm); 
+    e_rvga_artop_or     : $display("Cycle %d: @PC %x, COMMITTED ORIMM: R%d (%x) = R%d (%x) | IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data); 
+    e_rvga_artop_and    : $display("Cycle %d: @PC %x, COMMITTED ANDIMM: R%d (%x) = R%d (%x) & IMM (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data); 
   endcase
 endtask
 
-task print_reg(input rvga_debug_cword debug_word);
-  case(debug_word.funct3) 
-    e_rvga_artop_addsub : if(debug_word.funct7 == 0) begin
-                            $display("@PC %x, COMMITTED ADD: R%d (%x) = R%d (%x) + R%d (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
+task print_reg(input rvga_cword cword);
+  case(cword_i.funct3) 
+    e_rvga_artop_addsub : if(cword_i.funct7 == 0) begin
+                            $display("Cycle %d: @PC %x, COMMITTED ADD: R%d (%x) = R%d (%x) + R%d (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
                           end else begin
-                            $display("@PC %x, COMMITTED SUB: R%d (%x) = R%d (%x) - R%d (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);               
+                            $display("Cycle %d: @PC %x, COMMITTED SUB: R%d (%x) = R%d (%x) - R%d (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);               
                           end
-    e_rvga_artop_sll    : $display("@PC %x, COMMITTED SLL: R%d (%x) = R%d (%x) << R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
-    e_rvga_artop_slt    : $display("@PC %x, COMMITTED SLT: R%d (%x) = R%d (%x) < R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
-    e_rvga_artop_sltu   : $display("@PC %x, COMMITTED SLTU: R%d (%x) = R%d (%x) < R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
-    e_rvga_artop_xor    : $display("@PC %x, COMMITTED XOR: R%d (%x) = R%d (%x) ^ R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
-    e_rvga_artop_srx    : if(debug_word.funct7 == 0) begin
-                            $display("@PC %x, COMMITTED SRA: R%d (%x) = R%d (%x) >a R%d (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);  
+    e_rvga_artop_sll    : $display("Cycle %d: @PC %x, COMMITTED SLL: R%d (%x) = R%d (%x) << R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
+    e_rvga_artop_slt    : $display("Cycle %d: @PC %x, COMMITTED SLT: R%d (%x) = R%d (%x) < R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
+    e_rvga_artop_sltu   : $display("Cycle %d: @PC %x, COMMITTED SLTU: R%d (%x) = R%d (%x) < R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
+    e_rvga_artop_xor    : $display("Cycle %d: @PC %x, COMMITTED XOR: R%d (%x) = R%d (%x) ^ R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
+    e_rvga_artop_srx    : if(cword_i.funct7 == 0) begin
+                            $display("Cycle %d: @PC %x, COMMITTED SRA: R%d (%x) = R%d (%x) >a R%d (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);  
                           end else begin
-                            $display("@PC %x, COMMITTED SRL: R%d (%x) = R%d (%x) > R%d (%x)\n",
-                                     debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data);               
+                            $display("Cycle %d: @PC %x, COMMITTED SRL: R%d (%x) = R%d (%x) > R%d (%x)\n",
+                                     cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data);               
                           end
-    e_rvga_artop_or     : $display("@PC %x, COMMITTED OR: R%d (%x) = R%d (%x) | R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data); 
-    e_rvga_artop_and    : $display("@PC %x, COMMITTED AND: R%d (%x) = R%d (%x) & R%d (%x)\n",
-                                   debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data); 
+    e_rvga_artop_or     : $display("Cycle %d: @PC %x, COMMITTED OR: R%d (%x) = R%d (%x) | R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data); 
+    e_rvga_artop_and    : $display("Cycle %d: @PC %x, COMMITTED AND: R%d (%x) = R%d (%x) & R%d (%x)\n",
+                                   cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data); 
   endcase
 endtask
 
-task print_lui(input rvga_debug_cword debug_word);
-  $display("@PC %x, COMMITTED LUI: R%d (%x) = IMM (%x) (%x << 12)\n",
-           debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.imm, debug_word.imm >> 12);
+task print_lui(input rvga_cword cword);
+  $display("Cycle %d: @PC %x, COMMITTED LUI: R%d (%x) = IMM (%x) (%x << 12)\n",
+           cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.imm_data, dword_i.imm_data >> 12);
 endtask
 
-task print_auipc(input rvga_debug_cword debug_word);
-  $display("@PC %x, COMMITTED AUIPC: R%d (%x) = PC (%x) + IMM (%x) (%x << 12)\n",
-           debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.pc, debug_word.imm, debug_word.imm >> 12);
+task print_auipc(input rvga_cword cword);
+  $display("Cycle %d: COMMITTED, @PC %x AUIPC: R%d (%x) = PC (%x) + IMM (%x) (%x << 12)\n",
+           cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, cword_i.pc, dword_i.imm_data, dword_i.imm_data >> 12);
 endtask
 
-task print_jal(input rvga_debug_cword debug_word);
-  $display("@PC %x, COMMITTED JAL: PC (%x) = PC (%x) + IMM (%x); R%x (%x) = PC (%x) + 4\n",
-           debug_word.pc, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm, debug_word.rd, debug_word.rd_data, debug_word.pc);
+task print_jal(input rvga_cword cword);
+  $display("Cycle %d: COMMITTED, @PC %x JAL: PC (%x) = PC (%x) + IMM (%x); R%x (%x) = PC (%x) + 4\n",
+           cycle_i, cword_i.pc, dword_i.alu_result, cword_i.pc, dword_i.imm_data, cword_i.rd, dword_i.alu_result, cword_i.pc);
 endtask
 
-task print_jalr(input rvga_debug_cword debug_word);
-  $display("@PC %x, COMMITTED JALR: PC (%x) = R%x (%x) + IMM (%x); R%x (%x) = PC (%x) + 4\n",
-           debug_word.pc, debug_word.alu_or_ld_result, debug_word.rs1, debug_word.rs1_data, debug_word.imm, debug_word.rd, debug_word.rd_data, debug_word.pc);
+task print_jalr(input rvga_cword cword);
+  $display("Cycle %d: COMMITTED, @PC %x JALR: PC (%x) = R%x (%x) + IMM (%x); R%x (%x) = PC (%x) + 4\n",
+           cycle_i, cword_i.pc, dword_i.alu_result, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data, cword_i.rd, dword_i.alu_result, cword_i.pc);
 endtask
 
-task print_br(input rvga_debug_cword debug_word);
-  case(debug_word.funct3) 
-    e_rvga_brop_beq  : $display("@PC %x, COMMITTED BEQ: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
-    e_rvga_brop_bne  : $display("@PC %x, COMMITTED BNE: if (R%x (%x) != R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
-    e_rvga_brop_blt  : $display("@PC %x, COMMITTED BLT: if (R%x (%x) < R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
-    e_rvga_brop_bge  : $display("@PC %x, COMMITTED BGE: if (R%x (%x) > R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
-    e_rvga_brop_bltu : $display("@PC %x, COMMITTED BLTU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
-    e_rvga_brop_bgeu : $display("@PC %x, COMMITTED BGEU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.rs2, debug_word.rs2_data, debug_word.alu_or_ld_result, debug_word.pc, debug_word.imm);
+task print_br(input rvga_cword cword);
+  case(cword_i.funct3) 
+    e_rvga_brop_beq  : $display("Cycle %d: COMMITTED, @PC %x BEQ: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
+    e_rvga_brop_bne  : $display("Cycle %d: COMMITTED, @PC %x BNE: if (R%x (%x) != R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
+    e_rvga_brop_blt  : $display("Cycle %d: COMMITTED, @PC %x BLT: if (R%x (%x) < R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
+    e_rvga_brop_bge  : $display("Cycle %d: COMMITTED, @PC %x BGE: if (R%x (%x) > R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
+    e_rvga_brop_bltu : $display("Cycle %d: COMMITTED, @PC %x BLTU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
+    e_rvga_brop_bgeu : $display("Cycle %d: COMMITTED, @PC %x BGEU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, cword_i.rs2, dword_i.rs2_data, dword_i.alu_result, cycle_i, cword_i.pc, dword_i.imm_data);
   endcase
 endtask
 
-task print_ld(rvga_debug_cword debug_word);
-  case(debug_word.funct3)
-    e_rvga_ldop_lb  : $display("@PC %x, COMMITTED LB: R%x (%x) = BYTE(MEM[%x]) (%x)\n",
-                               debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.alu_or_ld_result, debug_word.alu_or_ld_result);
-    e_rvga_ldop_lh  : $display("@PC %x, COMMITTED LH: R%x (%x) = HALF(MEM[%x]) (%x)\n",
-                               debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.alu_or_ld_result, debug_word.alu_or_ld_result);
-    e_rvga_ldop_lw  : $display("@PC %x, COMMITTED LW: R%x (%x) = MEM[%x] (%x)\n",
-                               debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.alu_or_ld_result, debug_word.alu_or_ld_result);
-    e_rvga_ldop_lbu : $display("@PC %x, COMMITTED LBU: R%x (%x) = UBYTE(MEM[%x]) (%x)\n",
-                               debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.alu_or_ld_result, debug_word.alu_or_ld_result);
-    e_rvga_ldop_lhu : $display("@PC %x, COMMITTED LHU: R%x (%x) = UHALF (MEM[%x]) (%x)\n",
-                               debug_word.pc, debug_word.rd, debug_word.rd_data, debug_word.alu_or_ld_result, debug_word.alu_or_ld_result);
+task print_ld(rvga_cword cword);
+  case(cword_i.funct3)
+    e_rvga_ldop_lb  : $display("Cycle %d: COMMITTED, @PC %x LB: R%x (%x) = BYTE(MEM[%x]) (%x)\n",
+                               cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.alu_result, dword_i.ld_result);
+    e_rvga_ldop_lh  : $display("Cycle %d: COMMITTED, @PC %x LH: R%x (%x) = HALF(MEM[%x]) (%x)\n",
+                               cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.alu_result, dword_i.ld_result);
+    e_rvga_ldop_lw  : $display("Cycle %d: COMMITTED, @PC %x LW: R%x (%x) = MEM[%x] (%x)\n",
+                               cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.alu_result, dword_i.ld_result);
+    e_rvga_ldop_lbu : $display("Cycle %d: COMMITTED, @PC %x LBU: R%x (%x) = UBYTE(MEM[%x]) (%x)\n",
+                               cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.alu_result, dword_i.ld_result);
+    e_rvga_ldop_lhu : $display("Cycle %d: COMMITTED, @PC %x LHU: R%x (%x) = UHALF (MEM[%x]) (%x)\n",
+                               cycle_i, cword_i.pc, cword_i.rd, dword_i.alu_result, dword_i.alu_result, dword_i.ld_result);
   endcase
 endtask
 
-task print_st(rvga_debug_cword debug_word);
-  case(debug_word.funct3)
-    e_rvga_strop_sb  : $display("@PC %x, COMMITTED SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = BYTE(R%x (%x))\n",
-                               debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.imm, debug_word.alu_or_ld_result, debug_word.rs2, debug_word.rs2_data);
-    e_rvga_strop_sh  : $display("@PC %x, COMMITTED SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = HALF(R%x (%x))\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.imm, debug_word.alu_or_ld_result, debug_word.rs2, debug_word.rs2_data);
-    e_rvga_strop_sw  : $display("@PC %x, COMMITTED SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = R%x (%x)\n",
-                                debug_word.pc, debug_word.rs1, debug_word.rs1_data, debug_word.imm, debug_word.alu_or_ld_result, debug_word.rs2, debug_word.rs2_data);
+task print_st(rvga_cword cword);
+  case(cword_i.funct3)
+    e_rvga_strop_sb  : $display("Cycle %d: COMMITTED, @PC %x SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = BYTE(R%x (%x))\n",
+                               cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data, dword_i.alu_result, cword_i.rs2, dword_i.rs2_data);
+    e_rvga_strop_sh  : $display("Cycle %d: COMMITTED, @PC %x SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = HALF(R%x (%x))\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data, dword_i.alu_result, cword_i.rs2, dword_i.rs2_data);
+    e_rvga_strop_sw  : $display("Cycle %d: COMMITTED, @PC %x SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = R%x (%x)\n",
+                                cycle_i, cword_i.pc, cword_i.rs1, dword_i.rs1_data, dword_i.imm_data, dword_i.alu_result, cword_i.rs2, dword_i.rs2_data);
   endcase
 endtask
 
   
 always_ff @(posedge clk_i) begin
-  if(debug_word_v_i) begin
-    case(debug_word_i.opcode) 
-      e_rvga_opcode_lui   : print_lui(debug_word_i);
-      e_rvga_opcode_auipc : print_auipc(debug_word_i);
-      e_rvga_opcode_jal   : print_jal(debug_word_i);
-      e_rvga_opcode_jalr  : print_jalr(debug_word_i);
-      e_rvga_opcode_br    : print_br(debug_word_i);
-      e_rvga_opcode_ld    : print_ld(debug_word_i);
-      e_rvga_opcode_st    : print_st(debug_word_i);
-      e_rvga_opcode_imm   : print_imm(debug_word_i);
-      e_rvga_opcode_reg   : print_reg(debug_word_i);
-      e_rvga_opcode_fence : $display("@PC %x, ERROR: FENCE not implemented!\n", debug_word_i.pc);
-      e_rvga_opcode_misc  : $display("@PC %x, ERROR: MISC not implemented!\n", debug_word_i.pc);
+  if(cword_i.v) begin
+    case(cword_i.opcode) 
+      e_rvga_opcode_lui   : print_lui(cword_i);
+      e_rvga_opcode_auipc : print_auipc(cword_i);
+      e_rvga_opcode_jal   : print_jal(cword_i);
+      e_rvga_opcode_jalr  : print_jalr(cword_i);
+      e_rvga_opcode_br    : print_br(cword_i);
+      e_rvga_opcode_ld    : print_ld(cword_i);
+      e_rvga_opcode_st    : print_st(cword_i);
+      e_rvga_opcode_imm   : print_imm(cword_i);
+      e_rvga_opcode_reg   : print_reg(cword_i);
+      e_rvga_opcode_fence : $display("Cycle %d: @PC %x, ERROR: FENCE not implemented!\n", cycle_i, cword_i.pc);
+      e_rvga_opcode_misc  : $display("Cycle %d: @PC %x, ERROR: MISC not implemented!\n", cycle_i, cword_i.pc);
     endcase
   end
 end
   
-endmodule : rvga_nonsynth_monitor
+endmodule : rvga_nonsynth_commit_monitor

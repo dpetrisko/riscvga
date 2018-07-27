@@ -6,88 +6,77 @@ module rfetch_stage
    , input logic rst_i
    
    , input logic stall_v_i
-   , input logic flush_v_i
    
-   , input rvga_rfetch_cword cword_i
-   , output rvga_execute_cword cword_o
+   , input rvga_cword cword_i
+   , output rvga_cword cword_o
    
    , input rvga_reg rd_i
    , input rvga_word rd_data_i 
    , input logic rd_w_v_i
    
+   , input logic[31:7] imm_raw_i
+   
+   , output rvga_word imm_data_o
+   , output rvga_word rs1_data_o
+   , output rvga_word rs2_data_o
+   
    , output logic br_v_o
    );
    
-logic cmux_sel;
-logic cword_w_v;
-rvga_word rs1_data, rs2_data;
-rvga_execute_cword cword_n, cword_r, cmux_o, nop;
-   
-rfetch_ctl #()
-        ctl (.stall_v_i(stall_v_i)
-             ,.flush_v_i(flush_v_i)
+rvga_cword cword_n, cword_r;
+logic[31:7] imm_raw_n, imm_raw_r;
             
-             ,.cmux_sel_o(cmux_sel)
-             ,.cword_w_v_o(cword_w_v)
-             );
-            
-rfetch_dp #()
-        dp (.clk_i(clk_i)
+  regfile #(.width_p($bits(rvga_word))
+            ,.els_p(32)
+            ,.zero_init_p('1)
+            )
+   regfile (.clk_i(clk_i)
             ,.rst_i(rst_i)
-
-            ,.rs1_i(cword_i.rs1)
-            ,.rs2_i(cword_i.rs2)
-            
-            ,.rs1_data_o(rs1_data)
-            ,.rs2_data_o(rs2_data)
-           
-            ,.writeback_rd_i(rd_i)
-            ,.writeback_rd_data_i(rd_data_i)
-            ,.writeback_rd_w_v_i(rd_w_v_i)
+                  
+            ,.rd_w_v_i(rd_w_v_i)
+            ,.rd_i(rd_i)
+            ,.rd_data_i(rd_data_i)
+                   
+            ,.rs1_i(cword_r.rs1)
+            ,.rs1_data_o(rs1_data_o)
+                   
+            ,.rs2_i(cword_r.rs2)
+            ,.rs2_data_o(rs2_data_o)
             );
             
- mux #(.els_p(2)
-       ,.width_p($bits(rvga_execute_cword))
-       )
-  cmux(.sel_i(cmux_sel)
-       ,.i({nop, cword_n})
-       ,.o(cmux_o)
-       );
+     dff #(.width_p($bits(logic[31:7])))
+  imm_raw (.clk_i(clk_i)
+           ,.rst_i(rst_i)
+           ,.w_v_i(~stall_v_i)
+           
+           ,.i(imm_raw_n)
+           ,.o(imm_raw_r)
+           );
+            
+imm_construct #()
+  imm_construct(.inst_type_i(cword_r.inst_type)
+                ,.imm_raw_i(imm_raw_r[31:7])
+                ,.shift_v_i(cword_r.shift_v)
+            
+                ,.imm_o(imm_data_o)
+                );
                 
- dff #(.width_p($bits(rvga_execute_cword))
+ dff #(.width_p($bits(rvga_cword))
        ) 
 cword (.clk_i(clk_i)
       ,.rst_i(rst_i)
-      ,.w_v_i(cword_w_v)
+      ,.w_v_i(~stall_v_i)
        
-      ,.i(cmux_o)
+      ,.i(cword_n)
       ,.o(cword_r)
       );
 
-assign nop = '0;
-
 always_comb begin
-  cword_n.v = cword_i.v;
-  cword_n.pc = cword_i.pc;
-  cword_n.opcode = cword_i.opcode;
-  cword_n.rs1 = cword_i.rs1;
-  cword_n.rs2 = cword_i.rs2;
-  cword_n.rd = cword_i.rd;
-  cword_n.funct3 = cword_i.funct3;
-  cword_n.funct7 = cword_i.funct7;
-  cword_n.br_v = cword_i.br_v;
-  cword_n.rd_w_v = cword_i.rd_w_v;
-  cword_n.imm_v = cword_i.imm_v;
-  cword_n.dmem_r_v = cword_i.dmem_r_v;
-  cword_n.dmem_w_v = cword_i.dmem_w_v;
-  cword_n.addpc_v = cword_i.addpc_v;
-  cword_n.jmp_v = cword_i.jmp_v;
-  cword_n.imm = cword_i.imm;
-  
-  cword_n.rs1_data = rs1_data;
-  cword_n.rs2_data = rs2_data;
+  cword_n = cword_i;
 
   cword_o = cword_r;
+  
+  imm_raw_n = imm_raw_i;
   
   br_v_o = cword_r.br_v;
 end

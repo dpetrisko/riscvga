@@ -9,22 +9,6 @@ module writeback_dp #()
     
     , output rvga_word rd_data_o
     );
-
-rvga_word pc_plus4, rvga_zero;
-
-  mux #(.els_p(2)
-        ,.width_p($bits(rvga_word))
-        )
- rdmux (.sel_i(rdmux_sel_i)
-        ,.i({pc_plus4, alu_or_ld_result_i})
-        ,.o(rd_data_o)
-        );    
-    
-  adder #(.width_p($bits(rvga_word)))
-  pc_inc (.a_i(pc_i)
-          ,.b_i(32'd4)
-          ,.o(pc_plus4)
-          );   
           
 assign rvga_zero = '0;
 

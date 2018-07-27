@@ -14,13 +14,7 @@ module writeback_ctl #()
 always_comb begin
   cword_w_v_o = ~stall_v_i;
   
-  if(jmp_v_i) begin
-    rdmux_sel_o = 1'b1;
-  end else begin
-    rdmux_sel_o = 1'b0;
-  end
-  
-  btaken_o = jmp_v_i || (br_v_i && bru_result_i);
+
 end
 
 endmodule : writeback_ctl
