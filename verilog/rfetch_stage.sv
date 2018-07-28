@@ -78,7 +78,7 @@ always_comb begin
   
   imm_raw_n = imm_raw_i;
   
-  br_v_o = cword_r.br_v;
+  br_v_o = cword_r.br_v | cword_r.jmp_v;
 end
 
 endmodule : rfetch_stage

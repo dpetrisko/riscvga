@@ -144,7 +144,7 @@ always_comb begin
   cword_o = cword_r;
   dword_o = dword_r;
   
-  br_v_o = cword_r.br_v;
+  br_v_o = cword_r.br_v | cword_r.jmp_v;
   st_data_o = rs2_data_r;
 end
 

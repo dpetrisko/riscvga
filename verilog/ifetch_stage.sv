@@ -28,7 +28,7 @@ dff #(.width_p($bits(rvga_word))
       ,.rst_i(rst_i)
       
       ,.i(pcmux_o)
-      ,.w_v_i(~(stall_v_i || bubble_v_i))
+      ,.w_v_i(~(stall_v_i || (bubble_v_i && ~btaken_i)))
       ,.o(pc_r)
       );
       
@@ -38,7 +38,7 @@ dff #(.width_p($bits(rvga_word))
          ,.rst_i(rst_i)
              
          ,.i(pc_r)
-         ,.w_v_i(~(stall_v_i || bubble_v_i))
+         ,.w_v_i(~(stall_v_i || (bubble_v_i && ~btaken_i)))
          ,.o(prev_pc_r)
          );
       

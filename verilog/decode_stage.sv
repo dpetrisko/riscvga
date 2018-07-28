@@ -65,7 +65,7 @@ always_comb begin
   
   imm_raw_o = ir_r[31:7];
 
-  br_v_o = decoded.br_v;
+  br_v_o = decoded.br_v | decoded.jmp_v;
 end
 
 endmodule : decode_stage

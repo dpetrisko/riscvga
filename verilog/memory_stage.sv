@@ -24,7 +24,9 @@ module memory_stage
    , output rvga_word dmem_data_o   
    
    , output logic btaken_o
-   , output rvga_word alu_or_ld_result_o      
+   , output rvga_word alu_or_ld_result_o   
+   
+   , output logic br_v_o  
    );
  
  rvga_cword cword_n, cword_r;
@@ -91,6 +93,8 @@ always_comb begin
   dmem_addr_o = alu_result_r;
   
   btaken_o = cword_r.jmp_v || (cword_r.br_v && bru_result_i);
+  
+  br_v_o = cword_r.jmp_v || cword_r.br_v;
 end
 
 endmodule : memory_stage
