@@ -16,7 +16,7 @@ module test_ddr #(parameter use_program_p = 0
 	, output logic resp_v_o
 );
 
-localparam ELF_SIZE=10000;
+localparam ELF_SIZE=150;
 
 logic[7:0] mem_array[0:ELF_SIZE-1];
 
@@ -31,8 +31,11 @@ initial begin
     $display("---------------- END MEMORY DUMP ----------------\n");
   end 
   else if(use_identity_p) begin
-    for(integer i = 0; i < ELF_SIZE; i=i+1) begin
-      mem_array[i] = i;
+    for(integer i = 0; i < ELF_SIZE; i=i+4) begin
+      mem_array[i] = i[7:0];
+      mem_array[i+1] = i[15:8];
+      mem_array[i+2] = i[23:16];
+      mem_array[i+3] = i[31:24];
     end
   end
 end
@@ -45,9 +48,9 @@ end
 always_ff @(posedge clk_i) begin
   if(w_v_i) begin
     mem_array[addr_i+0] <= data_i[7:0];
-    mem_array[addr_i+1] <= data_i[15:0];
-    mem_array[addr_i+2] <= data_i[23:0];
-    mem_array[addr_i+3] <= data_i[31:0];
+    mem_array[addr_i+1] <= data_i[15:8];
+    mem_array[addr_i+2] <= data_i[23:16];
+    mem_array[addr_i+3] <= data_i[31:24];
   end
 end
 

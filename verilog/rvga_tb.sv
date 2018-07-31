@@ -51,7 +51,7 @@ test_ddr #(.use_program_p(1)
            );
 
 test_ddr #(.use_identity_p(1)
-           ,.debug_p(1)
+           ,.debug_p(0)
            )
      dddr (.clk_i(clk)
            ,.rst_i(rst)
@@ -66,7 +66,7 @@ test_ddr #(.use_identity_p(1)
            
            
 
-rvga_nonsynth_commit_monitor #()
+rvga_nonsynth_commit_monitor #(.enable_p(1))
                       monitor (.cycle_i(cycle)
                                ,.clk_i(clk)
                                ,.cword_i(processor.writeback_cword)

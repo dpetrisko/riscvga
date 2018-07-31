@@ -2,30 +2,37 @@
 
 .globl _start
 _start:
-  lui  x1 , x0, 0x12345
-  addi x1 , x1, 0x678
+  nop
+  nop
+  nop
+  nop
+  lui  x1  , 0x1234
+  addi x1  , x1, 0x56 
+  la   x2  , data0
+  la   x3  , data1
+  la   x4  , data2
 
-  st   x1 , data0(x0)
-  sth  x1 , data1(x0) 
-  stb  x1 , data2(x0)
+  sw  x1  , 0(x2)
+  sh  x1  , 0(x3) 
+  sb  x1  , 0(x4)
 
-  lw   x2 , data0(x0) 
-  lw   x3 , data1(x0) 
-  lw   x4 , data2(x0) 
+  lw  x5  , 0(x2) 
+  lw  x6  , 0(x3) 
+  lw  x7  , 0(x4) 
 
-  lwh  x5 , data0(x0) 
-  lwh  x6 , data1(x0) 
-  lwh  x7 , data2(x0) 
+  lh  x8  , 0(x2) 
+  lh  x9  , 0(x3) 
+  lh  x10 , 0(x4) 
 
-  lwb  x8 , data0(x0)  
-  lwb  x9 , data1(x0)  
-  lwb  x10, data2(x0)  
+  lb  x11 , 0(x2) 
+  lb  x12 , 0(x3)  
+  lb  x13 , 0(x4)  
 
-.data
-data0: 
-  .word 0x00000000
-data1: 
-  .word 0x00000000
-data2: 
-  .word 0x00000000
+HALT:
+  j HALT
+  nop
 
+.section .data
+data0: .word 0x00000000
+data1: .word 0x00000000
+data2: .word 0x00000000

@@ -31,6 +31,7 @@ module memory_stage
  
  rvga_cword cword_n, cword_r;
  rvga_dword dword_n, dword_r;
+ rvga_word st_data_n, st_data_r;
  rvga_word alu_result_r;
  rvga_word ld_result;
  
@@ -62,7 +63,7 @@ result_mux(.sel_i(cword_r.dmem_r_v)
         
   memory_slicer #()
            slicer(.ld_data_i(dmem_data_i)
-                  ,.st_data_i(st_data_i)
+                  ,.st_data_i(st_data_r)
                  
                   ,.op_i(cword_r.funct3)
                  
@@ -78,10 +79,20 @@ result_mux(.sel_i(cword_r.dmem_r_v)
              ,.i(alu_result_i)
              ,.o(alu_result_r)
              );
+             
+      dff #(.width_p($bits(rvga_word)))
+    st_data(.clk_i(clk_i)
+            ,.rst_i(rst_i)
+            ,.w_v_i(~stall_v_i)
+               
+            ,.i(st_data_n)
+            ,.o(st_data_r)
+            );
         
 always_comb begin
   cword_n = cword_i;
   dword_n = dword_i;
+  st_data_n = st_data_i;
   
   dword_n.alu_result = alu_result_i;
   
