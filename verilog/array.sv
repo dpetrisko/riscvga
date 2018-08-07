@@ -1,4 +1,3 @@
-`include "rvga_types.sv"
 import rvga_types::*;
 
 module array #(parameter width = 128 
@@ -12,15 +11,9 @@ module array #(parameter width = 128
 
 logic [width-1:0] data [height-1:0];
 
-initial begin
-  for(integer i = 0; i < height; i=i+1) begin
-      data[i] = 0;
-  end
-end
-
 always_ff @(posedge clk) begin
   if(load) begin
-    data[index] = data_in;
+    data[index] <= data_in;
   end
 end
 

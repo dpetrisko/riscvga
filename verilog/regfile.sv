@@ -1,4 +1,3 @@
-`include "rvga_types.sv"
 import rvga_types::*;
 
 module regfile #(parameter width_p = 32

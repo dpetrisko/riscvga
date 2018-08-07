@@ -1,3 +1,5 @@
+import rvga_types::*;
+
 module memory_slicer
   ( input rvga_word ld_data_i
     , input rvga_word st_data_i

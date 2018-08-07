@@ -1,4 +1,3 @@
-`include "rvga_types.sv"
 import rvga_types::*;
 
 module rvga_tb;

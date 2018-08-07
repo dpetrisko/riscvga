@@ -1,4 +1,3 @@
-`include "rvga_types.sv"
 import rvga_types::*;
 
 module rvga_nonsynth_commit_monitor #(parameter enable_p = 0)

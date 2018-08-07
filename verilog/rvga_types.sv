@@ -1,6 +1,3 @@
-`ifndef RVGA_TYPES_SV
-`define RVGA_TYPES_SV 1
-
 package rvga_types;
 
 typedef logic [127:0] rvga_cacheline;
@@ -107,5 +104,3 @@ typedef struct packed {
 } rvga_dword;
 
 endpackage
-
-`endif
