@@ -1,3 +1,5 @@
 build
 rvga
 verilog/work
+verilog/modelsim.ini
+verilog/transcript
