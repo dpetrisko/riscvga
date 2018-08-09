@@ -16,7 +16,7 @@ module test_ddr #(parameter use_program_p = 0
 );
 
 localparam ELF_SIZE=150;
-
+string filename;
 logic[7:0] mem_array[0:ELF_SIZE-1];
 
 always_comb begin  
@@ -27,13 +27,19 @@ end
 always_ff @(posedge clk_i) begin
   if(rst_i) begin
     if(use_program_p) begin
-      $readmemh("test_memory.mem", mem_array);
-      
-      $display("---------------- BEGIN MEMORY DUMP ----------------\n");
-      for(integer i = 0; i < 100; i=i+4) begin
-        $display("ADDR: %x DATA: %x\n", i, {mem_array[i+3],mem_array[i+2],mem_array[i+1],mem_array[i+0]});
+      if($value$plusargs("TEST_PROG=%s", filename)) begin
+        if(filename.len() == 0) begin
+          $error("TEST_PROG not set");
+          $finish();
+        end else begin
+          $readmemh(filename, mem_array);
+        end
       end
-      $display("---------------- END MEMORY DUMP ----------------\n");
+      $display("---------------- BEGIN MEMORY DUMP ----------------");
+      for(integer i = 0; i < 100; i=i+4) begin
+        $display("ADDR: %x DATA: %x", i, {mem_array[i+3],mem_array[i+2],mem_array[i+1],mem_array[i+0]});
+      end
+      $display("---------------- END MEMORY DUMP ----------------");
     end 
     else if(use_identity_p) begin
       for(integer i = 0; i < ELF_SIZE; i=i+4) begin
@@ -54,9 +60,9 @@ end
 always_ff @(posedge clk_i) begin
   if(debug_p) begin
     if(r_v_i) begin
-      $display("READ MEM[%x] (%x)\n", addr_i, data_o);             
+      $display("READ MEM[%x] (%x)", addr_i, data_o);             
     end else if(w_v_i) begin
-      $display("WRITE MEM[%x] = (%x)\n", addr_i, data_i);
+      $display("WRITE MEM[%x] = (%x)", addr_i, data_i);
     end
   end
 end

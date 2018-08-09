@@ -2,6 +2,8 @@ import rvga_types::*;
 
 module rvga_tb;
 
+`timescale 1ns / 1ns  
+
 integer cycle = 0;
 
 logic clk;
@@ -81,10 +83,6 @@ end
 always begin 
   #5 clk = ~clk; 
   cycle = cycle + 1;
-
-  if(cycle >= 100000) begin
-    $finish;
-  end
 end
 
 endmodule 
