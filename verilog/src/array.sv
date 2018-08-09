@@ -1,24 +1,24 @@
 import rvga_types::*;
 
-module array #(parameter width = 128 
-               , parameter height = 8)
-  ( input clk
-    , input load
-    , input logic[$clog2(height)-1:0] index
-    , input [width-1:0] data_in
-    , output logic [width-1:0] data_out
+module array #(parameter width_p = 128 
+               , parameter height_p = 8)
+  ( input clk_i
+    , input w_v_i
+    , input logic[$clog2(height_p)-1:0] index_i
+    , input [width_p-1:0] data_i
+    , output logic [width_p-1:0] data_o
     );
 
-logic [width-1:0] data [height-1:0];
+logic [width_p-1:0] data [height_p-1:0];
 
-always_ff @(posedge clk) begin
-  if(load) begin
-    data[index] <= data_in;
+always_ff @(posedge clk_i) begin
+  if(w_v_i) begin
+    data[index_i] <= data_i;
   end
 end
 
 always_comb begin
-  data_out = data[index];
+  data_o = data[index_i];
 end
 											    
 endmodule : array
