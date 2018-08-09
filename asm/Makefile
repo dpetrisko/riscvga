@@ -2,7 +2,7 @@ CC    := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-gcc
 CPY   := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-objcopy 
 SHELL := sh -xv
 
-CFLAGS   := -nostdlib -march=rv32i -mabi=ilp32
+CFLAGS   := -nostdlib -march=rv32ima -mabi=ilp32
 CPYFLAGS := -O verilog --pad-to=4096
 
 ASM_DIR := src
