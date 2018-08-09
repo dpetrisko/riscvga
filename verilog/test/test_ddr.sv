@@ -15,7 +15,7 @@ module test_ddr #(parameter use_program_p = 0
 	, output logic resp_v_o
 );
 
-localparam ELF_SIZE=150;
+localparam ELF_SIZE=4096;
 string filename;
 logic[7:0] mem_array[0:ELF_SIZE-1];
 
@@ -32,11 +32,11 @@ always_ff @(posedge clk_i) begin
           $error("TEST_PROG not set");
           $finish();
         end else begin
-          $readmemh(filename, mem_array);
+          $readmemh(filename, mem_array, 0, ELF_SIZE-1);
         end
       end
       $display("---------------- BEGIN MEMORY DUMP ----------------");
-      for(integer i = 0; i < 100; i=i+4) begin
+      for(integer i = 0; i < ELF_SIZE; i=i+4) begin
         $display("ADDR: %x DATA: %x", i, {mem_array[i+3],mem_array[i+2],mem_array[i+1],mem_array[i+0]});
       end
       $display("---------------- END MEMORY DUMP ----------------");

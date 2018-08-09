@@ -3,7 +3,7 @@ CPY   := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-objcopy
 SHELL := sh -xv
 
 CFLAGS   := -nostdlib -march=rv32i -mabi=ilp32
-CPYFLAGS := -O verilog
+CPYFLAGS := -O verilog --pad-to=4096
 
 ASM_DIR := src
 BIN_DIR := bin
