@@ -83,6 +83,13 @@ always_comb begin
         decoded_o.shift_v = '1;
       end
     end
+
+    e_rvga_opcode_br: begin
+      decoded_o.inst_type = e_rvga_inst_type_b;
+      decoded_o.br_v = '1;
+      decoded_o.addpc_v = '1;
+      decoded_o.imm_v = '1;
+    end
     
     e_rvga_opcode_ld: begin
       decoded_o.inst_type = e_rvga_inst_type_i;

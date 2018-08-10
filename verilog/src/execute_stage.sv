@@ -80,8 +80,8 @@ rvga_alu #()
            );
            
  rvga_bru #()
-       bru (.a_i(alua_mux_o)
-            ,.b_i(alub_mux_o)
+       bru (.a_i(rs1_mux_o)
+            ,.b_i(rs2_mux_o)
             ,.op_i(cword_r.funct3)
             
             ,.o(bru_result_o)

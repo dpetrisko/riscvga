@@ -4,3 +4,4 @@ verilog/work
 verilog/modelsim.ini
 verilog/transcript
 verilog/vsim.wlf
+verilog/wave.do
