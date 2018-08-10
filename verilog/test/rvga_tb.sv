@@ -51,7 +51,7 @@ test_ddr #(.use_program_p(1)
            ,.resp_v_o(imem_resp_v)
            );
 
-test_ddr #(.use_identity_p(1)
+test_ddr #(.use_program_p(1)
            ,.debug_p(0)
            )
      dddr (.clk_i(clk)

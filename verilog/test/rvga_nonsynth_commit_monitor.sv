@@ -89,54 +89,54 @@ task print_auipc(input rvga_cword cword, input rvga_dword dword);
 endtask
 
 task print_jal(input rvga_cword cword, input rvga_dword dword);
-  $display("Cycle %d: COMMITTED @PC %x JAL: PC (%x) = PC (%x) + IMM (%x); R%x (%x) = PC (%x) + 4",
+  $display("Cycle %d: COMMITTED @PC %x JAL: PC (%x) = PC (%x) + IMM (%x); R%d (%x) = PC (%x) + 4",
            cycle_i, cword.pc, dword.alu_result, cword.pc, dword.imm_data, cword.rd, dword.alu_result, cword.pc);
 endtask
 
 task print_jalr(input rvga_cword cword, input rvga_dword dword);
-  $display("Cycle %d: COMMITTED @PC %x JALR: PC (%x) = R%x (%x) + IMM (%x); R%x (%x) = PC (%x) + 4",
+  $display("Cycle %d: COMMITTED @PC %x JALR: PC (%x) = R%d (%x) + IMM (%x); R%d (%x) = PC (%x) + 4",
            cycle_i, cword.pc, dword.alu_result, cword.rs1, dword.rs1_data, dword.imm_data, cword.rd, dword.alu_result, cword.pc);
 endtask
 
 task print_br(input rvga_cword cword, input rvga_dword dword);
   case(cword.funct3) 
-    e_rvga_brop_beq  : $display("Cycle %d: COMMITTED @PC %x BEQ: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_beq  : $display("Cycle %d: COMMITTED @PC %x BEQ: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
-    e_rvga_brop_bne  : $display("Cycle %d: COMMITTED @PC %x BNE: if (R%x (%x) != R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_bne  : $display("Cycle %d: COMMITTED @PC %x BNE: if (R%d (%x) != R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
-    e_rvga_brop_blt  : $display("Cycle %d: COMMITTED @PC %x BLT: if (R%x (%x) < R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_blt  : $display("Cycle %d: COMMITTED @PC %x BLT: if (R%d (%x) < R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
-    e_rvga_brop_bge  : $display("Cycle %d: COMMITTED @PC %x BGE: if (R%x (%x) > R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_bge  : $display("Cycle %d: COMMITTED @PC %x BGE: if (R%d (%x) > R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
-    e_rvga_brop_bltu : $display("Cycle %d: COMMITTED @PC %x BLTU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_bltu : $display("Cycle %d: COMMITTED @PC %x BLTU: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
-    e_rvga_brop_bgeu : $display("Cycle %d: COMMITTED @PC %x BGEU: if (R%x (%x) == R%x (%x)) PC (%x) = PC (%x) + IMM (%x)",
+    e_rvga_brop_bgeu : $display("Cycle %d: COMMITTED @PC %x BGEU: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
   endcase
 endtask
 
 task print_ld(rvga_cword cword, input rvga_dword dword);
   case(cword.funct3)
-    e_rvga_ldop_lb  : $display("Cycle %d: COMMITTED @PC %x LB: R%x (%x) = BYTE(MEM[%x]) (%x)",
+    e_rvga_ldop_lb  : $display("Cycle %d: COMMITTED @PC %x LB: R%d (%x) = BYTE(MEM[%x]) (%x)",
                                cycle_i, cword.pc, cword.rd, dword.alu_result, dword.alu_result, dword.ld_result);
-    e_rvga_ldop_lh  : $display("Cycle %d: COMMITTED @PC %x LH: R%x (%x) = HALF(MEM[%x]) (%x)",
+    e_rvga_ldop_lh  : $display("Cycle %d: COMMITTED @PC %x LH: R%d (%x) = HALF(MEM[%x]) (%x)",
                                cycle_i, cword.pc, cword.rd, dword.alu_result, dword.alu_result, dword.ld_result);
-    e_rvga_ldop_lw  : $display("Cycle %d: COMMITTED @PC %x LW: R%x (%x) = MEM[%x] (%x)",
+    e_rvga_ldop_lw  : $display("Cycle %d: COMMITTED @PC %x LW: R%d (%x) = MEM[%x] (%x)",
                                cycle_i, cword.pc, cword.rd, dword.alu_result, dword.alu_result, dword.ld_result);
-    e_rvga_ldop_lbu : $display("Cycle %d: COMMITTED @PC %x LBU: R%x (%x) = UBYTE(MEM[%x]) (%x)",
+    e_rvga_ldop_lbu : $display("Cycle %d: COMMITTED @PC %x LBU: R%d (%x) = UBYTE(MEM[%x]) (%x)",
                                cycle_i, cword.pc, cword.rd, dword.alu_result, dword.alu_result, dword.ld_result);
-    e_rvga_ldop_lhu : $display("Cycle %d: COMMITTED @PC %x LHU: R%x (%x) = UHALF (MEM[%x]) (%x)",
+    e_rvga_ldop_lhu : $display("Cycle %d: COMMITTED @PC %x LHU: R%d (%x) = UHALF (MEM[%x]) (%x)",
                                cycle_i, cword.pc, cword.rd, dword.alu_result, dword.alu_result, dword.ld_result);
   endcase
 endtask
 
 task print_st(rvga_cword cword, input rvga_dword dword);
   case(cword.funct3)
-    e_rvga_strop_sb  : $display("Cycle %d: COMMITTED @PC %x SB: MEM[(R%x (%x) + IMM (%x)) (%x)] = BYTE(R%x (%x))",
+    e_rvga_strop_sb  : $display("Cycle %d: COMMITTED @PC %x SB: MEM[(R%d (%x) + IMM (%x)) (%x)] = BYTE(R%d (%x))",
                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, dword.imm_data, dword.alu_result, cword.rs2, dword.rs2_data);
-    e_rvga_strop_sh  : $display("Cycle %d: COMMITTED @PC %x SH: MEM[(R%x (%x) + IMM (%x)) (%x)] = HALF(R%x (%x))",
+    e_rvga_strop_sh  : $display("Cycle %d: COMMITTED @PC %x SH: MEM[(R%d (%x) + IMM (%x)) (%x)] = HALF(R%d (%x))",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, dword.imm_data, dword.alu_result, cword.rs2, dword.rs2_data);
-    e_rvga_strop_sw  : $display("Cycle %d: COMMITTED @PC %x SW: MEM[(R%x (%x) + IMM (%x)) (%x)] = R%x (%x)",
+    e_rvga_strop_sw  : $display("Cycle %d: COMMITTED @PC %x SW: MEM[(R%d (%x) + IMM (%x)) (%x)] = R%d (%x)",
                                 cycle_i, cword.pc, cword.rs1, dword.rs1_data, dword.imm_data, dword.alu_result, cword.rs2, dword.rs2_data);
   endcase
 endtask
