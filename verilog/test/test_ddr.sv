@@ -15,7 +15,7 @@ module test_ddr #(parameter use_program_p = 0
 	, output logic resp_v_o
 );
 
-localparam ELF_SIZE=4096;
+localparam ELF_SIZE=16384;
 string filename;
 logic[7:0] mem_array[0:ELF_SIZE-1];
 

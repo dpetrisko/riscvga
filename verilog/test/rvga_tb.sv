@@ -65,14 +65,21 @@ test_ddr #(.use_program_p(1)
            ,.resp_v_o(dmem_resp_v)
            );
            
-           
-
 rvga_nonsynth_commit_monitor #(.enable_p(1))
                       monitor (.cycle_i(cycle)
                                ,.clk_i(clk)
                                ,.cword_i(processor.writeback_cword)
                                ,.dword_i(processor.writeback_dword)
                                );
+
+rvga_nonsynth_rvtest_monitor #(.enable_p(1))
+                rvtest_monitor(.cycle_i(cycle)
+                              ,.clk_i(clk)
+
+                              ,.addr_i(dmem_addr)
+                              ,.data_i(dmem_wdata[0+:8])
+                              ,.w_v_i(dmem_w_v)
+                              );
 
 initial begin
   clk = 0;
