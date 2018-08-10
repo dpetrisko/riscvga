@@ -1,0 +1,41 @@
+
+bin/rvga_ldst.riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00000013          	nop
+   4:	00000013          	nop
+   8:	00000013          	nop
+   c:	00000013          	nop
+  10:	012340b7          	lui	ra,0x1234
+  14:	05608093          	addi	ra,ra,86 # 1234056 <HALT+0x1233ff6>
+
+00000018 <.L0 >:
+  18:	00000117          	auipc	sp,0x0
+  1c:	00010113          	mv	sp,sp
+
+00000020 <.L0 >:
+  20:	00000197          	auipc	gp,0x0
+  24:	00018193          	mv	gp,gp
+
+00000028 <.L0 >:
+  28:	00000217          	auipc	tp,0x0
+  2c:	00020213          	mv	tp,tp
+  30:	00112023          	sw	ra,0(sp) # 18 <.L0 >
+  34:	00119023          	sh	ra,0(gp) # 20 <.L0 >
+  38:	00120023          	sb	ra,0(tp) # 28 <.L0 >
+  3c:	00012283          	lw	t0,0(sp)
+  40:	0001a303          	lw	t1,0(gp)
+  44:	00022383          	lw	t2,0(tp) # 0 <_start>
+  48:	00011403          	lh	s0,0(sp)
+  4c:	00019483          	lh	s1,0(gp)
+  50:	00021503          	lh	a0,0(tp) # 0 <_start>
+  54:	00010583          	lb	a1,0(sp)
+  58:	00018603          	lb	a2,0(gp)
+  5c:	00020683          	lb	a3,0(tp) # 0 <_start>
+
+00000060 <HALT>:
+  60:	0000006f          	j	60 <HALT>
+  64:	00000013          	nop

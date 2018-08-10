@@ -1,0 +1,35 @@
+
+bin/simple.riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <mytest>:
+   0:	00000537          	lui	a0,0x0
+   4:	00050513          	mv	a0,a0
+   8:	10000637          	lui	a2,0x10000
+
+0000000c <.prname_next>:
+   c:	00050583          	lb	a1,0(a0) # 0 <mytest>
+  10:	00058c63          	beqz	a1,28 <.prname_done>
+  14:	00b62023          	sw	a1,0(a2) # 10000000 <.prname_done+0xfffffd8>
+  18:	00150513          	addi	a0,a0,1
+  1c:	ff1ff06f          	j	c <.prname_next>
+
+00000020 <.test_name>:
+  20:	796d                	lui	s2,0xffffb
+  22:	6574                	flw	fa3,76(a0)
+  24:	00007473          	csrrci	s0,ustatus,0
+
+00000028 <.prname_done>:
+  28:	02e00593          	li	a1,46
+  2c:	00b62023          	sw	a1,0(a2)
+  30:	00b62023          	sw	a1,0(a2)
+  34:	10000537          	lui	a0,0x10000
+  38:	04f00593          	li	a1,79
+  3c:	04b00613          	li	a2,75
+  40:	00a00693          	li	a3,10
+  44:	00b52023          	sw	a1,0(a0) # 10000000 <.prname_done+0xfffffd8>
+  48:	00c52023          	sw	a2,0(a0)
+  4c:	00d52023          	sw	a3,0(a0)
+  50:	fb1ff06f          	j	0 <mytest>

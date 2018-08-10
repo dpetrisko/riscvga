@@ -1,0 +1,155 @@
+
+bin/jalr.riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <mytest>:
+   0:	00000537          	lui	a0,0x0
+   4:	00050513          	mv	a0,a0
+   8:	10000637          	lui	a2,0x10000
+
+0000000c <.prname_next>:
+   c:	00050583          	lb	a1,0(a0) # 0 <mytest>
+  10:	00058c63          	beqz	a1,28 <.prname_done>
+  14:	00b62023          	sw	a1,0(a2) # 10000000 <pass+0xffffe9c>
+  18:	00150513          	addi	a0,a0,1
+  1c:	ff1ff06f          	j	c <.prname_next>
+
+00000020 <.test_name>:
+  20:	796d                	lui	s2,0xffffb
+  22:	6574                	flw	fa3,76(a0)
+  24:	00007473          	csrrci	s0,ustatus,0
+
+00000028 <.prname_done>:
+  28:	02e00593          	li	a1,46
+  2c:	00b62023          	sw	a1,0(a2)
+  30:	00b62023          	sw	a1,0(a2)
+
+00000034 <test_2>:
+  34:	00200e13          	li	t3,2
+  38:	00000f93          	li	t6,0
+
+0000003c <.L0 >:
+  3c:	00000117          	auipc	sp,0x0
+  40:	00010113          	mv	sp,sp
+
+00000044 <linkaddr_2>:
+  44:	000109e7          	jalr	s3,sp
+  48:	00000013          	nop
+  4c:	00000013          	nop
+  50:	0e40006f          	j	134 <fail>
+
+00000054 <target_2>:
+  54:	00000097          	auipc	ra,0x0
+  58:	00008093          	mv	ra,ra
+  5c:	00408093          	addi	ra,ra,4 # 58 <target_2+0x4>
+  60:	0d309a63          	bne	ra,s3,134 <fail>
+
+00000064 <test_3>:
+  64:	00300e13          	li	t3,3
+  68:	00000f93          	li	t6,0
+
+0000006c <.L0 >:
+  6c:	00000197          	auipc	gp,0x0
+  70:	00018193          	mv	gp,gp
+
+00000074 <linkaddr_3>:
+  74:	00018067          	jr	gp
+  78:	00000013          	nop
+  7c:	0b80006f          	j	134 <fail>
+
+00000080 <target_3>:
+  80:	0a0f9a63          	bnez	t6,134 <fail>
+
+00000084 <test_4>:
+  84:	00400e13          	li	t3,4
+  88:	00000213          	li	tp,0
+
+0000008c <.L0 >:
+  8c:	00000317          	auipc	t1,0x0
+  90:	00030313          	mv	t1,t1
+  94:	000309e7          	jalr	s3,t1
+  98:	09c01e63          	bne	zero,t3,134 <fail>
+
+0000009c <.L21>:
+  9c:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+  a0:	00200293          	li	t0,2
+  a4:	fe5214e3          	bne	tp,t0,8c <.L0 >
+
+000000a8 <test_5>:
+  a8:	00500e13          	li	t3,5
+  ac:	00000213          	li	tp,0
+
+000000b0 <.L0 >:
+  b0:	00000317          	auipc	t1,0x0
+  b4:	00030313          	mv	t1,t1
+  b8:	00000013          	nop
+  bc:	000309e7          	jalr	s3,t1
+  c0:	07c01a63          	bne	zero,t3,134 <fail>
+
+000000c4 <.L22>:
+  c4:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+  c8:	00200293          	li	t0,2
+  cc:	fe5212e3          	bne	tp,t0,b0 <.L0 >
+
+000000d0 <test_6>:
+  d0:	00600e13          	li	t3,6
+  d4:	00000213          	li	tp,0
+
+000000d8 <.L0 >:
+  d8:	00000317          	auipc	t1,0x0
+  dc:	00030313          	mv	t1,t1
+  e0:	00000013          	nop
+  e4:	00000013          	nop
+  e8:	000309e7          	jalr	s3,t1
+  ec:	05c01463          	bne	zero,t3,134 <fail>
+
+000000f0 <.L23>:
+  f0:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+  f4:	00200293          	li	t0,2
+  f8:	fe5210e3          	bne	tp,t0,d8 <.L0 >
+
+000000fc <test_7>:
+  fc:	00100093          	li	ra,1
+
+00000100 <.L0 >:
+ 100:	00000117          	auipc	sp,0x0
+ 104:	00010113          	mv	sp,sp
+ 108:	ffc109e7          	jalr	s3,-4(sp) # fc <test_7>
+ 10c:	00108093          	addi	ra,ra,1
+ 110:	00108093          	addi	ra,ra,1
+ 114:	00108093          	addi	ra,ra,1
+ 118:	00108093          	addi	ra,ra,1
+
+0000011c <.L14>:
+ 11c:	00108093          	addi	ra,ra,1
+ 120:	00108093          	addi	ra,ra,1
+ 124:	00400e93          	li	t4,4
+ 128:	00700e13          	li	t3,7
+ 12c:	01d09463          	bne	ra,t4,134 <fail>
+ 130:	03c01a63          	bne	zero,t3,164 <pass>
+
+00000134 <fail>:
+ 134:	10000537          	lui	a0,0x10000
+ 138:	04500593          	li	a1,69
+ 13c:	05200613          	li	a2,82
+ 140:	04f00693          	li	a3,79
+ 144:	00a00713          	li	a4,10
+ 148:	00b52023          	sw	a1,0(a0) # 10000000 <pass+0xffffe9c>
+ 14c:	00c52023          	sw	a2,0(a0)
+ 150:	00c52023          	sw	a2,0(a0)
+ 154:	00d52023          	sw	a3,0(a0)
+ 158:	00c52023          	sw	a2,0(a0)
+ 15c:	00e52023          	sw	a4,0(a0)
+ 160:	00100073          	ebreak
+
+00000164 <pass>:
+ 164:	10000537          	lui	a0,0x10000
+ 168:	04f00593          	li	a1,79
+ 16c:	04b00613          	li	a2,75
+ 170:	00a00693          	li	a3,10
+ 174:	00b52023          	sw	a1,0(a0) # 10000000 <pass+0xffffe9c>
+ 178:	00c52023          	sw	a2,0(a0)
+ 17c:	00d52023          	sw	a3,0(a0)
+ 180:	e81ff06f          	j	0 <mytest>
