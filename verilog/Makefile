@@ -25,4 +25,4 @@ compile:
 	$(VLOG) $(SRC_FILES) $(TST_FILES)
 
 rvga_sim:
-	$(VSIM) -c +TEST_PROG=$(TEST_PROG) -do "run -all" work.rvga_tb
+	$(VSIM) -c +TEST_PROG=$(TEST_PROG) -do "run -all" work.rvga_tb 

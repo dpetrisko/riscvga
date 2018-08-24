@@ -31,6 +31,7 @@ module memory_stage
  rvga_cword cword_n, cword_r;
  rvga_dword dword_n, dword_r;
  rvga_word st_data_n, st_data_r;
+ logic bru_result_n, bru_result_r;
  rvga_word alu_result_r;
  rvga_word ld_result;
  
@@ -70,28 +71,38 @@ result_mux(.sel_i(cword_r.dmem_r_v)
                   ,.st_result_o(dmem_data_o)
                   );
              
-       dff #(.width_p($bits(rvga_word)))
+        dff #(.width_p($bits(rvga_word)))
   alu_result(.clk_i(clk_i)
-             ,.rst_i(rst_i)
-             ,.w_v_i(~stall_v_i)
-             
-             ,.i(alu_result_i)
-             ,.o(alu_result_r)
-             );
-             
+              ,.rst_i(rst_i)
+              ,.w_v_i(~stall_v_i)
+              
+              ,.i(alu_result_i)
+              ,.o(alu_result_r)
+              );
+              
       dff #(.width_p($bits(rvga_word)))
     st_data(.clk_i(clk_i)
             ,.rst_i(rst_i)
             ,.w_v_i(~stall_v_i)
-               
+                
             ,.i(st_data_n)
             ,.o(st_data_r)
             );
+
+      dff #(.width_p(1))
+ bru_result(.clk_i(clk_i)
+            ,.rst_i(rst_i)
+            ,.w_v_i(~stall_v_i)
+                
+            ,.i(bru_result_n)
+            ,.o(bru_result_r)
+            );      
         
 always_comb begin
   cword_n = cword_i;
   dword_n = dword_i;
   st_data_n = st_data_i;
+  bru_result_n = bru_result_i;
   
   dword_n.alu_result = alu_result_i;
   
@@ -102,7 +113,7 @@ always_comb begin
   dmem_w_v_o = cword_r.dmem_w_v;
   dmem_addr_o = alu_result_r;
   
-  btaken_o = cword_r.jmp_v || (cword_r.br_v && bru_result_i);
+  btaken_o = cword_r.jmp_v || (cword_r.br_v && bru_result_r);
   
   br_v_o = cword_r.jmp_v || cword_r.br_v;
 end
