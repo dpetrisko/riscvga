@@ -101,17 +101,17 @@ endtask
 task print_br(input rvga_cword cword, input rvga_dword dword);
   case(cword.funct3) 
     e_rvga_brop_beq  : $display("Cycle %d: COMMITTED @PC %x BEQ: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
     e_rvga_brop_bne  : $display("Cycle %d: COMMITTED @PC %x BNE: if (R%d (%x) != R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
     e_rvga_brop_blt  : $display("Cycle %d: COMMITTED @PC %x BLT: if (R%d (%x) < R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
     e_rvga_brop_bge  : $display("Cycle %d: COMMITTED @PC %x BGE: if (R%d (%x) > R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
     e_rvga_brop_bltu : $display("Cycle %d: COMMITTED @PC %x BLTU: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
     e_rvga_brop_bgeu : $display("Cycle %d: COMMITTED @PC %x BGEU: if (R%d (%x) == R%d (%x)) PC (%x) = PC (%x) + IMM (%x)",
-                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cycle_i, cword.pc, dword.imm_data);
+                                cycle_i, cword.pc, cword.rs1, dword.rs1_data, cword.rs2, dword.rs2_data, dword.alu_result, cword.pc, dword.imm_data);
   endcase
 endtask
 

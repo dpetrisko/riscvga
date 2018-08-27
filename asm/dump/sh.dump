@@ -1,0 +1,415 @@
+
+rv32ui-p-sh:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <mytest>:
+   0:	00000537          	lui	a0,0x0
+   4:	02050513          	addi	a0,a0,32 # 20 <.test_name>
+   8:	10000637          	lui	a2,0x10000
+
+0000000c <.prname_next>:
+   c:	00050583          	lb	a1,0(a0)
+  10:	00058c63          	beqz	a1,28 <.prname_done>
+  14:	00b62023          	sw	a1,0(a2) # 10000000 <_end+0xfffefec>
+  18:	00150513          	addi	a0,a0,1
+  1c:	ff1ff06f          	j	c <.prname_next>
+
+00000020 <.test_name>:
+  20:	796d                	lui	s2,0xffffb
+  22:	6574                	flw	fa3,76(a0)
+  24:	00007473          	csrrci	s0,ustatus,0
+
+00000028 <.prname_done>:
+  28:	02e00593          	li	a1,46
+  2c:	00b62023          	sw	a1,0(a2)
+  30:	00b62023          	sw	a1,0(a2)
+
+00000034 <test_2>:
+  34:	00001097          	auipc	ra,0x1
+  38:	fcc08093          	addi	ra,ra,-52 # 1000 <tdat>
+  3c:	0aa00113          	li	sp,170
+  40:	00209023          	sh	sp,0(ra)
+  44:	00009f03          	lh	t5,0(ra)
+  48:	0aa00e93          	li	t4,170
+  4c:	00200e13          	li	t3,2
+  50:	45df1e63          	bne	t5,t4,4ac <fail>
+
+00000054 <test_3>:
+  54:	00001097          	auipc	ra,0x1
+  58:	fac08093          	addi	ra,ra,-84 # 1000 <tdat>
+  5c:	ffffb137          	lui	sp,0xffffb
+  60:	a0010113          	addi	sp,sp,-1536 # ffffaa00 <_end+0xffff99ec>
+  64:	00209123          	sh	sp,2(ra)
+  68:	00209f03          	lh	t5,2(ra)
+  6c:	ffffbeb7          	lui	t4,0xffffb
+  70:	a00e8e93          	addi	t4,t4,-1536 # ffffaa00 <_end+0xffff99ec>
+  74:	00300e13          	li	t3,3
+  78:	43df1a63          	bne	t5,t4,4ac <fail>
+
+0000007c <test_4>:
+  7c:	00001097          	auipc	ra,0x1
+  80:	f8408093          	addi	ra,ra,-124 # 1000 <tdat>
+  84:	beef1137          	lui	sp,0xbeef1
+  88:	aa010113          	addi	sp,sp,-1376 # beef0aa0 <_end+0xbeeefa8c>
+  8c:	00209223          	sh	sp,4(ra)
+  90:	0040af03          	lw	t5,4(ra)
+  94:	beef1eb7          	lui	t4,0xbeef1
+  98:	aa0e8e93          	addi	t4,t4,-1376 # beef0aa0 <_end+0xbeeefa8c>
+  9c:	00400e13          	li	t3,4
+  a0:	41df1663          	bne	t5,t4,4ac <fail>
+
+000000a4 <test_5>:
+  a4:	00001097          	auipc	ra,0x1
+  a8:	f5c08093          	addi	ra,ra,-164 # 1000 <tdat>
+  ac:	ffffa137          	lui	sp,0xffffa
+  b0:	00a10113          	addi	sp,sp,10 # ffffa00a <_end+0xffff8ff6>
+  b4:	00209323          	sh	sp,6(ra)
+  b8:	00609f03          	lh	t5,6(ra)
+  bc:	ffffaeb7          	lui	t4,0xffffa
+  c0:	00ae8e93          	addi	t4,t4,10 # ffffa00a <_end+0xffff8ff6>
+  c4:	00500e13          	li	t3,5
+  c8:	3fdf1263          	bne	t5,t4,4ac <fail>
+
+000000cc <test_6>:
+  cc:	00001097          	auipc	ra,0x1
+  d0:	f4208093          	addi	ra,ra,-190 # 100e <tdat8>
+  d4:	0aa00113          	li	sp,170
+  d8:	fe209d23          	sh	sp,-6(ra)
+  dc:	ffa09f03          	lh	t5,-6(ra)
+  e0:	0aa00e93          	li	t4,170
+  e4:	00600e13          	li	t3,6
+  e8:	3ddf1263          	bne	t5,t4,4ac <fail>
+
+000000ec <test_7>:
+  ec:	00001097          	auipc	ra,0x1
+  f0:	f2208093          	addi	ra,ra,-222 # 100e <tdat8>
+  f4:	ffffb137          	lui	sp,0xffffb
+  f8:	a0010113          	addi	sp,sp,-1536 # ffffaa00 <_end+0xffff99ec>
+  fc:	fe209e23          	sh	sp,-4(ra)
+ 100:	ffc09f03          	lh	t5,-4(ra)
+ 104:	ffffbeb7          	lui	t4,0xffffb
+ 108:	a00e8e93          	addi	t4,t4,-1536 # ffffaa00 <_end+0xffff99ec>
+ 10c:	00700e13          	li	t3,7
+ 110:	39df1e63          	bne	t5,t4,4ac <fail>
+
+00000114 <test_8>:
+ 114:	00001097          	auipc	ra,0x1
+ 118:	efa08093          	addi	ra,ra,-262 # 100e <tdat8>
+ 11c:	00001137          	lui	sp,0x1
+ 120:	aa010113          	addi	sp,sp,-1376 # aa0 <.halt+0x5a8>
+ 124:	fe209f23          	sh	sp,-2(ra)
+ 128:	ffe09f03          	lh	t5,-2(ra)
+ 12c:	00001eb7          	lui	t4,0x1
+ 130:	aa0e8e93          	addi	t4,t4,-1376 # aa0 <.halt+0x5a8>
+ 134:	00800e13          	li	t3,8
+ 138:	37df1a63          	bne	t5,t4,4ac <fail>
+
+0000013c <test_9>:
+ 13c:	00001097          	auipc	ra,0x1
+ 140:	ed208093          	addi	ra,ra,-302 # 100e <tdat8>
+ 144:	ffffa137          	lui	sp,0xffffa
+ 148:	00a10113          	addi	sp,sp,10 # ffffa00a <_end+0xffff8ff6>
+ 14c:	00209023          	sh	sp,0(ra)
+ 150:	00009f03          	lh	t5,0(ra)
+ 154:	ffffaeb7          	lui	t4,0xffffa
+ 158:	00ae8e93          	addi	t4,t4,10 # ffffa00a <_end+0xffff8ff6>
+ 15c:	00900e13          	li	t3,9
+ 160:	35df1663          	bne	t5,t4,4ac <fail>
+
+00000164 <test_10>:
+ 164:	00001097          	auipc	ra,0x1
+ 168:	eac08093          	addi	ra,ra,-340 # 1010 <tdat9>
+ 16c:	12345137          	lui	sp,0x12345
+ 170:	67810113          	addi	sp,sp,1656 # 12345678 <_end+0x12344664>
+ 174:	fe008213          	addi	tp,ra,-32
+ 178:	02221023          	sh	sp,32(tp) # 20 <.test_name>
+ 17c:	00009283          	lh	t0,0(ra)
+ 180:	00005eb7          	lui	t4,0x5
+ 184:	678e8e93          	addi	t4,t4,1656 # 5678 <_end+0x4664>
+ 188:	00a00e13          	li	t3,10
+ 18c:	33d29063          	bne	t0,t4,4ac <fail>
+
+00000190 <test_11>:
+ 190:	00001097          	auipc	ra,0x1
+ 194:	e8008093          	addi	ra,ra,-384 # 1010 <tdat9>
+ 198:	00003137          	lui	sp,0x3
+ 19c:	09810113          	addi	sp,sp,152 # 3098 <_end+0x2084>
+ 1a0:	ffb08093          	addi	ra,ra,-5
+ 1a4:	002093a3          	sh	sp,7(ra)
+ 1a8:	00001217          	auipc	tp,0x1
+ 1ac:	e6a20213          	addi	tp,tp,-406 # 1012 <tdat10>
+ 1b0:	00021283          	lh	t0,0(tp) # 0 <mytest>
+ 1b4:	00003eb7          	lui	t4,0x3
+ 1b8:	098e8e93          	addi	t4,t4,152 # 3098 <_end+0x2084>
+ 1bc:	00b00e13          	li	t3,11
+ 1c0:	2fd29663          	bne	t0,t4,4ac <fail>
+
+000001c4 <test_12>:
+ 1c4:	00c00e13          	li	t3,12
+ 1c8:	00000213          	li	tp,0
+ 1cc:	ffffd0b7          	lui	ra,0xffffd
+ 1d0:	cdd08093          	addi	ra,ra,-803 # ffffccdd <_end+0xffffbcc9>
+ 1d4:	00001117          	auipc	sp,0x1
+ 1d8:	e2c10113          	addi	sp,sp,-468 # 1000 <tdat>
+ 1dc:	00111023          	sh	ra,0(sp)
+ 1e0:	00011f03          	lh	t5,0(sp)
+ 1e4:	ffffdeb7          	lui	t4,0xffffd
+ 1e8:	cdde8e93          	addi	t4,t4,-803 # ffffccdd <_end+0xffffbcc9>
+ 1ec:	2ddf1063          	bne	t5,t4,4ac <fail>
+ 1f0:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 1f4:	00200293          	li	t0,2
+ 1f8:	fc521ae3          	bne	tp,t0,1cc <test_12+0x8>
+
+000001fc <test_13>:
+ 1fc:	00d00e13          	li	t3,13
+ 200:	00000213          	li	tp,0
+ 204:	ffffc0b7          	lui	ra,0xffffc
+ 208:	ccd08093          	addi	ra,ra,-819 # ffffbccd <_end+0xffffacb9>
+ 20c:	00001117          	auipc	sp,0x1
+ 210:	df410113          	addi	sp,sp,-524 # 1000 <tdat>
+ 214:	00000013          	nop
+ 218:	00111123          	sh	ra,2(sp)
+ 21c:	00211f03          	lh	t5,2(sp)
+ 220:	ffffceb7          	lui	t4,0xffffc
+ 224:	ccde8e93          	addi	t4,t4,-819 # ffffbccd <_end+0xffffacb9>
+ 228:	29df1263          	bne	t5,t4,4ac <fail>
+ 22c:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 230:	00200293          	li	t0,2
+ 234:	fc5218e3          	bne	tp,t0,204 <test_13+0x8>
+
+00000238 <test_14>:
+ 238:	00e00e13          	li	t3,14
+ 23c:	00000213          	li	tp,0
+ 240:	ffffc0b7          	lui	ra,0xffffc
+ 244:	bcc08093          	addi	ra,ra,-1076 # ffffbbcc <_end+0xffffabb8>
+ 248:	00001117          	auipc	sp,0x1
+ 24c:	db810113          	addi	sp,sp,-584 # 1000 <tdat>
+ 250:	00000013          	nop
+ 254:	00000013          	nop
+ 258:	00111223          	sh	ra,4(sp)
+ 25c:	00411f03          	lh	t5,4(sp)
+ 260:	ffffceb7          	lui	t4,0xffffc
+ 264:	bcce8e93          	addi	t4,t4,-1076 # ffffbbcc <_end+0xffffabb8>
+ 268:	25df1263          	bne	t5,t4,4ac <fail>
+ 26c:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 270:	00200293          	li	t0,2
+ 274:	fc5216e3          	bne	tp,t0,240 <test_14+0x8>
+
+00000278 <test_15>:
+ 278:	00f00e13          	li	t3,15
+ 27c:	00000213          	li	tp,0
+ 280:	ffffb0b7          	lui	ra,0xffffb
+ 284:	bbc08093          	addi	ra,ra,-1092 # ffffabbc <_end+0xffff9ba8>
+ 288:	00000013          	nop
+ 28c:	00001117          	auipc	sp,0x1
+ 290:	d7410113          	addi	sp,sp,-652 # 1000 <tdat>
+ 294:	00111323          	sh	ra,6(sp)
+ 298:	00611f03          	lh	t5,6(sp)
+ 29c:	ffffbeb7          	lui	t4,0xffffb
+ 2a0:	bbce8e93          	addi	t4,t4,-1092 # ffffabbc <_end+0xffff9ba8>
+ 2a4:	21df1463          	bne	t5,t4,4ac <fail>
+ 2a8:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 2ac:	00200293          	li	t0,2
+ 2b0:	fc5218e3          	bne	tp,t0,280 <test_15+0x8>
+
+000002b4 <test_16>:
+ 2b4:	01000e13          	li	t3,16
+ 2b8:	00000213          	li	tp,0
+ 2bc:	ffffb0b7          	lui	ra,0xffffb
+ 2c0:	abb08093          	addi	ra,ra,-1349 # ffffaabb <_end+0xffff9aa7>
+ 2c4:	00000013          	nop
+ 2c8:	00001117          	auipc	sp,0x1
+ 2cc:	d3810113          	addi	sp,sp,-712 # 1000 <tdat>
+ 2d0:	00000013          	nop
+ 2d4:	00111423          	sh	ra,8(sp)
+ 2d8:	00811f03          	lh	t5,8(sp)
+ 2dc:	ffffbeb7          	lui	t4,0xffffb
+ 2e0:	abbe8e93          	addi	t4,t4,-1349 # ffffaabb <_end+0xffff9aa7>
+ 2e4:	1ddf1463          	bne	t5,t4,4ac <fail>
+ 2e8:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 2ec:	00200293          	li	t0,2
+ 2f0:	fc5216e3          	bne	tp,t0,2bc <test_16+0x8>
+
+000002f4 <test_17>:
+ 2f4:	01100e13          	li	t3,17
+ 2f8:	00000213          	li	tp,0
+ 2fc:	ffffe0b7          	lui	ra,0xffffe
+ 300:	aab08093          	addi	ra,ra,-1365 # ffffdaab <_end+0xffffca97>
+ 304:	00000013          	nop
+ 308:	00000013          	nop
+ 30c:	00001117          	auipc	sp,0x1
+ 310:	cf410113          	addi	sp,sp,-780 # 1000 <tdat>
+ 314:	00111523          	sh	ra,10(sp)
+ 318:	00a11f03          	lh	t5,10(sp)
+ 31c:	ffffeeb7          	lui	t4,0xffffe
+ 320:	aabe8e93          	addi	t4,t4,-1365 # ffffdaab <_end+0xffffca97>
+ 324:	19df1463          	bne	t5,t4,4ac <fail>
+ 328:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 32c:	00200293          	li	t0,2
+ 330:	fc5216e3          	bne	tp,t0,2fc <test_17+0x8>
+
+00000334 <test_18>:
+ 334:	01200e13          	li	t3,18
+ 338:	00000213          	li	tp,0
+ 33c:	00001117          	auipc	sp,0x1
+ 340:	cc410113          	addi	sp,sp,-828 # 1000 <tdat>
+ 344:	000020b7          	lui	ra,0x2
+ 348:	23308093          	addi	ra,ra,563 # 2233 <_end+0x121f>
+ 34c:	00111023          	sh	ra,0(sp)
+ 350:	00011f03          	lh	t5,0(sp)
+ 354:	00002eb7          	lui	t4,0x2
+ 358:	233e8e93          	addi	t4,t4,563 # 2233 <_end+0x121f>
+ 35c:	15df1863          	bne	t5,t4,4ac <fail>
+ 360:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 364:	00200293          	li	t0,2
+ 368:	fc521ae3          	bne	tp,t0,33c <test_18+0x8>
+
+0000036c <test_19>:
+ 36c:	01300e13          	li	t3,19
+ 370:	00000213          	li	tp,0
+ 374:	00001117          	auipc	sp,0x1
+ 378:	c8c10113          	addi	sp,sp,-884 # 1000 <tdat>
+ 37c:	000010b7          	lui	ra,0x1
+ 380:	22308093          	addi	ra,ra,547 # 1223 <_end+0x20f>
+ 384:	00000013          	nop
+ 388:	00111123          	sh	ra,2(sp)
+ 38c:	00211f03          	lh	t5,2(sp)
+ 390:	00001eb7          	lui	t4,0x1
+ 394:	223e8e93          	addi	t4,t4,547 # 1223 <_end+0x20f>
+ 398:	11df1a63          	bne	t5,t4,4ac <fail>
+ 39c:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 3a0:	00200293          	li	t0,2
+ 3a4:	fc5218e3          	bne	tp,t0,374 <test_19+0x8>
+
+000003a8 <test_20>:
+ 3a8:	01400e13          	li	t3,20
+ 3ac:	00000213          	li	tp,0
+ 3b0:	00001117          	auipc	sp,0x1
+ 3b4:	c5010113          	addi	sp,sp,-944 # 1000 <tdat>
+ 3b8:	000010b7          	lui	ra,0x1
+ 3bc:	12208093          	addi	ra,ra,290 # 1122 <_end+0x10e>
+ 3c0:	00000013          	nop
+ 3c4:	00000013          	nop
+ 3c8:	00111223          	sh	ra,4(sp)
+ 3cc:	00411f03          	lh	t5,4(sp)
+ 3d0:	00001eb7          	lui	t4,0x1
+ 3d4:	122e8e93          	addi	t4,t4,290 # 1122 <_end+0x10e>
+ 3d8:	0ddf1a63          	bne	t5,t4,4ac <fail>
+ 3dc:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 3e0:	00200293          	li	t0,2
+ 3e4:	fc5216e3          	bne	tp,t0,3b0 <test_20+0x8>
+
+000003e8 <test_21>:
+ 3e8:	01500e13          	li	t3,21
+ 3ec:	00000213          	li	tp,0
+ 3f0:	00001117          	auipc	sp,0x1
+ 3f4:	c1010113          	addi	sp,sp,-1008 # 1000 <tdat>
+ 3f8:	00000013          	nop
+ 3fc:	11200093          	li	ra,274
+ 400:	00111323          	sh	ra,6(sp)
+ 404:	00611f03          	lh	t5,6(sp)
+ 408:	11200e93          	li	t4,274
+ 40c:	0bdf1063          	bne	t5,t4,4ac <fail>
+ 410:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 414:	00200293          	li	t0,2
+ 418:	fc521ce3          	bne	tp,t0,3f0 <test_21+0x8>
+
+0000041c <test_22>:
+ 41c:	01600e13          	li	t3,22
+ 420:	00000213          	li	tp,0
+ 424:	00001117          	auipc	sp,0x1
+ 428:	bdc10113          	addi	sp,sp,-1060 # 1000 <tdat>
+ 42c:	00000013          	nop
+ 430:	01100093          	li	ra,17
+ 434:	00000013          	nop
+ 438:	00111423          	sh	ra,8(sp)
+ 43c:	00811f03          	lh	t5,8(sp)
+ 440:	01100e93          	li	t4,17
+ 444:	07df1463          	bne	t5,t4,4ac <fail>
+ 448:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 44c:	00200293          	li	t0,2
+ 450:	fc521ae3          	bne	tp,t0,424 <test_22+0x8>
+
+00000454 <test_23>:
+ 454:	01700e13          	li	t3,23
+ 458:	00000213          	li	tp,0
+ 45c:	00001117          	auipc	sp,0x1
+ 460:	ba410113          	addi	sp,sp,-1116 # 1000 <tdat>
+ 464:	00000013          	nop
+ 468:	00000013          	nop
+ 46c:	000030b7          	lui	ra,0x3
+ 470:	00108093          	addi	ra,ra,1 # 3001 <_end+0x1fed>
+ 474:	00111523          	sh	ra,10(sp)
+ 478:	00a11f03          	lh	t5,10(sp)
+ 47c:	00003eb7          	lui	t4,0x3
+ 480:	001e8e93          	addi	t4,t4,1 # 3001 <_end+0x1fed>
+ 484:	03df1463          	bne	t5,t4,4ac <fail>
+ 488:	00120213          	addi	tp,tp,1 # 1 <mytest+0x1>
+ 48c:	00200293          	li	t0,2
+ 490:	fc5216e3          	bne	tp,t0,45c <test_23+0x8>
+ 494:	0000c537          	lui	a0,0xc
+ 498:	eef50513          	addi	a0,a0,-273 # beef <_end+0xaedb>
+ 49c:	00001597          	auipc	a1,0x1
+ 4a0:	b6458593          	addi	a1,a1,-1180 # 1000 <tdat>
+ 4a4:	00a59323          	sh	a0,6(a1)
+ 4a8:	03c01a63          	bne	zero,t3,4dc <pass>
+
+000004ac <fail>:
+ 4ac:	10000537          	lui	a0,0x10000
+ 4b0:	04500593          	li	a1,69
+ 4b4:	05200613          	li	a2,82
+ 4b8:	04f00693          	li	a3,79
+ 4bc:	00a00713          	li	a4,10
+ 4c0:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xfffefec>
+ 4c4:	00c52023          	sw	a2,0(a0)
+ 4c8:	00c52023          	sw	a2,0(a0)
+ 4cc:	00d52023          	sw	a3,0(a0)
+ 4d0:	00c52023          	sw	a2,0(a0)
+ 4d4:	00e52023          	sw	a4,0(a0)
+ 4d8:	00100073          	ebreak
+
+000004dc <pass>:
+ 4dc:	10000537          	lui	a0,0x10000
+ 4e0:	04f00593          	li	a1,79
+ 4e4:	04b00613          	li	a2,75
+ 4e8:	00a00693          	li	a3,10
+ 4ec:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xfffefec>
+ 4f0:	00c52023          	sw	a2,0(a0)
+ 4f4:	00d52023          	sw	a3,0(a0)
+
+000004f8 <.halt>:
+ 4f8:	0000006f          	j	4f8 <.halt>
+
+Disassembly of section .data:
+
+00001000 <tdat>:
+    1000:	          	jal	t4,ffffc3ee <_end+0xffffb3da>
+
+00001002 <tdat2>:
+    1002:	          	jal	t4,ffffc3f0 <_end+0xffffb3dc>
+
+00001004 <tdat3>:
+    1004:	          	jal	t4,ffffc3f2 <_end+0xffffb3de>
+
+00001006 <tdat4>:
+    1006:	          	jal	t4,ffffc3f4 <_end+0xffffb3e0>
+
+00001008 <tdat5>:
+    1008:	          	jal	t4,ffffc3f6 <_end+0xffffb3e2>
+
+0000100a <tdat6>:
+    100a:	          	jal	t4,ffffc3f8 <_end+0xffffb3e4>
+
+0000100c <tdat7>:
+    100c:	          	jal	t4,ffffc3fa <_end+0xffffb3e6>
+
+0000100e <tdat8>:
+    100e:	          	jal	t4,ffffc3fc <_end+0xffffb3e8>
+
+00001010 <tdat9>:
+    1010:	          	jal	t4,ffffc3fe <_end+0xffffb3ea>
+
+00001012 <tdat10>:
+    1012:	          	jal	t4,c012 <_end+0xaffe>

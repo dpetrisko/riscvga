@@ -1,0 +1,75 @@
+
+rv32ui-p-auipc:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <mytest>:
+   0:	00000537          	lui	a0,0x0
+   4:	02050513          	addi	a0,a0,32 # 20 <.test_name>
+   8:	10000637          	lui	a2,0x10000
+
+0000000c <.prname_next>:
+   c:	00050583          	lb	a1,0(a0)
+  10:	00058c63          	beqz	a1,28 <.prname_done>
+  14:	00b62023          	sw	a1,0(a2) # 10000000 <_end+0xffff000>
+  18:	00150513          	addi	a0,a0,1
+  1c:	ff1ff06f          	j	c <.prname_next>
+
+00000020 <.test_name>:
+  20:	796d                	lui	s2,0xffffb
+  22:	6574                	flw	fa3,76(a0)
+  24:	00007473          	csrrci	s0,ustatus,0
+
+00000028 <.prname_done>:
+  28:	02e00593          	li	a1,46
+  2c:	00b62023          	sw	a1,0(a2)
+  30:	00b62023          	sw	a1,0(a2)
+
+00000034 <test_2>:
+  34:	00000013          	nop
+  38:	00002517          	auipc	a0,0x2
+  3c:	71c50513          	addi	a0,a0,1820 # 2754 <_end+0x1754>
+  40:	004005ef          	jal	a1,44 <test_2+0x10>
+  44:	40b50533          	sub	a0,a0,a1
+  48:	00002eb7          	lui	t4,0x2
+  4c:	710e8e93          	addi	t4,t4,1808 # 2710 <_end+0x1710>
+  50:	00200e13          	li	t3,2
+  54:	03d51463          	bne	a0,t4,7c <fail>
+
+00000058 <test_3>:
+  58:	ffffe517          	auipc	a0,0xffffe
+  5c:	8fc50513          	addi	a0,a0,-1796 # ffffd954 <_end+0xffffc954>
+  60:	004005ef          	jal	a1,64 <test_3+0xc>
+  64:	40b50533          	sub	a0,a0,a1
+  68:	ffffeeb7          	lui	t4,0xffffe
+  6c:	8f0e8e93          	addi	t4,t4,-1808 # ffffd8f0 <_end+0xffffc8f0>
+  70:	00300e13          	li	t3,3
+  74:	01d51463          	bne	a0,t4,7c <fail>
+  78:	03c01a63          	bne	zero,t3,ac <pass>
+
+0000007c <fail>:
+  7c:	10000537          	lui	a0,0x10000
+  80:	04500593          	li	a1,69
+  84:	05200613          	li	a2,82
+  88:	04f00693          	li	a3,79
+  8c:	00a00713          	li	a4,10
+  90:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xffff000>
+  94:	00c52023          	sw	a2,0(a0)
+  98:	00c52023          	sw	a2,0(a0)
+  9c:	00d52023          	sw	a3,0(a0)
+  a0:	00c52023          	sw	a2,0(a0)
+  a4:	00e52023          	sw	a4,0(a0)
+  a8:	00100073          	ebreak
+
+000000ac <pass>:
+  ac:	10000537          	lui	a0,0x10000
+  b0:	04f00593          	li	a1,79
+  b4:	04b00613          	li	a2,75
+  b8:	00a00693          	li	a3,10
+  bc:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xffff000>
+  c0:	00c52023          	sw	a2,0(a0)
+  c4:	00d52023          	sw	a3,0(a0)
+
+000000c8 <.halt>:
+  c8:	0000006f          	j	c8 <.halt>

@@ -1,0 +1,127 @@
+
+rv32ui-p-fence_i:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <mytest>:
+   0:	00000537          	lui	a0,0x0
+   4:	02050513          	addi	a0,a0,32 # 20 <.test_name>
+   8:	10000637          	lui	a2,0x10000
+
+0000000c <.prname_next>:
+   c:	00050583          	lb	a1,0(a0)
+  10:	00058c63          	beqz	a1,28 <.prname_done>
+  14:	00b62023          	sw	a1,0(a2) # 10000000 <_end+0xfffeffc>
+  18:	00150513          	addi	a0,a0,1
+  1c:	ff1ff06f          	j	c <.prname_next>
+
+00000020 <.test_name>:
+  20:	796d                	lui	s2,0xffffb
+  22:	6574                	flw	fa3,76(a0)
+  24:	00007473          	csrrci	s0,ustatus,0
+
+00000028 <.prname_done>:
+  28:	02e00593          	li	a1,46
+  2c:	00b62023          	sw	a1,0(a2)
+  30:	00b62023          	sw	a1,0(a2)
+  34:	06f00693          	li	a3,111
+  38:	00001517          	auipc	a0,0x1
+  3c:	fc851503          	lh	a0,-56(a0) # 1000 <insn>
+  40:	00001597          	auipc	a1,0x1
+  44:	fc259583          	lh	a1,-62(a1) # 1002 <insn+0x2>
+  48:	00000013          	nop
+  4c:	00000013          	nop
+  50:	00000013          	nop
+  54:	00000013          	nop
+  58:	00000013          	nop
+  5c:	00000013          	nop
+  60:	00000013          	nop
+  64:	00000013          	nop
+  68:	00000013          	nop
+  6c:	00000013          	nop
+  70:	00000013          	nop
+  74:	00000013          	nop
+  78:	00000013          	nop
+  7c:	00000013          	nop
+  80:	00000297          	auipc	t0,0x0
+  84:	00a29a23          	sh	a0,20(t0) # 94 <.prname_done+0x6c>
+  88:	00000297          	auipc	t0,0x0
+  8c:	00b29723          	sh	a1,14(t0) # 96 <.prname_done+0x6e>
+  90:	0000100f          	fence.i
+  94:	0de68693          	addi	a3,a3,222
+
+00000098 <test_2>:
+  98:	00000013          	nop
+  9c:	1bc00e93          	li	t4,444
+  a0:	00200e13          	li	t3,2
+  a4:	07d69a63          	bne	a3,t4,118 <fail>
+  a8:	06400713          	li	a4,100
+  ac:	fff70713          	addi	a4,a4,-1
+  b0:	fe071ee3          	bnez	a4,ac <test_2+0x14>
+  b4:	00000297          	auipc	t0,0x0
+  b8:	04a29623          	sh	a0,76(t0) # 100 <test_2+0x68>
+  bc:	00000297          	auipc	t0,0x0
+  c0:	04b29323          	sh	a1,70(t0) # 102 <test_2+0x6a>
+  c4:	0000100f          	fence.i
+  c8:	00000013          	nop
+  cc:	00000013          	nop
+  d0:	00000013          	nop
+  d4:	00000013          	nop
+  d8:	00000013          	nop
+  dc:	00000013          	nop
+  e0:	00000013          	nop
+  e4:	00000013          	nop
+  e8:	00000013          	nop
+  ec:	00000013          	nop
+  f0:	00000013          	nop
+  f4:	00000013          	nop
+  f8:	00000013          	nop
+  fc:	00000013          	nop
+ 100:	22b68693          	addi	a3,a3,555
+
+00000104 <test_3>:
+ 104:	00000013          	nop
+ 108:	30900e93          	li	t4,777
+ 10c:	00300e13          	li	t3,3
+ 110:	01d69463          	bne	a3,t4,118 <fail>
+ 114:	03c01a63          	bne	zero,t3,148 <pass>
+
+00000118 <fail>:
+ 118:	10000537          	lui	a0,0x10000
+ 11c:	04500593          	li	a1,69
+ 120:	05200613          	li	a2,82
+ 124:	04f00693          	li	a3,79
+ 128:	00a00713          	li	a4,10
+ 12c:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xfffeffc>
+ 130:	00c52023          	sw	a2,0(a0)
+ 134:	00c52023          	sw	a2,0(a0)
+ 138:	00d52023          	sw	a3,0(a0)
+ 13c:	00c52023          	sw	a2,0(a0)
+ 140:	00e52023          	sw	a4,0(a0)
+ 144:	00100073          	ebreak
+
+00000148 <pass>:
+ 148:	10000537          	lui	a0,0x10000
+ 14c:	04f00593          	li	a1,79
+ 150:	04b00613          	li	a2,75
+ 154:	00a00693          	li	a3,10
+ 158:	00b52023          	sw	a1,0(a0) # 10000000 <_end+0xfffeffc>
+ 15c:	00c52023          	sw	a2,0(a0)
+ 160:	00d52023          	sw	a3,0(a0)
+
+00000164 <.halt>:
+ 164:	0000006f          	j	164 <.halt>
+ 168:	0000                	unimp
+ 16a:	0000                	unimp
+ 16c:	0000                	unimp
+ 16e:	0000                	unimp
+ 170:	0000                	unimp
+ 172:	0000                	unimp
+ 174:	0000                	unimp
+ 176:	0000                	unimp
+
+Disassembly of section .data:
+
+00001000 <insn>:
+    1000:	14d68693          	addi	a3,a3,333

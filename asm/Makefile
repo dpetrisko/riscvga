@@ -1,6 +1,6 @@
-CC    := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-gcc
-CPY   := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-objcopy 
-DIS   := C:\Users\Dan\riscv-gcc\bin\riscv-none-embed-objdump
+CC  := riscv32-unknown-elf-gcc
+CPY := riscv32-unknown-elf-objcopy
+DIS := riscv32-unknown-elf-objdump
 SHELL := sh -xv
 
 CFLAGS   := -nostdlib -march=rv32ima -mabi=ilp32
