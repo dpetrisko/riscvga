@@ -1,0 +1,29 @@
+
+bin/rvga_imm.riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00000013          	nop
+   4:	00a00013          	li	zero,10
+   8:	00500093          	li	ra,5
+   c:	fff00113          	li	sp,-1
+  10:	ff310193          	addi	gp,sp,-13
+  14:	0060a213          	slti	tp,ra,6
+  18:	0040a293          	slti	t0,ra,4
+  1c:	ff31b313          	sltiu	t1,gp,-13
+  20:	0001b393          	sltiu	t2,gp,0
+  24:	0110f413          	andi	s0,ra,17
+  28:	0910e493          	ori	s1,ra,145
+  2c:	0bd4c513          	xori	a0,s1,189
+  30:	00451593          	slli	a1,a0,0x4
+  34:	0101d613          	srli	a2,gp,0x10
+  38:	4011d693          	srai	a3,gp,0x1
+  3c:	12345737          	lui	a4,0x12345
+  40:	00000797          	auipc	a5,0x0
+  44:	0000a817          	auipc	a6,0xa
+
+00000048 <HALT>:
+  48:	0000006f          	j	48 <HALT>
+  4c:	00000013          	nop

@@ -1,0 +1,16 @@
+
+bin/rvga_br.riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	0100016f          	jal	sp,10 <good_br1>
+   4:	0de00093          	li	ra,222
+   8:	0ad00113          	li	sp,173
+   c:	000001e7          	jalr	gp,zero
+
+00000010 <good_br1>:
+  10:	00100f93          	li	t6,1
+  14:	008101e7          	jalr	gp,8(sp)
+  18:	00200f13          	li	t5,2

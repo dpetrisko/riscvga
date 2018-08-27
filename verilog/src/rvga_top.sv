@@ -206,7 +206,7 @@ logic bru_result;
             ,.execute_rs1_i(execute_cword.rs1)
             ,.execute_rs2_i(execute_cword.rs2)
             
-            ,.execute_rs1_v_i(~execute_cword.addpc_v)
+            ,.execute_rs1_v_i(~execute_cword.addpc_v || execute_cword.br_v)
             ,.execute_rs2_v_i(~execute_cword.imm_v || execute_cword.br_v)
                     
             ,.forward_memory_execute_rs1_v_o(forward_memory_execute_rs1_v)
