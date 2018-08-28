@@ -9,7 +9,6 @@ bgeu.vh    - PASS
 blt.vh     - PASS
 bltu.vh    - PASS
 bne.vh     - PASS
-fence_i.vh - FAIL
 jal.vh     - PASS
 jalr.vh    - PASS
 lb.vh      - PASS
