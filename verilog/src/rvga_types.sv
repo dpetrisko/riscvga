@@ -9,6 +9,8 @@ typedef logic [4:0] rvga_reg;
 typedef logic unsigned [6:0] rvga_funct7;
 typedef logic unsigned [2:0] rvga_funct3;
 
+typedef logic unsigned [3:0] rvga_wmask;
+
 typedef logic unsigned [6:0] rvga_opcode;
 typedef enum logic[6:0] {
     e_rvga_opcode_err     = 7'b0000000

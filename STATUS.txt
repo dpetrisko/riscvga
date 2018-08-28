@@ -20,8 +20,8 @@ lui.vh     - PASS
 lw.vh      - PASS
 or.vh      - PASS
 ori.vh     - PASS
-sb.vh      - FAIL
-sh.vh      - FAIL
+sb.vh      - PASS
+sh.vh      - PASS
 simple.vh  - PASS
 sll.vh     - FAIL
 slli.vh    - PASS
@@ -34,7 +34,7 @@ srai.vh    - PASS
 srl.vh     - FAIL
 srli.vh    - PASS
 sub.vh     - PASS
-sw.vh      - FAIL
+sw.vh      - PASS
 xor.vh     - PASS
 xori.vh    - PASS
 

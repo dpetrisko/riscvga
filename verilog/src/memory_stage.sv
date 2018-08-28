@@ -21,6 +21,7 @@ module memory_stage
    , output rvga_word dmem_addr_o
    , input rvga_word dmem_data_i
    , output rvga_word dmem_data_o   
+   , output rvga_wmask dmem_wmask_o
    
    , output logic btaken_o
    , output rvga_word alu_or_ld_result_o   
@@ -67,6 +68,7 @@ result_mux(.sel_i(cword_r.dmem_r_v)
                  
                   ,.op_i(cword_r.funct3)
                  
+                  ,.wmask_o(dmem_wmask_o)
                   ,.ld_result_o(ld_result)
                   ,.st_result_o(dmem_data_o)
                   );

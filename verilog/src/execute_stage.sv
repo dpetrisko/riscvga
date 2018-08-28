@@ -74,7 +74,7 @@ rvga_alu #()
            ,.b_i(alub_mux_o)
            ,.op_i(cword_r.funct3)
            ,.alt_i(cword_r.funct7[5])
-           ,.addr_calc_v_i(cword_r.addpc_v | cword_r.dmem_r_v || cword_r.dmem_w_v)
+           ,.addr_calc_v_i(cword_r.addpc_v || cword_r.dmem_r_v || cword_r.dmem_w_v)
            
            ,.o(alu_result_o)
            );
@@ -144,7 +144,7 @@ always_comb begin
   dword_o = dword_r;
   
   br_v_o = cword_r.br_v | cword_r.jmp_v;
-  st_data_o = rs2_data_r;
+  st_data_o = rs2_mux_o;
 end
 
 

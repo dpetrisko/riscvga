@@ -18,6 +18,7 @@ logic dmem_w_v;
 rvga_word dmem_addr;
 rvga_word dmem_rdata;
 rvga_word dmem_wdata;
+rvga_wmask dmem_wmask;
 logic dmem_resp_v;
 
 rvga_top #() 
@@ -33,18 +34,21 @@ processor (.clk_i(clk)
            ,.dmem_addr_o(dmem_addr)
            ,.dmem_data_i(dmem_rdata)
            ,.dmem_data_o(dmem_wdata)
+           ,.dmem_wmask_o(dmem_wmask)
            ,.dmem_resp_v_i(dmem_resp_v)
            );
            
 
 
 test_ddr #(.use_program_p(1)
+           ,.debug_p(0)
            )
      iddr (.clk_i(clk)
            ,.rst_i(rst)
            
            ,.r_v_i('1)
            ,.w_v_i('0)
+           ,.wmask_i(4'b0000)
            ,.addr_i(imem_addr)
            ,.data_o(imem_data)
            ,.data_i('0)
@@ -52,20 +56,21 @@ test_ddr #(.use_program_p(1)
            );
 
 test_ddr #(.use_program_p(1)
-           ,.debug_p(0)
+           ,.debug_p(1)
            )
      dddr (.clk_i(clk)
            ,.rst_i(rst)
            
            ,.r_v_i(dmem_r_v)
            ,.w_v_i(dmem_w_v)
+           ,.wmask_i(dmem_wmask)
            ,.addr_i(dmem_addr)
            ,.data_o(dmem_rdata)
            ,.data_i(dmem_wdata)
            ,.resp_v_o(dmem_resp_v)
            );
            
-rvga_nonsynth_commit_monitor #(.enable_p(1))
+rvga_nonsynth_commit_monitor #(.enable_p(0))
                       monitor (.cycle_i(cycle)
                                ,.clk_i(clk)
                                ,.cword_i(processor.writeback_cword)

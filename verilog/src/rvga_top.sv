@@ -16,6 +16,7 @@ module rvga_top #()
     , output rvga_word dmem_addr_o
     , input rvga_word dmem_data_i
     , output rvga_word dmem_data_o
+    , output rvga_wmask dmem_wmask_o
     , input logic dmem_resp_v_i
 );
 
@@ -151,6 +152,7 @@ logic bru_result;
                       ,.dmem_addr_o(dmem_addr_o)
                       ,.dmem_data_i(dmem_data_i)
                       ,.dmem_data_o(dmem_data_o)
+                      ,.dmem_wmask_o(dmem_wmask_o)
                       
                       ,.btaken_o(memory_btaken)
                       ,.alu_or_ld_result_o(memory_alu_or_ld_result)
@@ -207,7 +209,7 @@ logic bru_result;
             ,.execute_rs2_i(execute_cword.rs2)
             
             ,.execute_rs1_v_i(~execute_cword.addpc_v || execute_cword.br_v)
-            ,.execute_rs2_v_i(~execute_cword.imm_v || execute_cword.br_v)
+            ,.execute_rs2_v_i(~execute_cword.imm_v || execute_cword.br_v || execute_cword.dmem_w_v)
                     
             ,.forward_memory_execute_rs1_v_o(forward_memory_execute_rs1_v)
             ,.forward_memory_execute_rs2_v_o(forward_memory_execute_rs2_v)
