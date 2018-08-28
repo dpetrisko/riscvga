@@ -32,7 +32,7 @@ rvga_word rfetch_rs1_data;
 rvga_word rfetch_rs2_data;
 rvga_word execute_st_data;
 
-logic ifetch_stall_v, decode_stall_v, rfetch_stall_v, execute_stall_v, memory_stall_v, writeback_stall_v;
+logic hazard_stall_v;
 logic bubble_v;
 logic forward_writeback_execute_rs1_v, forward_writeback_execute_rs2_v, forward_memory_execute_rs1_v, forward_memory_execute_rs2_v;
 rvga_cword decode_cword, rfetch_cword, execute_cword, memory_cword, writeback_cword, debug_cword;
@@ -54,7 +54,7 @@ logic bru_result;
                       ,.imem_addr_o(imem_addr_o)
                       ,.imem_data_i(imem_data_i)
                       
-                      ,.stall_v_i(ifetch_stall_v)
+                      ,.stall_v_i(hazard_stall_v)
                       ,.bubble_v_i(bubble_v)
                       
                       ,.pc_o(pc)
@@ -68,7 +68,7 @@ logic bru_result;
   decode_stage decode(.clk_i(clk_i)
                       ,.rst_i(rst_i)
                       
-                      ,.stall_v_i(decode_stall_v)
+                      ,.stall_v_i(hazard_stall_v)
                       ,.bubble_v_i(bubble_v)
                       
                       ,.pc_i(pc)
@@ -80,14 +80,22 @@ logic bru_result;
                       ,.imm_raw_o(decode_imm_raw)
                       ,.br_v_o(decode_br_v)
                       );
+
+  idrf_latch idrf(.clk_i(clk_i)
+                  ,.rst_i(rst_i)
+                    
+                  ,.stall_v_i(hazard_stall_v)
+
+                  ,.cword_i(decode_cword)
+                  ,.cword_o(rfetch_cword)
+                  );
     
   rfetch_stage rfetch(.clk_i(clk_i)
                       ,.rst_i(rst_i)
                       
-                      ,.stall_v_i(rfetch_stall_v)
+                      ,.stall_v_i(hazard_stall_v)
                       
-                      ,.cword_i(decode_cword)
-                      ,.cword_o(rfetch_cword)
+                      ,.cword_i(rfetch_cword)
                       
                       ,.rd_i(writeback_rd)
                       ,.rd_data_i(writeback_rd_data) 
@@ -101,14 +109,22 @@ logic bru_result;
                      
                       ,.br_v_o(rfetch_br_v)
                       );
+
+  rfex_latch rfex(.clk_i(clk_i)
+                  ,.rst_i(rst_i)
+                    
+                  ,.stall_v_i(hazard_stall_v)
+
+                  ,.cword_i(rfetch_cword)
+                  ,.cword_o(execute_cword)
+                  );
                       
   execute_stage execute(.clk_i(clk_i)
                         ,.rst_i(rst_i)
                         
-                        ,.stall_v_i(execute_stall_v)
+                        ,.stall_v_i(hazard_stall_v)
                         
-                        ,.cword_i(rfetch_cword)
-                        ,.cword_o(execute_cword)
+                        ,.cword_i(execute_cword)
                         
                         ,.imm_data_i(rfetch_imm_data)
                         ,.rs1_data_i(rfetch_rs1_data)
@@ -128,14 +144,22 @@ logic bru_result;
                          
                         ,.br_v_o(execute_br_v)
                         );
+
+  exmem_latch exmem(.clk_i(clk_i)
+                    ,.rst_i(rst_i)
+                    
+                    ,.stall_v_i(hazard_stall_v)
+
+                    ,.cword_i(execute_cword)
+                    ,.cword_o(memory_cword)
+                    );
     
   memory_stage memory(.clk_i(clk_i)
                       ,.rst_i(rst_i)
                       
-                      ,.stall_v_i(memory_stall_v)
+                      ,.stall_v_i(hazard_stall_v)
                       
-                      ,.cword_i(execute_cword)
-                      ,.cword_o(memory_cword)
+                      ,.cword_i(memory_cword)
                       
                       ,.alu_result_i(execute_alu_result)
                       ,.bru_result_i(execute_bru_result)
@@ -153,14 +177,22 @@ logic bru_result;
                       
                       ,.br_v_o(memory_br_v)
                       );
+
+  memwb_latch memwb(.clk_i(clk_i)
+                    ,.rst_i(rst_i)
+                    
+                    ,.stall_v_i(hazard_stall_v)
+
+                    ,.cword_i(memory_cword)
+                    ,.cword_o(writeback_cword)
+                    );
     
   writeback_stage writeback(.clk_i(clk_i)
                             ,.rst_i(rst_i)
                             
-                            ,.stall_v_i(writeback_stall_v)
+                            ,.stall_v_i(hazard_stall_v)
                             
-                            ,.cword_i(memory_cword)
-                            ,.cword_o(writeback_cword)
+                            ,.cword_i(writeback_cword)
                             
                             ,.alu_or_ld_result_i(memory_alu_or_ld_result)
                             
@@ -179,12 +211,7 @@ logic bru_result;
                 ,.execute_br_v_i(execute_br_v)
                 ,.memory_br_v_i(memory_br_v)
                 
-                ,.ifetch_stall_v_o(ifetch_stall_v)
-                ,.decode_stall_v_o(decode_stall_v)
-                ,.rfetch_stall_v_o(rfetch_stall_v)
-                ,.execute_stall_v_o(execute_stall_v)
-                ,.memory_stall_v_o(memory_stall_v)
-                ,.writeback_stall_v_o(writeback_stall_v)
+                ,.hazard_stall_v_o(hazard_stall_v)
                 
                 ,.bubble_v_o(bubble_v)
                 ); 
