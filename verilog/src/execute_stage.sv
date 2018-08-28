@@ -61,11 +61,11 @@ amux (.sel_i(cword_r.addpc_v)
       ,.o({alua_mux_o})
       );
       
-mux #(.els_p(2)
+mux #(.els_p(4)
       ,.width_p($bits(rvga_word))            
       )
-bmux (.sel_i(cword_r.imm_v)
-      ,.i({imm_data_r, rs2_mux_o})
+bmux (.sel_i({cword_r.imm_v, cword_r.shift_v})
+      ,.i({imm_data_r, imm_data_r, {27'b0, rs2_mux_o[4:0]}, rs2_mux_o})
       ,.o({alub_mux_o})
       );
 

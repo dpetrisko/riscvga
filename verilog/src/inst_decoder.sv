@@ -68,7 +68,7 @@ always_comb begin
       decoded_o.imm_v = '1;
       decoded_o.rd_w_v = '1;
       
-      if(decoded_o.funct3 == e_rvga_artop_sll || decoded_o.funct3 == e_rvga_artop_srx) begin
+      if((decoded_o.funct3 == e_rvga_artop_sll) || (decoded_o.funct3 == e_rvga_artop_srx)) begin
         decoded_o.shift_v = '1;
       end else begin
         decoded_o.funct7 = '0;
@@ -79,7 +79,7 @@ always_comb begin
       decoded_o.inst_type = e_rvga_inst_type_r;
       decoded_o.rd_w_v = '1;
       
-      if(decoded_o.funct3 == e_rvga_artop_sll || decoded_o.funct3 == e_rvga_artop_srx) begin
+      if((decoded_o.funct3 == e_rvga_artop_sll) || (decoded_o.funct3 == e_rvga_artop_srx)) begin
         decoded_o.shift_v = '1;
       end
     end
