@@ -69,13 +69,6 @@ test_ddr #(.use_program_p(1)
            ,.data_i(dmem_wdata)
            ,.resp_v_o(dmem_resp_v)
            );
-           
-rvga_nonsynth_commit_monitor #(.enable_p(1))
-                      monitor (.cycle_i(cycle)
-                               ,.clk_i(clk)
-                               ,.cword_i(processor.writeback_cword)
-                               ,.dword_i(processor.writeback_dword)
-                               );
 
 rvga_nonsynth_rvtest_monitor #(.enable_p(1))
                 rvtest_monitor(.cycle_i(cycle)

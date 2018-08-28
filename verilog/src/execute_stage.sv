@@ -9,8 +9,6 @@ module execute_stage
    , input rvga_cword cword_i
    , output rvga_cword cword_o
    
-   , output rvga_dword dword_o
-   
    , input rvga_word imm_data_i
    , input rvga_word rs1_data_i
    , input rvga_word rs2_data_i
@@ -31,7 +29,6 @@ module execute_stage
    );
    
 rvga_cword cword_n, cword_r;
-rvga_dword dword_n, dword_r;
 rvga_word rs1_mux_o, rs2_mux_o;
 rvga_word alua_mux_o, alub_mux_o;
 rvga_word imm_data_r, rs1_data_r, rs2_data_r;
@@ -96,15 +93,6 @@ rvga_alu #()
         ,.o(cword_r)
         );
         
-   dff #(.width_p($bits(rvga_dword)))
-       dword (.clk_i(clk_i)
-             ,.rst_i(rst_i)
-             ,.w_v_i(~stall_v_i)
-              
-             ,.i(dword_n)
-             ,.o(dword_r)
-             );
-        
      dff #(.width_p($bits(rvga_word))) 
  rs1_data (.clk_i(clk_i)
            ,.rst_i(rst_i)
@@ -134,14 +122,8 @@ rvga_alu #()
            
 always_comb begin
   cword_n = cword_i;
-  dword_n.imm_data = imm_data_i;
-  dword_n.rs1_data = rs1_data_i;
-  dword_n.rs2_data = rs2_data_i;
-  dword_n.alu_result = '0;
-  dword_n.ld_result = '0;
 
   cword_o = cword_r;
-  dword_o = dword_r;
   
   br_v_o = cword_r.br_v | cword_r.jmp_v;
   st_data_o = rs2_mux_o;

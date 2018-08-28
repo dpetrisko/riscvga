@@ -8,9 +8,6 @@ module writeback_stage  (input logic clk_i
    , input rvga_cword cword_i
    , output rvga_cword cword_o
    
-   , input rvga_dword dword_i
-   , output rvga_dword dword_o
-   
    , input rvga_word alu_or_ld_result_i
    
    , output rvga_reg rd_o
@@ -19,7 +16,6 @@ module writeback_stage  (input logic clk_i
    );
    
 rvga_cword cword_n, cword_r;
-rvga_dword dword_n, dword_r; 
 logic rdmux_sel;
 rvga_word pc_plus4, rvga_zero;
 rvga_word rd_data_r;
@@ -48,15 +44,6 @@ cword (.clk_i(clk_i)
        ,.o(cword_r)
        );
        
-dff #(.width_p($bits(rvga_dword)))
-  dword (.clk_i(clk_i)
-         ,.rst_i(rst_i)
-         ,.w_v_i(~stall_v_i)
-        
-         ,.i(dword_n)
-         ,.o(dword_r)
-         );
-       
   dff #(.width_p($bits(rvga_word)))
  rd_data (.clk_i(clk_i)
           ,.rst_i(rst_i)
@@ -68,12 +55,7 @@ dff #(.width_p($bits(rvga_dword)))
        
 always_comb begin
   cword_n = cword_i;
-  dword_n = dword_i;
-  
-  dword_n.ld_result = alu_or_ld_result_i;
-  
   cword_o = cword_r;
-  dword_o = dword_r;
   
   rd_o = cword_r.rd;
   rd_w_v_o = cword_r.rd_w_v;

@@ -36,7 +36,6 @@ logic ifetch_stall_v, decode_stall_v, rfetch_stall_v, execute_stall_v, memory_st
 logic bubble_v;
 logic forward_writeback_execute_rs1_v, forward_writeback_execute_rs2_v, forward_memory_execute_rs1_v, forward_memory_execute_rs2_v;
 rvga_cword decode_cword, rfetch_cword, execute_cword, memory_cword, writeback_cword, debug_cword;
-rvga_dword execute_dword, memory_dword, writeback_dword, debug_dword;
 logic decode_br_v, rfetch_br_v, execute_br_v, memory_br_v;
 
 logic memory_btaken;
@@ -110,8 +109,6 @@ logic bru_result;
                         
                         ,.cword_i(rfetch_cword)
                         ,.cword_o(execute_cword)
-                                  
-                        ,.dword_o(execute_dword)
                         
                         ,.imm_data_i(rfetch_imm_data)
                         ,.rs1_data_i(rfetch_rs1_data)
@@ -139,9 +136,6 @@ logic bru_result;
                       
                       ,.cword_i(execute_cword)
                       ,.cword_o(memory_cword)
-           
-                      ,.dword_i(execute_dword)           
-                      ,.dword_o(memory_dword)
                       
                       ,.alu_result_i(execute_alu_result)
                       ,.bru_result_i(execute_bru_result)
@@ -167,9 +161,6 @@ logic bru_result;
                             
                             ,.cword_i(memory_cword)
                             ,.cword_o(writeback_cword)
-                            
-                            ,.dword_i(memory_dword)
-                            ,.dword_o(writeback_dword)
                             
                             ,.alu_or_ld_result_i(memory_alu_or_ld_result)
                             
