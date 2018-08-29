@@ -35,18 +35,19 @@ rvga_word execute_st_data;
 logic hazard_stall_v;
 logic bubble_v;
 logic forward_writeback_execute_rs1_v, forward_writeback_execute_rs2_v, forward_memory_execute_rs1_v, forward_memory_execute_rs2_v;
-rvga_cword decode_cword, rfetch_cword, execute_cword, memory_cword, writeback_cword, debug_cword;
-logic decode_br_v, rfetch_br_v, execute_br_v, memory_br_v;
+rvga_cword decode_cword, idrf_cword, rfex_cword, exmem_cword, memwb_cword, debug_cword;
+logic decode_br_v, rfetch_br_v, execute_br_v, memory_br_v, writeback_br_v;
+rvga_word writeback_rd_data;
 
-logic memory_btaken;
+logic writeback_btaken;
+rvga_word writeback_btgt;
 
 rvga_reg writeback_rd;
-rvga_word memory_rd_data, writeback_rd_data; 
+rvga_word memory_alu_or_ld_result, memwb_alu_or_ld_result; 
 logic writeback_rd_w_v;
 
 rvga_word execute_alu_result;
 logic execute_bru_result;
-rvga_word memory_alu_or_ld_result;
 logic bru_result;
 
   ifetch_stage ifetch(.clk_i(clk_i)
@@ -61,8 +62,8 @@ logic bru_result;
                       ,.inst_v_o(inst_v)
                       ,.inst_o(inst)
                       
-                      ,.btarget_i(memory_alu_or_ld_result)
-                      ,.btaken_i(memory_btaken)
+                      ,.btaken_i(writeback_btaken)
+                      ,.btgt_i(writeback_btgt)
                       );
     
   decode_stage decode(.clk_i(clk_i)
@@ -87,7 +88,7 @@ logic bru_result;
                   ,.stall_v_i(hazard_stall_v)
 
                   ,.cword_i(decode_cword)
-                  ,.cword_o(rfetch_cword)
+                  ,.cword_o(idrf_cword)
                   );
     
   rfetch_stage rfetch(.clk_i(clk_i)
@@ -95,7 +96,7 @@ logic bru_result;
                       
                       ,.stall_v_i(hazard_stall_v)
                       
-                      ,.cword_i(rfetch_cword)
+                      ,.cword_i(idrf_cword)
                       
                       ,.rd_i(writeback_rd)
                       ,.rd_data_i(writeback_rd_data) 
@@ -115,8 +116,8 @@ logic bru_result;
                     
                   ,.stall_v_i(hazard_stall_v)
 
-                  ,.cword_i(rfetch_cword)
-                  ,.cword_o(execute_cword)
+                  ,.cword_i(idrf_cword)
+                  ,.cword_o(rfex_cword)
                   );
                       
   execute_stage execute(.clk_i(clk_i)
@@ -124,7 +125,7 @@ logic bru_result;
                         
                         ,.stall_v_i(hazard_stall_v)
                         
-                        ,.cword_i(execute_cword)
+                        ,.cword_i(rfex_cword)
                         
                         ,.imm_data_i(rfetch_imm_data)
                         ,.rs1_data_i(rfetch_rs1_data)
@@ -150,8 +151,8 @@ logic bru_result;
                     
                     ,.stall_v_i(hazard_stall_v)
 
-                    ,.cword_i(execute_cword)
-                    ,.cword_o(memory_cword)
+                    ,.cword_i(rfex_cword)
+                    ,.cword_o(exmem_cword)
                     );
     
   memory_stage memory(.clk_i(clk_i)
@@ -159,7 +160,7 @@ logic bru_result;
                       
                       ,.stall_v_i(hazard_stall_v)
                       
-                      ,.cword_i(memory_cword)
+                      ,.cword_i(exmem_cword)
                       
                       ,.alu_result_i(execute_alu_result)
                       ,.bru_result_i(execute_bru_result)
@@ -183,8 +184,14 @@ logic bru_result;
                     
                     ,.stall_v_i(hazard_stall_v)
 
-                    ,.cword_i(memory_cword)
-                    ,.cword_o(writeback_cword)
+                    ,.cword_i(exmem_cword)
+                    ,.cword_o(memwb_cword)
+
+                    ,.alu_or_ld_result_i(memory_alu_or_ld_result)
+                    ,.alu_or_ld_result_o(memwb_alu_or_ld_result)
+
+                    ,.btaken_i(memory_btaken)
+                    ,.btaken_o(memwb_btaken)
                     );
     
   writeback_stage writeback(.clk_i(clk_i)
@@ -192,13 +199,19 @@ logic bru_result;
                             
                             ,.stall_v_i(hazard_stall_v)
                             
-                            ,.cword_i(writeback_cword)
+                            ,.cword_i(memwb_cword)
                             
-                            ,.alu_or_ld_result_i(memory_alu_or_ld_result)
+                            ,.alu_or_ld_result_i(memwb_alu_or_ld_result)
                             
                             ,.rd_o(writeback_rd)
                             ,.rd_data_o(writeback_rd_data)
                             ,.rd_w_v_o(writeback_rd_w_v)
+
+                            ,.btaken_i(memwb_btaken)
+
+                            ,.br_v_o(writeback_br_v)
+                            ,.btaken_o(writeback_btaken)
+                            ,.btgt_o(writeback_btgt)
                             );
                             
   hazard hazard(.imem_read_v_i('1)
@@ -210,6 +223,7 @@ logic bru_result;
                 ,.rfetch_br_v_i(rfetch_br_v)
                 ,.execute_br_v_i(execute_br_v)
                 ,.memory_br_v_i(memory_br_v)
+                ,.writeback_br_v_i(writeback_br_v)
                 
                 ,.hazard_stall_v_o(hazard_stall_v)
                 
@@ -217,17 +231,17 @@ logic bru_result;
                 ); 
                 
   forwarding #()
-    forward(.memory_rd_w_v_i(memory_cword.rd_w_v)
-            ,.memory_rd_i(memory_cword.rd)
+    forward(.memory_rd_w_v_i(exmem_cword.rd_w_v)
+            ,.memory_rd_i(exmem_cword.rd)
                 
-            ,.writeback_rd_w_v_i(writeback_cword.rd_w_v)
-            ,.writeback_rd_i(writeback_cword.rd)
+            ,.writeback_rd_w_v_i(memwb_cword.rd_w_v)
+            ,.writeback_rd_i(memwb_cword.rd)
                 
-            ,.execute_rs1_i(execute_cword.rs1)
-            ,.execute_rs2_i(execute_cword.rs2)
+            ,.execute_rs1_i(rfex_cword.rs1)
+            ,.execute_rs2_i(rfex_cword.rs2)
             
-            ,.execute_rs1_v_i(~execute_cword.addpc_v || execute_cword.br_v)
-            ,.execute_rs2_v_i(~execute_cword.imm_v || execute_cword.br_v || execute_cword.dmem_w_v)
+            ,.execute_rs1_v_i(~rfex_cword.addpc_v || rfex_cword.br_v)
+            ,.execute_rs2_v_i(~rfex_cword.imm_v || rfex_cword.br_v || rfex_cword.dmem_w_v)
                     
             ,.forward_memory_execute_rs1_v_o(forward_memory_execute_rs1_v)
             ,.forward_memory_execute_rs2_v_o(forward_memory_execute_rs2_v)

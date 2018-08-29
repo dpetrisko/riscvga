@@ -14,8 +14,8 @@ module ifetch_stage
    , output logic inst_v_o
    , output rvga_word inst_o
    
-   , input rvga_word btarget_i
    , input logic btaken_i
+   , input rvga_word btgt_i
    );
 
 rvga_word prev_pc_r, pc_r, pcmux_o;
@@ -45,7 +45,7 @@ dff #(.width_p($bits(rvga_word))
        ,.width_p($bits(rvga_word))
        )
  pcmux(.sel_i(btaken_i)
-       ,.i({btarget_i, pc_plus4})
+       ,.i({btgt_i, pc_plus4})
        ,.o(pcmux_o)
        );
         

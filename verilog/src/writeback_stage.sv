@@ -1,14 +1,20 @@
 import rvga_types::*;
 
-module writeback_stage  (input logic clk_i
+module writeback_stage  
+  (input logic clk_i
    , input logic rst_i
-   
    , input logic stall_v_i
    
    , input rvga_cword cword_i
    
    , input rvga_word alu_or_ld_result_i
    
+   , input logic btaken_i
+
+   , output logic br_v_o
+   , output logic btaken_o
+   , output rvga_word btgt_o
+
    , output rvga_reg rd_o
    , output rvga_word rd_data_o 
    , output logic rd_w_v_o
@@ -16,14 +22,13 @@ module writeback_stage  (input logic clk_i
    
 logic rdmux_sel;
 rvga_word pc_plus4, rvga_zero;
-rvga_word rd_data_r;
 rvga_word rdmux_o;
                 
   mux #(.els_p(2)
         ,.width_p($bits(rvga_word))
         )
  rdmux (.sel_i(cword_i.jmp_v)
-        ,.i({pc_plus4, rd_data_r})
+        ,.i({pc_plus4, alu_or_ld_result_i})
         ,.o(rdmux_o)
         );    
     
@@ -33,20 +38,14 @@ rvga_word rdmux_o;
           ,.o(pc_plus4)
           );   
        
-  dff #(.width_p($bits(rvga_word)))
- rd_data (.clk_i(clk_i)
-          ,.rst_i(rst_i)
-          ,.w_v_i(~stall_v_i)
-          
-          ,.i(alu_or_ld_result_i)
-          ,.o(rd_data_r)
-          );
-       
 always_comb begin
-  
   rd_o = cword_i.rd;
   rd_w_v_o = cword_i.rd_w_v;
   rd_data_o = rdmux_o;
+
+  br_v_o = cword_i.jmp_v || cword_i.br_v;
+  btaken_o = btaken_i;
+  btgt_o = alu_or_ld_result_i;
 end
 
 endmodule : writeback_stage
